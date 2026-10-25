@@ -4,8 +4,8 @@ import { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { X, Menu } from "lucide-react";
-import { LinkButton } from "@/components/ui/Button";
 import { cn } from "@/lib/cn";
 import { ThemeToggle } from "@/components/ui/ThemeToggle";
 
@@ -18,7 +18,11 @@ const links = [
 ];
 
 export function Navbar() {
+  const pathname = usePathname();
   const [scrolled, setScrolled] = useState(false);
+  // Transparent white navigation is reserved for the cinematic home hero.
+  // Internal pages use a readable opaque header even at scroll position 0.
+  const overHomeHero = pathname === "/" && !scrolled;
   const [open, setOpen] = useState(false);
 
   useEffect(() => {
@@ -40,9 +44,9 @@ export function Navbar() {
       <header
         className={cn(
           "fixed inset-x-0 top-0 z-40 transition-all duration-500",
-          scrolled
-            ? "bg-bg/95 backdrop-blur-md shadow-sm"
-            : "bg-transparent",
+          overHomeHero
+            ? "bg-transparent"
+            : "bg-bg/95 backdrop-blur-md shadow-sm",
         )}
       >
         <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-5 md:px-8">
@@ -56,7 +60,7 @@ export function Navbar() {
               priority
               className={cn(
                 "h-9 w-auto object-contain transition-all duration-500",
-                scrolled ? "brightness-100 dark:brightness-0 dark:invert" : "brightness-0 invert",
+                overHomeHero ? "brightness-0 invert" : "brightness-100 dark:brightness-0 dark:invert",
               )}
             />
           </Link>
@@ -69,9 +73,9 @@ export function Navbar() {
                 href={l.href}
                 className={cn(
                   "font-sans text-sm font-medium tracking-wide transition-colors duration-200",
-                  scrolled
-                    ? "text-fg-muted hover:text-accent"
-                    : "text-white/80 hover:text-white",
+                  overHomeHero
+                    ? "text-white/80 hover:text-white"
+                    : "text-fg-muted hover:text-accent",
                 )}
               >
                 {l.label}
@@ -84,19 +88,19 @@ export function Navbar() {
             <ThemeToggle
               className={cn(
                 "transition-all duration-500",
-                scrolled ? "" : "[&_svg]:text-white",
+                overHomeHero ? "[&_svg]:text-white" : "",
               )}
             />
             <Link
               href="/contact"
               className={cn(
                 "hidden md:inline-flex items-center gap-2 rounded-full px-5 py-2 text-sm font-semibold transition-all duration-300",
-                scrolled
-                  ? "bg-accent text-white hover:bg-accent/90"
-                  : "bg-white/15 text-white backdrop-blur-sm hover:bg-white/25 border border-white/20",
+                overHomeHero
+                  ? "border border-white/20 bg-white/15 text-white backdrop-blur-sm hover:bg-white/25"
+                  : "bg-accent text-white hover:bg-accent/90",
               )}
             >
-              Étudier mon site
+              Parler de mon projet
             </Link>
             <button
               type="button"
@@ -105,9 +109,9 @@ export function Navbar() {
               aria-expanded={open}
               className={cn(
                 "flex h-10 w-10 items-center justify-center rounded-full transition-all duration-300",
-                scrolled
-                  ? "border border-border text-fg hover:text-accent"
-                  : "border border-white/30 text-white hover:bg-white/10",
+                overHomeHero
+                  ? "border border-white/30 text-white hover:bg-white/10"
+                  : "border border-border text-fg hover:text-accent",
               )}
             >
               <Menu className="h-4 w-4" aria-hidden />
@@ -180,7 +184,7 @@ export function Navbar() {
                 onClick={() => setOpen(false)}
                 className="flex items-center justify-center gap-2 rounded-full bg-accent px-6 py-3.5 text-sm font-semibold text-white"
               >
-                Étudier mon site →
+                Parler de mon projet →
               </Link>
             </div>
           </motion.div>

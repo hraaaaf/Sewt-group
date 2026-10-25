@@ -18,6 +18,7 @@ async function screenshot(name, viewport) {
   page.setDefaultTimeout(12_000);
 
   await page.goto(site, { waitUntil: "domcontentloaded", timeout: 30_000 });
+  assert.equal(await page.locator("#hero video").count(), 1, "La vidéo originale du Hero doit rester visible");
   assert.match((await page.locator("#hero-heading").textContent()) ?? "", /Sun\.\s*Power\./);
   await page.getByRole("link", { name: "Échanger sur votre projet" }).waitFor({ state: "visible" });
   await page.getByRole("link", { name: "Découvrir nos solutions" }).waitFor({ state: "visible" });
@@ -48,6 +49,17 @@ async function screenshot(name, viewport) {
   }
 
   await page.goto(`${site}/contact`, { waitUntil: "domcontentloaded", timeout: 30_000 });
+  // A light internal page must not inherit the white-on-transparent home header.
+  const headerBg = await page.locator("header").evaluate((el) =>
+    getComputedStyle(el).backgroundColor
+  );
+  assert.notEqual(headerBg, "rgba(0, 0, 0, 0)", "La navigation interne doit avoir un fond");
+  assert.notEqual(headerBg, "transparent", "La navigation interne ne doit pas être transparente");
+  await page.getByRole("link", { name: "Parler de mon projet" }).first().waitFor({ state: viewport.width > 768 ? "visible" : "hidden" });
+  const logoFilter = await page.locator('header img[alt="SEWT Group"]').evaluate((el) =>
+    getComputedStyle(el).filter
+  );
+  assert.ok(!logoFilter.includes("invert(1)"), "Logo blanc interdit sur fond clair de la page Contact");
   assert.match(
     (await page.getByRole("link", { name: "Nous écrire" }).getAttribute("href")) ?? "",
     /^mailto:contact@sewt-group\.ma/,
