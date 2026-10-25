@@ -1,7 +1,5 @@
 import { Navbar } from "@/components/layout/Navbar";
 import { Hero } from "@/components/sections/Hero/Hero";
-import { ManifestoSection } from "@/components/sections/Manifesto/ManifestoSection";
-import { StatsStrip } from "@/components/sections/Hero/StatsStrip";
 import { OffreChapter } from "@/components/sections/Offre/OffreChapter";
 import { FlagshipSlider } from "@/components/sections/Flagship/FlagshipSlider";
 import { ImpactSection } from "@/components/sections/Impact/ImpactSection";
@@ -21,11 +19,8 @@ export default function HomePage() {
         {/* 01 — Hero cinématique */}
         <Hero />
 
-        {/* 02 — Notre raison d'être */}
-        <ManifestoSection />
-
-        {/* 03 — Chiffres clés */}
-        <StatsStrip />
+        {/* 02 — Raison d’être, bénéfices et chiffres clés réunis */}
+        <ImpactSection />
 
         {/* 04 — Expertises (Distribution · EPC · O&M) */}
         <OffreChapter />
@@ -35,9 +30,6 @@ export default function HomePage() {
 
         {/* CTA intermédiaire — ancre conversion après preuve terrain */}
         <CtaBridge />
-
-        {/* 06 — Impact énergétique */}
-        <ImpactSection />
 
         {/* 07 — Ils nous font confiance (références clients) */}
         <PreuveChapter />
