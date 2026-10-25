@@ -4,11 +4,6 @@ import { motion } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
 
-// Vidéo hero — remplacer par version finale quand disponible
-const HERO_VIDEO_WEBM = "/brand/hero-video.webm";
-const HERO_VIDEO_MP4  = "/brand/hero-video.mp4";
-const HERO_POSTER     = "/brand/hero-poster.webp";
-
 export function Hero() {
   return (
     <section
@@ -16,32 +11,19 @@ export function Hero() {
       aria-labelledby="hero-heading"
       className="relative isolate h-svh min-h-[640px]"
     >
-      {/* Fond cinématique — vidéo loop avec fallback image */}
+      {/* Hôtel : visuel principal choisi dans les retours du 25/10/2026.
+          Les fichiers vidéo d'origine sont conservés dans public/brand/,
+          mais ne recouvrent plus cette photographie. */}
       <div className="absolute inset-0 overflow-hidden">
-        {/* Fallback image — visible avant que la vidéo charge */}
         <Image
-          src="/projects/sidi-kacem-1100kwc.jpg"
-          alt="Centrale solaire SEWT Group — 1,1 MWc Sidi Kacem"
+          src="/projects/hotel-riad-taroudant.jpg"
+          alt="Installation photovoltaïque de l'hôtel Riad à Taroudant — réalisation SEWT Group"
           fill
           priority
           quality={85}
           className="object-cover object-center"
           sizes="100vw"
         />
-        {/* Vidéo loop — s'affiche par dessus une fois chargée */}
-        <video
-          autoPlay
-          muted
-          loop
-          playsInline
-          poster={HERO_POSTER}
-          preload="metadata"
-          className="absolute inset-0 h-full w-full object-cover object-center"
-          aria-hidden
-        >
-          <source src={HERO_VIDEO_WEBM} type="video/webm" />
-          <source src={HERO_VIDEO_MP4}  type="video/mp4" />
-        </video>
         {/* Overlay bicouche : vignette périmétrique + gradient bas fort */}
         <div
           className="absolute inset-0"
