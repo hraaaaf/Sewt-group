@@ -7,7 +7,7 @@ import { Footer } from "@/components/layout/Footer";
 export const metadata: Metadata = {
   title: "Notre Histoire",
   description:
-    "Depuis 2010, SEWT Group construit l'autonomie énergétique du Maroc jalon par jalon. Découvrez notre parcours : de la fondation par M. Ali HAJJI à 2,15 MWc cumulés et 9 projets opérationnels.",
+    "Depuis 1992, une expertise énergétique construite au Maroc. Découvrez les étapes du groupe SEWT et les personnes qui accompagnent ses projets.",
 };
 
 export default function NotreHistoirePage() {
@@ -15,8 +15,8 @@ export default function NotreHistoirePage() {
     <>
       <Navbar />
       <main id="main" className="relative pt-20">
-        <LeGroupe />
         <HistoireTimeline />
+        <LeGroupe />
       </main>
       <Footer />
     </>
