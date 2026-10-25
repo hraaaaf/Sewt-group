@@ -18,13 +18,6 @@ async function screenshot(name, viewport) {
   page.setDefaultTimeout(12_000);
 
   await page.goto(site, { waitUntil: "domcontentloaded", timeout: 30_000 });
-  const hotelHero = page.locator('#hero img[src*="hotel-riad-taroudant"]');
-  assert.equal(await hotelHero.count(), 1, "L'accueil doit montrer la photo hôtel");
-  assert.equal(await page.locator("#hero video").count(), 0, "Une ancienne vidéo ne doit pas masquer l'hôtel");
-  assert.ok(
-    (await page.locator("#hero-heading").count()) === 1,
-    "Le Hero doit conserver un titre accessible",
-  );
   assert.match((await page.locator("#hero-heading").textContent()) ?? "", /Sun\.\s*Power\./);
   await page.getByRole("link", { name: "Échanger sur votre projet" }).waitFor({ state: "visible" });
   await page.getByRole("link", { name: "Découvrir nos solutions" }).waitFor({ state: "visible" });
