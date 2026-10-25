@@ -56,12 +56,12 @@ export function Hero() {
       </div>
 
       {/* Contenu — ancré en bas, au-dessus de la vague */}
-      <div className="absolute inset-x-0 bottom-[88px] z-10 px-5 md:px-12 md:bottom-[104px] lg:px-16 lg:bottom-[112px]">
+      <div className="absolute inset-x-0 bottom-[88px] z-10 px-5 text-center md:bottom-[104px] md:px-12 lg:bottom-[112px] lg:px-16">
         <motion.p
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-          className="inline-flex items-center gap-2 font-mono text-[0.6rem] uppercase tracking-[0.24em] text-white/50 mb-5 md:mb-7"
+          className="mb-5 inline-flex items-center justify-center gap-2 font-mono text-[0.6rem] uppercase tracking-[0.24em] text-white/65 md:mb-7"
         >
           <span className="text-accent" aria-hidden>○</span>
           Groupe énergétique marocain · Depuis 1992
@@ -72,50 +72,41 @@ export function Hero() {
           initial={{ opacity: 0, y: 36 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.08, duration: 1, ease: [0.16, 1, 0.3, 1] }}
-          className="font-display font-bold text-white leading-[0.9]"
-          style={{ fontSize: "clamp(3.8rem, 13vw, 11.5rem)" }}
+          className="font-display font-bold leading-[0.98] tracking-tight text-white"
+          style={{ fontSize: "clamp(2.5rem, 8vw, 8rem)" }}
         >
-          Soleil.<br />
-          <span className="text-accent">Eau.</span><br />
-          Ingénierie.
+          <span className="block sm:inline">Sun. Power.</span>{" "}
+          <span className="block sm:inline">People.</span>
         </motion.h1>
 
         <motion.p
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.28, duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
-          className="mt-4 md:mt-6 max-w-[22rem] sm:max-w-lg font-sans text-[0.875rem] md:text-base text-white/65 leading-relaxed"
+          className="mx-auto mt-5 max-w-3xl font-sans text-[0.875rem] leading-relaxed text-white/85 md:mt-7 md:text-lg"
         >
-          Énergie solaire pour sites industriels, agricoles et institutionnels.
-          <span className="hidden md:inline">
-            {" "}SEWT Group conçoit, installe et exploite des centrales
-            photovoltaïques performantes au Maroc, de la faisabilité
-            à la maintenance long terme.
-          </span>
+          Des solutions solaires conçues pour répondre à vos besoins. Sun Energy accompagne
+          particuliers, agriculteurs et professionnels de l’étude de faisabilité à la mise
+          en service de leurs solutions énergétiques.
         </motion.p>
 
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.42, duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
-          className="mt-7 md:mt-9 flex flex-wrap items-center gap-3 md:gap-4"
+          className="mt-7 flex flex-wrap items-center justify-center gap-3 md:mt-9 md:gap-4"
         >
-          <div className="flex flex-col gap-2">
-            <Link
-              href="/#roi"
-              className="inline-flex items-center gap-2 rounded-full bg-accent px-6 py-3 md:px-8 md:py-3.5 font-sans text-sm font-semibold text-white transition-all duration-300 hover:bg-accent/90 hover:shadow-[0_0_28px_rgba(232,118,42,0.45)]"
-            >
-              Recevoir ma note d'opportunité
-            </Link>
-            <p className="font-mono text-[0.6rem] text-white/40 px-1">
-              Analyse gratuite · Ingénieur SEWT · Réponse 48h
-            </p>
-          </div>
           <Link
-            href="/#flagship"
-            className="inline-flex items-center gap-2 rounded-full border border-white/20 px-6 py-3 md:px-8 md:py-3.5 font-sans text-sm font-semibold text-white/90 backdrop-blur-sm transition-all duration-300 hover:bg-white/10 hover:border-white/35"
+            href="/#contact"
+            className="inline-flex min-h-12 items-center justify-center rounded-full bg-accent px-6 py-3 text-center font-sans text-sm font-semibold text-white transition-all duration-300 hover:bg-accent/90 hover:shadow-[0_0_28px_rgba(232,118,42,0.45)] md:px-8"
           >
-            Voir nos réalisations
+            Échanger sur votre projet
+          </Link>
+          <Link
+            href="/#offre"
+            className="inline-flex min-h-12 items-center justify-center rounded-full border border-white/30 px-6 py-3 text-center font-sans text-sm font-semibold text-white backdrop-blur-sm transition-all duration-300 hover:border-white/50 hover:bg-white/10 md:px-8"
+          >
+            Découvrir nos solutions
           </Link>
         </motion.div>
       </div>
