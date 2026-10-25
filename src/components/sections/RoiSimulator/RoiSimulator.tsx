@@ -66,9 +66,9 @@ export function RoiSimulator() {
   const [gate, setGate]                 = useState<GateStatus>("locked");
   const [gateEmail, setGateEmail]       = useState("");
   const [gatePhone, setGatePhone]       = useState("");
+  const [gateRgpd, setGateRgpd]         = useState(false);
   const [gateStatus, setGateStatus]     = useState<SubmitStatus>("idle");
   const [csrfToken, setCsrfToken]       = useState("");
-  const mountTimeRef                    = useRef<number>(Date.now());
   const sliderHint = `Couverture estimée · ${Math.round(DEFAULT_ASSUMPTIONS.selfConsumptionRate * 100)} % de la facture`;
 
   useEffect(() => {
@@ -96,8 +96,7 @@ export function RoiSimulator() {
   /* ── Déverrouillage ── */
   async function handleUnlock(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    if (!gateEmail || !gatePhone || gateStatus === "submitting") return;
-    if (Date.now() - mountTimeRef.current < 2000) { setGate("unlocked"); return; }
+    if (!gateEmail || !gatePhone || !gateRgpd || gateStatus === "submitting") return;
     setGateStatus("submitting");
     try {
       const res = await fetch("/api/contact", {
@@ -108,14 +107,18 @@ export function RoiSimulator() {
           phone: gatePhone,
           monthlyBill,
           roi,
+          rgpd: true,
           source: "roi-gate",
         }),
       }).catch(() => null);
-      setGate("unlocked");
-      setGateStatus(res?.ok ? "ok" : "ok"); // unlock même si erreur API
+      if (res?.ok) {
+        setGate("unlocked");
+        setGateStatus("ok");
+      } else {
+        setGateStatus("error");
+      }
     } catch {
-      setGate("unlocked"); // unlock quand même
-      setGateStatus("ok");
+      setGateStatus("error");
     }
   }
 
@@ -292,6 +295,7 @@ export function RoiSimulator() {
                             className={inputCls}
                           />
                         </label>
+
                         <label className="flex flex-col gap-1.5">
                           <span className="font-mono text-[10px] uppercase tracking-[0.14em] text-fg-subtle">
                             Téléphone
@@ -306,9 +310,22 @@ export function RoiSimulator() {
                           />
                         </label>
 
+                        <label className="inline-flex items-start gap-2 text-xs text-fg-subtle">
+                          <input type="checkbox" required checked={gateRgpd}
+                            onChange={(e) => setGateRgpd(e.target.checked)}
+                            className="mt-0.5 h-4 w-4 accent-accent" />
+                          <span>J'accepte que SEWT traite ces informations pour répondre à ma demande.</span>
+                        </label>
+
+                        {gateStatus === "error" && (
+                          <p role="alert" className="text-xs text-danger">
+                            Envoi indisponible. Réessayez ou écrivez-nous à {CONTACT_EMAIL}.
+                          </p>
+                        )}
+
                         <button
                           type="submit"
-                          disabled={gateStatus === "submitting" || !gateEmail || !gatePhone}
+                          disabled={gateStatus === "submitting" || !gateEmail || !gatePhone || !gateRgpd}
                           className={cn(
                             "mt-1 inline-flex items-center justify-center gap-2 rounded-pill",
                             "bg-accent px-5 py-3 font-mono text-[11px] uppercase tracking-[0.16em]",
@@ -385,12 +402,11 @@ function ContactSection({ csrfToken, monthlyBill, roi }: ContactSectionProps) {
   const [rgpd,    setRgpd]    = useState(false);
   const [hp,      setHp]      = useState("");
   const [status,  setStatus]  = useState<ContactStatus>("idle");
-  const mountRef = useRef(Date.now());
 
   async function onSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
     if (status === "submitting") return;
-    if (hp.trim().length > 0 || Date.now() - mountRef.current < 3000) {
+    if (hp.trim().length > 0) {
       setStatus("ok"); return;
     }
     setStatus("submitting");
@@ -398,7 +414,7 @@ function ContactSection({ csrfToken, monthlyBill, roi }: ContactSectionProps) {
       const res = await fetch("/api/contact", {
         method: "POST",
         headers: { "Content-Type": "application/json", "x-csrf-token": csrfToken },
-        body: JSON.stringify({ name, company, email, phone, sector, message, monthlyBill, roi, source: "contact-form" }),
+        body: JSON.stringify({ name, company, email, phone, sector, message, monthlyBill, roi, rgpd, _hp: hp, source: "contact-form" }),
       }).catch(() => null);
       setStatus(res?.ok ? "ok" : "error");
     } catch {

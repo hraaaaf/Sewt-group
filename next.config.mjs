@@ -3,10 +3,11 @@ import path from "path";
 import { fileURLToPath } from "url";
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
+const isDevelopment = process.env.NODE_ENV === "development";
 const CSP = [
   "default-src 'self'",
-  // Scripts : Next.js chunks + Vercel analytics (si ajouté plus tard)
-  "script-src 'self' 'unsafe-inline' 'unsafe-eval'",
+  // App Router needs inline scripts; eval is allowed only for React dev diagnostics.
+  `script-src 'self' 'unsafe-inline'${isDevelopment ? " 'unsafe-eval'" : ""}`,
   // Styles : inline styles utilisés par Framer Motion / GSAP / Tailwind
   "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
   // Fonts
@@ -27,6 +28,7 @@ const CSP = [
   "object-src 'none'",
   // Base URI
   "base-uri 'self'",
+  "frame-ancestors 'self'",
 ].join("; ");
 
 const securityHeaders = [
