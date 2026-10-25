@@ -97,7 +97,6 @@ const jsonLd = {
       },
       address: {
         "@type": "PostalAddress",
-        streetAddress: "Résidence Islah",
         addressLocality: "Temara",
         addressRegion: "Rabat-Salé-Kénitra",
         addressCountry: "MA",

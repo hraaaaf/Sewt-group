@@ -97,7 +97,7 @@ export function Hero() {
           className="mt-7 flex flex-wrap items-center justify-center gap-3 md:mt-9 md:gap-4"
         >
           <Link
-            href="/#contact"
+            href="/contact"
             className="inline-flex min-h-12 items-center justify-center rounded-full bg-accent px-6 py-3 text-center font-sans text-sm font-semibold text-white transition-all duration-300 hover:bg-accent/90 hover:shadow-[0_0_28px_rgba(232,118,42,0.45)] md:px-8"
           >
             Échanger sur votre projet

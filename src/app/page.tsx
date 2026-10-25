@@ -5,7 +5,6 @@ import { FlagshipSlider } from "@/components/sections/Flagship/FlagshipSlider";
 import { ImpactSection } from "@/components/sections/Impact/ImpactSection";
 import { HistoireTimeline } from "@/components/sections/Histoire/HistoireTimeline";
 import { LeGroupe } from "@/components/sections/LeGroupe/LeGroupe";
-import { RoiSimulator } from "@/components/sections/RoiSimulator/RoiSimulator";
 import { Footer } from "@/components/layout/Footer";
 
 export default function HomePage() {
@@ -32,8 +31,6 @@ export default function HomePage() {
         {/* 09 — Le Groupe / Fondateur / Équipe / Équipements */}
         <LeGroupe />
 
-        {/* 10 — Pré-étude solaire + Contact */}
-        <RoiSimulator />
       </main>
 
       <Footer />

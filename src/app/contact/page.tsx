@@ -2,7 +2,6 @@ import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { Container } from "@/components/layout/Container";
 import { Mail, Phone, Printer, MapPin, ArrowUpRight } from "lucide-react";
-import { ContactPageForm } from "@/components/sections/ContactPageForm";
 
 export const metadata = {
   title: "Contact",
@@ -19,7 +18,7 @@ export default function ContactPage() {
               Contactez-nous
             </h1>
             <p className="text-lg text-fg-muted text-balance leading-relaxed">
-              Vous avez des questions ou un projet industriel ? Notre bureau d'études est à votre disposition pour analyser vos besoins énergétiques.
+              Chaque site a ses contraintes et ses habitudes. Nous abordons le projet à partir de vos besoins énergétiques, puis vous accompagnons de l’étude au suivi des équipements.
             </p>
           </div>
 
@@ -29,7 +28,7 @@ export default function ContactPage() {
               { icon: Mail, label: "E-mail", value: "contact@sewt-group.ma", href: "mailto:contact@sewt-group.ma" },
               { icon: Phone, label: "Téléphone", value: "(+212) 661 117 155", href: "tel:+212661117155" },
               { icon: Printer, label: "Fax", value: "(+212) 537 741 233" },
-              { icon: MapPin, label: "Adresse", value: "Résidence Islah, Temara, Maroc", href: "https://maps.google.com/?q=Résidence+islah,+Temara,+Morocco" },
+              { icon: MapPin, label: "Adresse", value: "Témara, Maroc", href: "https://maps.google.com/?q=Temara,+Maroc" },
             ].map((item, i) => (
               <div key={i} className="group relative flex flex-col items-center text-center p-8 rounded-2xl border border-border-strong bg-bg-elevated/40 backdrop-blur-glass transition-all duration-300 hover:border-accent hover:-translate-y-1 hover:shadow-glow">
                 <div className="h-14 w-14 rounded-full bg-surface border border-border flex items-center justify-center text-accent mb-6 transition-all duration-300 group-hover:bg-accent group-hover:text-bg group-hover:scale-110">
@@ -47,9 +46,51 @@ export default function ContactPage() {
             ))}
           </div>
 
-          <div className="mb-20 overflow-hidden rounded-3xl border border-border-strong">
-            <ContactPageForm />
+          <div className="mb-20 flex flex-col items-center gap-3 rounded-3xl border border-border-strong bg-bg-elevated/40 px-6 py-10 text-center">
+            <a
+              href="mailto:contact@sewt-group.ma?subject=Projet%20solaire%20SEWT"
+              className="inline-flex min-h-12 items-center justify-center gap-2 rounded-full bg-accent px-8 py-3 font-sans text-sm font-semibold text-white transition-colors hover:bg-accent/90 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent"
+            >
+              <Mail className="h-4 w-4" aria-hidden />
+              Nous écrire
+              <ArrowUpRight className="h-4 w-4" aria-hidden />
+            </a>
+            <p className="max-w-xl text-sm text-fg-muted">
+              Ce bouton ouvre votre logiciel de messagerie pour rédiger votre demande.
+            </p>
           </div>
+
+          <section aria-labelledby="processus-heading" className="mb-20">
+            <p className="section-label">Notre accompagnement</p>
+            <h2 id="processus-heading" className="mt-4 font-display text-3xl font-bold text-fg sm:text-4xl">
+              De vos besoins à la mise en service.
+            </h2>
+            <div className="mt-8 grid grid-cols-1 gap-5 md:grid-cols-3">
+              {[
+                {
+                  number: "01",
+                  title: "Comprendre vos usages",
+                  body: "Nous partons des besoins énergétiques de votre entreprise, de votre exploitation ou de votre site industriel.",
+                },
+                {
+                  number: "02",
+                  title: "Étudier la solution",
+                  body: "L’étude permet de définir un système solaire adapté à vos usages et aux caractéristiques de votre site.",
+                },
+                {
+                  number: "03",
+                  title: "Installer et accompagner",
+                  body: "Après l’installation, l’exploitation et la maintenance contribuent au suivi de vos équipements.",
+                },
+              ].map((step) => (
+                <article key={step.number} className="rounded-2xl border border-border bg-bg-elevated/50 p-7">
+                  <p className="font-mono text-sm font-semibold text-accent">{step.number}</p>
+                  <h3 className="mt-4 font-display text-xl font-bold text-fg">{step.title}</h3>
+                  <p className="mt-3 text-sm leading-relaxed text-fg-muted">{step.body}</p>
+                </article>
+              ))}
+            </div>
+          </section>
 
           {/* Premium Map Area */}
           <div className="relative w-full aspect-[4/3] md:aspect-[21/9] min-h-[400px] rounded-3xl overflow-hidden border border-border-strong group isolate">
@@ -74,9 +115,7 @@ export default function ContactPage() {
               </div>
               <p className="font-display text-2xl font-bold tracking-tight text-fg">SEWT Group HQ</p>
               <p className="mt-3 font-mono text-sm text-fg-muted leading-relaxed">
-                Résidence Islah, Temara<br/>
-                Région de Rabat-Salé-Kénitra<br/>
-                Maroc
+                Témara, Maroc
               </p>
             </div>
           </div>

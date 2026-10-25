@@ -14,8 +14,7 @@ const links = [
   { href: "/#offre",         label: "Expertises",  index: "02" },
   { href: "/#flagship",      label: "Réalisations",index: "03" },
   { href: "/#impact",        label: "Impact",      index: "04" },
-  { href: "/#roi",           label: "Pré-étude",   index: "05" },
-  { href: "/#contact",       label: "Contact",     index: "06" },
+  { href: "/contact",       label: "Contact",     index: "05" },
 ];
 
 export function Navbar() {
@@ -89,7 +88,7 @@ export function Navbar() {
               )}
             />
             <Link
-              href="/#roi"
+              href="/contact"
               className={cn(
                 "hidden md:inline-flex items-center gap-2 rounded-full px-5 py-2 text-sm font-semibold transition-all duration-300",
                 scrolled
@@ -177,7 +176,7 @@ export function Navbar() {
             <div className="flex flex-col gap-3 px-8 pb-10">
               <ThemeToggle />
               <Link
-                href="/#roi"
+                href="/contact"
                 onClick={() => setOpen(false)}
                 className="flex items-center justify-center gap-2 rounded-full bg-accent px-6 py-3.5 text-sm font-semibold text-white"
               >
