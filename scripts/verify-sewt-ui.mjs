@@ -1,5 +1,6 @@
 import { mkdir } from "node:fs/promises";
-import { chromium, expect } from "@playwright/test";
+import { chromium } from "playwright";
+import assert from "node:assert/strict";
 
 const site = process.env.SEWT_UI_BASE_URL ?? "http://127.0.0.1:3100";
 
@@ -17,14 +18,14 @@ async function screenshot(name, viewport) {
   page.setDefaultTimeout(12_000);
 
   await page.goto(site, { waitUntil: "domcontentloaded", timeout: 30_000 });
-  await expect(page.locator("#hero-heading")).toContainText("Sun. Power.");
-  await expect(page.getByRole("link", { name: "Échanger sur votre projet" })).toBeVisible();
-  await expect(page.getByRole("link", { name: "Découvrir nos solutions" })).toBeVisible();
-  await expect(page.locator("#offre article")).toHaveCount(3);
-  await expect(page.locator("#le-groupe article")).toHaveCount(3);
-  await expect(page.locator("#flagship #preuve")).toHaveCount(1);
-  await expect(page.locator("#roi")).toHaveCount(0);
-  await expect(page.locator('header img[alt="SEWT Group"]')).toBeVisible();
+  assert.match((await page.locator("#hero-heading").textContent()) ?? "", /Sun\.\s*Power\./);
+  await page.getByRole("link", { name: "Échanger sur votre projet" }).waitFor({ state: "visible" });
+  await page.getByRole("link", { name: "Découvrir nos solutions" }).waitFor({ state: "visible" });
+  assert.equal(await page.locator("#offre article").count(), 3);
+  assert.equal(await page.locator("#le-groupe article").count(), 3);
+  assert.equal(await page.locator("#flagship #preuve").count(), 1);
+  assert.equal(await page.locator("#roi").count(), 0);
+  await page.locator('header img[alt="SEWT Group"]').waitFor({ state: "visible" });
 
   for (const section of ["#impact", "#offre", "#flagship", "#histoire", "#le-groupe"]) {
     await page.locator(section).scrollIntoViewIfNeeded();
@@ -41,19 +42,19 @@ async function screenshot(name, viewport) {
 
   if (viewport.width < 600) {
     await page.getByRole("button", { name: "Ouvrir le menu" }).click();
-    await expect(page.getByRole("dialog", { name: "Menu navigation" })).toBeVisible();
-    await expect(page.getByRole("dialog").getByRole("link", { name: "Contact" })).toBeVisible();
+    await page.getByRole("dialog", { name: "Menu navigation" }).waitFor({ state: "visible" });
+    await page.getByRole("dialog").getByRole("link", { name: "Contact" }).waitFor({ state: "visible" });
     await page.getByRole("button", { name: "Fermer le menu" }).click();
   }
 
   await page.goto(`${site}/contact`, { waitUntil: "domcontentloaded", timeout: 30_000 });
-  await expect(page.getByRole("link", { name: "Nous écrire" })).toHaveAttribute(
-    "href",
-    /mailto:contact@sewt-group\.ma/,
+  assert.match(
+    (await page.getByRole("link", { name: "Nous écrire" }).getAttribute("href")) ?? "",
+    /^mailto:contact@sewt-group\.ma/,
   );
-  await expect(page.locator("main input")).toHaveCount(0);
-  await expect(page.locator("main")).toContainText("Témara, Maroc");
-  await expect(page.getByText("Comprendre vos usages")).toBeVisible();
+  assert.equal(await page.locator("main input").count(), 0);
+  assert.match((await page.locator("main").textContent()) ?? "", /Témara, Maroc/);
+  await page.getByText("Comprendre vos usages").waitFor({ state: "visible" });
 
   await page.screenshot({
     path: `test-artifacts/${name}-contact.png`,
