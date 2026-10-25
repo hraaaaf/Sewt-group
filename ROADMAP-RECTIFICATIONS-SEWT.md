@@ -84,3 +84,11 @@
 - Fichiers source logo : `This_Appeal-CL-1-Sans_logo-Fond_transparent.png` et `This_Appeal-NB-1-Sans_logo-Fond_transparent.png`.
 - État production Vercel inchangé ; branche `recovery/sewt-original` utilisée pour le développement.
 - Chaque lot doit produire : fichiers touchés, diff, captures, résultats de tests et mise à jour Notion.
+
+## Protocole obligatoire de visibilité GitHub (décision du 25/10/2026)
+- **Intention du propriétaire :** dépôt PUBLIC pendant la refonte, puis **retour OBLIGATOIRE en PRIVATE dès la clôture de tous les lots de la roadmap**.
+- **État GitHub vérifié lors de la demande : `private`.** Aucune bascule vers public n'a encore été réalisée par la conversation (le connecteur GitHub ne permet pas la modification de visibilité).
+- **Avant publicité :** contrôler toutes les branches, l'historique des commits, les assets, les documents internes et les secrets ; le fait de remettre un dépôt en privé plus tard **n'efface pas les éventuelles copies, forks et caches** créés lorsqu'il était public.
+- **Gate de clôture irrévocable** : un lot achevé ne suffit pas ; au moment où la dernière tâche est validée, remettre le dépôt en PRIVATE via GitHub Settings → General → Danger Zone → Change repository visibility, **puis vérifier depuis GitHub que `visibility: private`**. Ne jamais cocher la clôture administrative avant cette preuve.
+- **Surveillance conditionnelle** : automatisation horaire « SEWT retour en privé » configurée le 25/10/2026 pour alerter à la fin si le dépôt reste public ; celle-ci n'est **pas une garantie de modification automatique**. La vérification manuelle finale est requise.
+- Cette politique n'autorise aucun déploiement Vercel, promotion, ni fusion vers `main`.
