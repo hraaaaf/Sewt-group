@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { X } from "lucide-react";
+import Image from "next/image";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
 
 const STORAGE_KEY = "sewt-intro-seen";
@@ -90,16 +91,14 @@ export function HeroIntroSequence() {
             ease: "easeInOut",
           }}
         >
-          <p
-            className="font-display font-bold tracking-tight text-white"
-            style={{ fontSize: "clamp(28px, 5vw, 56px)" }}
-          >
-            <span className="text-[#F2A33D]">SUN</span>
-            <span>ENERGY</span>
-          </p>
-          <p className="font-mono text-[10px] uppercase tracking-[0.28em] text-white/45">
-            And Water Technologies Group
-          </p>
+          <Image
+            src="/brand/sewt-official-color.png"
+            alt="Sun Energy and Water Technologies Group"
+            width={234}
+            height={83}
+            priority
+            className="h-auto w-48 object-contain brightness-0 invert sm:w-56"
+          />
         </motion.div>
 
         {/* Indicateur statut bas */}

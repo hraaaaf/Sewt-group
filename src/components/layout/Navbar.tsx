@@ -50,14 +50,14 @@ export function Navbar() {
           {/* Logo */}
           <Link href="/" aria-label="SEWT Group — accueil" className="flex items-center">
             <Image
-              src="/brand/sewt.png"
+              src="/brand/sewt-official-color.png"
               alt="SEWT Group"
-              width={140}
-              height={46}
+              width={156}
+              height={55}
               priority
               className={cn(
-                "h-8 w-auto object-contain transition-all duration-500",
-                scrolled ? "brightness-100" : "brightness-0 invert",
+                "h-9 w-auto object-contain transition-all duration-500",
+                scrolled ? "brightness-100 dark:brightness-0 dark:invert" : "brightness-0 invert",
               )}
             />
           </Link>
@@ -133,11 +133,11 @@ export function Navbar() {
             {/* Header drawer */}
             <div className="flex h-16 items-center justify-between px-5 md:px-8">
               <Image
-                src="/brand/sewt.png"
+                src="/brand/sewt-official-color.png"
                 alt="SEWT Group"
-                width={140}
-                height={46}
-                className="h-8 w-auto object-contain"
+                width={156}
+                height={55}
+                className="h-9 w-auto object-contain dark:brightness-0 dark:invert"
               />
               <button
                 type="button"

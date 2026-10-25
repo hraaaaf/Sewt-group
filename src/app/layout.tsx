@@ -82,9 +82,9 @@ const jsonLd = {
       url: siteUrl,
       logo: {
         "@type": "ImageObject",
-        url: `${siteUrl}/brand/sewt.jpg`,
-        width: 600,
-        height: 120,
+        url: `${siteUrl}/brand/sewt-official-color.png`,
+        width: 260,
+        height: 92,
       },
       image: `${siteUrl}/opengraph-image`,
       description:

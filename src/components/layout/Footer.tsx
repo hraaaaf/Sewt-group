@@ -1,5 +1,6 @@
 import { Container } from "@/components/layout/Container";
 import { BackToTop } from "@/components/ui/BackToTop";
+import Image from "next/image";
 import { cn } from "@/lib/cn";
 
 interface FooterGroup {
@@ -41,7 +42,13 @@ export function Footer() {
         {/* === Sitemap — directement, CTA supprimé (présent dans Contact) === */}
         <div className="grid grid-cols-2 gap-10 md:grid-cols-3">
           <div className="col-span-2 md:col-span-1">
-            <p className="font-display text-lg font-semibold text-fg">SEWT Group</p>
+            <Image
+              src="/brand/sewt-official-color.png"
+              alt="Sun Energy and Water Technologies Group"
+              width={156}
+              height={55}
+              className="h-11 w-auto object-contain dark:brightness-0 dark:invert"
+            />
             <p className="mt-3 max-w-xs text-sm text-fg-muted">
               Sun Energy and Water Technologies. EPC marocain indépendant fondé en 1992.
             </p>
