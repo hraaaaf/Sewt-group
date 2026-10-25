@@ -2,6 +2,7 @@ import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { Container } from "@/components/layout/Container";
 import { Mail, Phone, Printer, MapPin, ArrowUpRight } from "lucide-react";
+import { ContactPageForm } from "@/components/sections/ContactPageForm";
 
 export const metadata = {
   title: "Contact",
@@ -44,6 +45,10 @@ export default function ContactPage() {
                 )}
               </div>
             ))}
+          </div>
+
+          <div className="mb-20 overflow-hidden rounded-3xl border border-border-strong">
+            <ContactPageForm />
           </div>
 
           {/* Premium Map Area */}

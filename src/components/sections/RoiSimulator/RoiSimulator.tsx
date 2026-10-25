@@ -69,6 +69,7 @@ export function RoiSimulator() {
   const [gateRgpd, setGateRgpd]         = useState(false);
   const [gateStatus, setGateStatus]     = useState<SubmitStatus>("idle");
   const [csrfToken, setCsrfToken]       = useState("");
+  const roiGateSubmissionRef = useRef<{ fingerprint: string; id: string } | null>(null);
   const sliderHint = `Couverture estimée · ${Math.round(DEFAULT_ASSUMPTIONS.selfConsumptionRate * 100)} % de la facture`;
 
   useEffect(() => {
@@ -99,19 +100,25 @@ export function RoiSimulator() {
     if (!gateEmail || !gatePhone || !gateRgpd || gateStatus === "submitting") return;
     setGateStatus("submitting");
     try {
+      const payload = {
+        email: gateEmail,
+        phone: gatePhone,
+        monthlyBill,
+        roi,
+        rgpd: true,
+        source: "roi-gate" as const,
+      };
+      const fingerprint = JSON.stringify(payload);
+      if (!roiGateSubmissionRef.current || roiGateSubmissionRef.current.fingerprint !== fingerprint) {
+        roiGateSubmissionRef.current = { fingerprint, id: crypto.randomUUID() };
+      }
       const res = await fetch("/api/contact", {
         method: "POST",
         headers: { "Content-Type": "application/json", "x-csrf-token": csrfToken },
-        body: JSON.stringify({
-          email: gateEmail,
-          phone: gatePhone,
-          monthlyBill,
-          roi,
-          rgpd: true,
-          source: "roi-gate",
-        }),
+        body: JSON.stringify({ ...payload, submissionId: roiGateSubmissionRef.current.id }),
       }).catch(() => null);
       if (res?.ok) {
+        roiGateSubmissionRef.current = null;
         setGate("unlocked");
         setGateStatus("ok");
       } else {
@@ -392,7 +399,7 @@ const SECTOR_OPTIONS: { value: Sector; label: string }[] = [
   { value: "marine",     label: "Marine"     },
 ];
 
-function ContactSection({ csrfToken, monthlyBill, roi }: ContactSectionProps) {
+export function ContactSection({ csrfToken, monthlyBill, roi }: ContactSectionProps) {
   const [name,    setName]    = useState("");
   const [company, setCompany] = useState("");
   const [email,   setEmail]   = useState("");
@@ -402,6 +409,7 @@ function ContactSection({ csrfToken, monthlyBill, roi }: ContactSectionProps) {
   const [rgpd,    setRgpd]    = useState(false);
   const [hp,      setHp]      = useState("");
   const [status,  setStatus]  = useState<ContactStatus>("idle");
+  const contactSubmissionRef = useRef<{ fingerprint: string; id: string } | null>(null);
 
   async function onSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -411,11 +419,17 @@ function ContactSection({ csrfToken, monthlyBill, roi }: ContactSectionProps) {
     }
     setStatus("submitting");
     try {
+      const payload = { name, company, email, phone, sector, message, monthlyBill, roi, rgpd, _hp: hp, source: "contact-form" as const };
+      const fingerprint = JSON.stringify(payload);
+      if (!contactSubmissionRef.current || contactSubmissionRef.current.fingerprint !== fingerprint) {
+        contactSubmissionRef.current = { fingerprint, id: crypto.randomUUID() };
+      }
       const res = await fetch("/api/contact", {
         method: "POST",
         headers: { "Content-Type": "application/json", "x-csrf-token": csrfToken },
-        body: JSON.stringify({ name, company, email, phone, sector, message, monthlyBill, roi, rgpd, _hp: hp, source: "contact-form" }),
+        body: JSON.stringify({ ...payload, submissionId: contactSubmissionRef.current.id }),
       }).catch(() => null);
+      if (res?.ok) contactSubmissionRef.current = null;
       setStatus(res?.ok ? "ok" : "error");
     } catch {
       setStatus("error");
@@ -493,7 +507,7 @@ function ContactSection({ csrfToken, monthlyBill, roi }: ContactSectionProps) {
                 </button>
               </motion.div>
             ) : (
-              <form onSubmit={onSubmit} className="flex flex-col gap-4" noValidate>
+              <form onSubmit={onSubmit} className="flex flex-col gap-4">
                 {/* Honeypot */}
                 <div aria-hidden className="absolute -left-[9999px]">
                   <input tabIndex={-1} autoComplete="off" value={hp} onChange={(e) => setHp(e.target.value)} />
@@ -526,7 +540,7 @@ function ContactSection({ csrfToken, monthlyBill, roi }: ContactSectionProps) {
                   <p className="mb-2 font-mono text-[10px] uppercase tracking-[0.16em] text-fg-subtle">Secteur</p>
                   <div className="flex flex-wrap gap-2">
                     {SECTOR_OPTIONS.map((s) => (
-                      <button key={s.value} type="button"
+                      <button key={s.value} type="button" aria-pressed={sector === s.value}
                         onClick={() => setSector(s.value)}
                         className={cn(
                           "rounded-pill border px-3 py-1.5 font-mono text-[11px] uppercase tracking-[0.1em] transition-colors duration-200",
@@ -557,7 +571,7 @@ function ContactSection({ csrfToken, monthlyBill, roi }: ContactSectionProps) {
                 </label>
 
                 {status === "error" && (
-                  <p className="inline-flex items-center gap-2 rounded-lg border border-danger/30 bg-danger/8 px-3 py-2 font-mono text-[11px] text-danger">
+                  <p role="alert" className="inline-flex items-center gap-2 rounded-lg border border-danger/30 bg-danger/8 px-3 py-2 font-mono text-[11px] text-danger">
                     <AlertCircle className="h-3.5 w-3.5 shrink-0" aria-hidden />
                     Erreur d'envoi · réessayez ou{" "}
                     <a href={`mailto:${CONTACT_EMAIL}`} className="underline hover:text-accent">

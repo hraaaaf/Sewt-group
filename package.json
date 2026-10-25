@@ -9,6 +9,7 @@
     "start": "next start",
     "lint": "next lint",
     "typecheck": "tsc --noEmit",
+    "test:contact": "node --import tsx --test src/app/api/contact/route.test.ts",
     "format": "prettier --write \"src/**/*.{ts,tsx,css,md}\"",
     "format:check": "prettier --check \"src/**/*.{ts,tsx,css,md}\""
   },
@@ -41,6 +42,7 @@
     "prettier": "^3.3.3",
     "prettier-plugin-tailwindcss": "^0.6.8",
     "tailwindcss": "^3.4.14",
+    "tsx": "4.23.15",
     "typescript": "^5.6.3"
   },
   "packageManager": "pnpm@9.12.3",
