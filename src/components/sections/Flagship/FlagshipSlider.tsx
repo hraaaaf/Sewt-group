@@ -6,6 +6,7 @@ import Link from "next/link";
 import { AnimatePresence, motion } from "framer-motion";
 import { MapPin } from "lucide-react";
 import { projects } from "@/data/projects";
+import { PreuveChapter } from "@/components/sections/Preuve/PreuveChapter";
 
 const FEATURED_SLUGS = [
   "centrale-pv-carriere-industrielle",
@@ -247,6 +248,9 @@ export function FlagshipSlider() {
           Portefeuille complet
         </Link>
       </motion.div>
+
+      {/* Références et partenaires à l’intérieur des projets réalisés */}
+      <PreuveChapter />
     </section>
   );
 }

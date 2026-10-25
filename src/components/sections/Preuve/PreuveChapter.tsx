@@ -6,17 +6,17 @@ import { partners } from "@/data/partners";
 
 export function PreuveChapter() {
   return (
-    <section
+    <div
       id="preuve"
       aria-label="Références clients SEWT Group"
-      className="bg-bg px-5 py-20 md:px-12 md:py-28 lg:px-16"
+      className="mt-14 border-t border-border/60 pt-12 md:mt-20 md:pt-16"
     >
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
         transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-        className="mb-12 text-center"
+        className="mb-8 text-center"
       >
         <p className="inline-flex items-center gap-2 font-mono text-[0.65rem] uppercase tracking-[0.22em] text-fg-subtle">
           <span className="text-accent" aria-hidden>○</span>
@@ -75,6 +75,6 @@ export function PreuveChapter() {
           ))}
         </Marquee>
       </motion.div>
-    </section>
+    </div>
   );
 }

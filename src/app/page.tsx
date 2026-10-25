@@ -5,8 +5,6 @@ import { FlagshipSlider } from "@/components/sections/Flagship/FlagshipSlider";
 import { ImpactSection } from "@/components/sections/Impact/ImpactSection";
 import { HistoireTimeline } from "@/components/sections/Histoire/HistoireTimeline";
 import { LeGroupe } from "@/components/sections/LeGroupe/LeGroupe";
-import { PreuveChapter } from "@/components/sections/Preuve/PreuveChapter";
-import { CtaBridge } from "@/components/sections/CtaBridge/CtaBridge";
 import { RoiSimulator } from "@/components/sections/RoiSimulator/RoiSimulator";
 import { Footer } from "@/components/layout/Footer";
 
@@ -27,12 +25,6 @@ export default function HomePage() {
 
         {/* 05 — Réalisations sélectionnées */}
         <FlagshipSlider />
-
-        {/* CTA intermédiaire — ancre conversion après preuve terrain */}
-        <CtaBridge />
-
-        {/* 07 — Ils nous font confiance (références clients) */}
-        <PreuveChapter />
 
         {/* 08 — Histoire du groupe */}
         <HistoireTimeline />

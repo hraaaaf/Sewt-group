@@ -4,30 +4,9 @@ import Image from "next/image";
 import { motion } from "framer-motion";
 
 const expertises = [
-  {
-    index: "01",
-    label: "Distribution solaire",
-    headline: "Équipements photovoltaïques sélectionnés",
-    body: "Sourcing fiable auprès des fabricants tier-1 mondiaux (Huawei, Jinko, Deye, KBE). Stock local Casablanca, accompagnement technique et garanties fabricant intégrales.",
-    stat: { value: "7", unit: "marques partenaires exclusifs" },
-    image: "/projects/industrie-onduleurs.jpg",
-  },
-  {
-    index: "02",
-    label: "EPC clé en main",
-    headline: "De l'étude de faisabilité à la mise en service",
-    body: "Ingénierie, dimensionnement, travaux structure, raccordement HTA et mise en service. Équipe certifiée IEC, agréments IRESEN et MASEN, conformité réglementaire complète.",
-    stat: { value: "+200", unit: "projets livrés depuis 2010" },
-    image: "/projects/carriere-installation.jpg",
-  },
-  {
-    index: "03",
-    label: "Exploitation & Maintenance",
-    headline: "Performance garantie sur le long terme",
-    body: "Monitoring IoT temps réel, alertes automatiques, maintenance préventive trimestrielle et reporting mensuel de production. Contrat O&M longue durée, garantie de performance 25 ans.",
-    stat: { value: "25 ans", unit: "de garantie performance" },
-    image: "/projects/agricole-onduleurs.jpg",
-  },
+  { index: "01", label: "Photovoltaïque", body: "Étude et installation de systèmes solaires pour produire de l’électricité au plus près des besoins de votre activité.", tagline: "Production électrique", image: "/projects/industrie-onduleurs.jpg" },
+  { index: "02", label: "Solaire thermique / Industriel", body: "Des solutions solaires ou non dédiées à la production d’eau chaude pour les usages de votre activité.", tagline: "Eau chaude / Vapeur", image: "/projects/carriere-installation.jpg" },
+  { index: "03", label: "Exploitation & maintenance", body: "Un accompagnement dans la durée pour l’exploitation et la maintenance de vos équipements énergétiques.", tagline: "Suivi des installations", image: "/projects/agricole-onduleurs.jpg" },
 ] as const;
 
 function fadeUp(delay = 0) {
@@ -58,12 +37,12 @@ export function OffreChapter() {
           className="mt-5 font-display font-bold text-white text-balance leading-[1.05]"
           style={{ fontSize: "clamp(2rem, 4.5vw, 3.8rem)" }}
         >
-          Solaire, hydraulique{" "}
-          <span className="text-accent">et performance énergétique.</span>
+          Une réponse innovante{" "}
+          <span className="text-accent">à vos besoins énergétiques.</span>
         </h2>
         <p className="mt-5 max-w-2xl font-sans text-base text-white/60 leading-relaxed text-pretty">
-          De la fourniture d'équipements tier-1 au contrat O&amp;M 25 ans, SEWT Group
-          couvre l'intégralité du cycle de vie de votre installation photovoltaïque.
+          Pour produire de l’électricité, de l’eau chaude ou pour superviser vos équipements :
+          nos services complémentaires pour les besoins de votre site.
         </p>
       </motion.div>
 
@@ -106,7 +85,7 @@ export function OffreChapter() {
               <div className="relative aspect-[4/3]">
                 <Image
                   src={exp.image}
-                  alt={exp.headline}
+                  alt={exp.label}
                   fill
                   sizes="(max-width: 768px) 90vw, 30vw"
                   className="object-cover transition-transform duration-700 group-hover:scale-105"
@@ -126,27 +105,15 @@ export function OffreChapter() {
 
             {/* Contenu */}
             <div className="flex flex-1 flex-col p-6">
-              <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-accent">
+              <p className="font-display text-xl font-bold text-white">
                 {exp.label}
               </p>
-              <h3
-                className="mt-2 font-display font-bold text-white leading-snug text-balance"
-                style={{ fontSize: "clamp(1.05rem, 1.8vw, 1.3rem)" }}
-              >
-                {exp.headline}
-              </h3>
               <p className="mt-3 font-sans text-sm text-white/55 leading-relaxed text-pretty flex-1">
                 {exp.body}
               </p>
               <div className="mt-6 pt-5 border-t border-white/10">
-                <p
-                  className="font-display font-bold text-white leading-none"
-                  style={{ fontSize: "clamp(1.8rem, 3vw, 2.6rem)" }}
-                >
-                  {exp.stat.value}
-                </p>
-                <p className="mt-1.5 font-mono text-[10px] uppercase tracking-[0.16em] text-white/40">
-                  {exp.stat.unit}
+                <p className="font-display text-lg font-semibold text-white">
+                  {exp.tagline}
                 </p>
               </div>
             </div>
