@@ -1,0 +1,18 @@
+# Dependencies and build artifacts
+node_modules/
+.next/
+out/
+dist/
+coverage/
+*.tsbuildinfo
+
+# Environment secrets
+.env
+.env.*
+!.env.example
+
+# Local/editor state
+.vercel/
+.claude/settings.local.json
+.DS_Store
+*.log
