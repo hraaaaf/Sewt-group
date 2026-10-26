@@ -32,7 +32,7 @@ export default function PrivacyPage() {
             </section>
 
             <section className="mt-10 space-y-3" aria-labelledby="privacy-purpose">
-              <h2 id="privacy-purpose" className="font-display text-2xl font-bold">Pourquoi recueillons-nous des données ?</h2>
+              <h2 id="privacy-purpose" className="font-display text-2xl font-bold">Finalités des traitements</h2>
               <p className="text-fg-muted">
                 Le bouton « Nous écrire » ouvre votre messagerie avec le destinataire
                 et l'objet préremplis. Aucun formulaire n'est affiché sur le site
@@ -52,19 +52,22 @@ export default function PrivacyPage() {
                 Le site est hébergé sur Vercel.
               </p>
               <p className="text-fg-muted">
-                Certains prestataires peuvent traiter des données hors du Maroc.
-                Les formalités CNDP applicables, notamment en matière de transferts
-                internationaux, doivent être vérifiées et accomplies avant activation.
+                L'hébergement peut également impliquer le traitement de données
+                techniques de connexion, dont l'adresse IP, pour la sécurité et
+                le fonctionnement du site. Des prestataires peuvent opérer hors du
+                Maroc ; les formalités applicables relèvent de la loi marocaine n° 09-08.
               </p>
             </section>
 
             <section className="mt-10 space-y-3" aria-labelledby="privacy-retention">
               <h2 id="privacy-retention" className="font-display text-2xl font-bold">Sécurité et conservation</h2>
               <p className="text-fg-muted">
-                Vous rédigez et envoyez votre message depuis votre application de messagerie,
-                hors du site. Les courriels reçus doivent être conservés uniquement
-                pendant la durée nécessaire au traitement des demandes et aux
-                obligations applicables. SEWT doit confirmer ses durées de conservation.
+                Vous rédigez et envoyez votre message depuis votre application de
+                messagerie, hors du site. L'accès aux courriels reçus est limité
+                aux personnes chargées de répondre ; leur conservation est limitée
+                aux besoins de traitement et aux obligations légales applicables.
+                Vous pouvez demander l'effacement de vos données à l'adresse
+                de contact, sous réserve des obligations de conservation.
               </p>
             </section>
 
@@ -78,11 +81,12 @@ export default function PrivacyPage() {
                 Vous pouvez également saisir la Commission nationale de contrôle de la
                 protection des données à caractère personnel (CNDP).
               </p>
-              <p className="rounded-xl border border-border bg-bg-elevated/60 p-4 text-sm text-fg-muted">
-                Le numéro de récépissé ou d'autorisation CNDP et les informations
-                définitives sur les transferts de données n'ont pas encore été communiqués.
-                Leur vérification reste nécessaire pour les traitements concernés,
-                notamment avant toute collecte directe future via le site.
+              <p className="text-sm leading-relaxed text-fg-muted">
+                Pour connaître les modalités d'exercice de vos droits ou déposer
+                une réclamation, consultez également{" "}
+                <a className="text-accent underline underline-offset-4" href="https://www.cndp.ma/" target="_blank" rel="noopener noreferrer">
+                  le site de la CNDP
+                </a>.
               </p>
             </section>
 
