@@ -64,7 +64,14 @@ async function screenshot(name, viewport, theme = "light") {
   assert.match(groupContent, /Ingénieur de l’Ecole Centrale de Paris, M[.] Ali Hajji fonde/);
   const teamImage = page.locator("#le-groupe img").first();
   assert.equal((await teamImage.getAttribute("alt"))?.includes("Ambemar"), false, "Client exclu du texte alternatif");
-  assert.match((await teamImage.getAttribute("style")) ?? "", /object-position:/);
+  const teamCrop = await teamImage.evaluate((el) => ({
+    position: getComputedStyle(el).objectPosition,
+    transform: getComputedStyle(el).transform,
+  }));
+  assert.equal(teamCrop.transform, "none", "Aucun zoom qui découpe les visages des techniciens");
+  assert.match(teamCrop.position, viewport.width < 640 ? /92%/ : /78%/,
+    "Recadrage responsive pour masquer l'enseigne client et garder les visages");
+
   const expertisesHeading = page.locator("#offre-heading");
   assert.equal((await expertisesHeading.locator(".text-accent").textContent())?.trim(), "énergétiques.");
   assert.match((await page.locator("#offre").textContent()) ?? "", /nos services se\s+complémentent pour répondre aux besoins de votre site/);
