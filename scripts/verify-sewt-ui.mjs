@@ -7,17 +7,24 @@ const site = process.env.SEWT_UI_BASE_URL ?? "http://127.0.0.1:3100";
 const browser = await chromium.launch({ headless: true });
 await mkdir("test-artifacts", { recursive: true });
 
-async function screenshot(name, viewport) {
+async function screenshot(name, viewport, theme = "light") {
   const context = await browser.newContext({
     viewport,
     deviceScaleFactor: 1,
     reducedMotion: "reduce",
-    colorScheme: "light",
+    colorScheme: theme,
   });
+  await context.addInitScript((selectedTheme) => {
+    localStorage.setItem("sewt-theme-v2", selectedTheme);
+  }, theme);
   const page = await context.newPage();
   page.setDefaultTimeout(12_000);
 
   await page.goto(site, { waitUntil: "domcontentloaded", timeout: 30_000 });
+  await page.waitForFunction((value) =>
+    document.documentElement.classList.contains("dark") === (value === "dark"),
+    theme,
+  );
   assert.equal(await page.locator("#hero video").count(), 1, "La vidéo originale du Hero doit rester visible");
   assert.match((await page.locator("#hero-heading").textContent()) ?? "", /Sun\.\s*Power\./);
   await page.getByRole("link", { name: "Échanger sur votre projet" }).waitFor({ state: "visible" });
@@ -77,22 +84,43 @@ async function screenshot(name, viewport) {
   }
 
   await page.goto(`${site}/contact`, { waitUntil: "domcontentloaded", timeout: 30_000 });
+  await page.waitForFunction((value) =>
+    document.documentElement.classList.contains("dark") === (value === "dark"),
+    theme,
+  );
   // A light internal page must not inherit the white-on-transparent home header.
   const headerBg = await page.locator("header").evaluate((el) =>
     getComputedStyle(el).backgroundColor
   );
   assert.notEqual(headerBg, "rgba(0, 0, 0, 0)", "La navigation interne doit avoir un fond");
   assert.notEqual(headerBg, "transparent", "La navigation interne ne doit pas être transparente");
-  await page.getByRole("link", { name: "Parler de mon projet" }).first().waitFor({ state: viewport.width > 768 ? "visible" : "hidden" });
+  await page.getByRole("link", { name: "Parler de mon projet" }).first().waitFor({
+    state: viewport.width >= 768 ? "visible" : "hidden",
+  });
   const logoFilter = await page.locator('header img[alt="SEWT Group"]').evaluate((el) =>
     getComputedStyle(el).filter
   );
-  assert.ok(!logoFilter.includes("invert(1)"), "Logo blanc interdit sur fond clair de la page Contact");
+  if (theme === "light") {
+    assert.ok(!logoFilter.includes("invert(1)"), "Logo blanc interdit sur fond clair de la page Contact");
+  } else {
+    assert.ok(logoFilter.includes("invert(1)"), "La variante claire du logo doit être visible en mode sombre");
+  }
   assert.match(
     (await page.getByRole("link", { name: "Nous écrire" }).getAttribute("href")) ?? "",
     /^mailto:contact@sewt-group\.ma/,
   );
   assert.equal(await page.locator("main input").count(), 0);
+  const legal = page.getByRole("link", { name: "Demander les mentions légales" });
+  const privacy = page.getByRole("link", { name: "Question sur la confidentialité" });
+  assert.match((await legal.getAttribute("href")) ?? "", /^mailto:contact@sewt-group\.ma/);
+  assert.match((await privacy.getAttribute("href")) ?? "", /^mailto:contact@sewt-group\.ma/);
+  const orphanAnchors = await page.locator('a[href^="#"]').evaluateAll((links) =>
+    links.filter((a) => {
+      const hash = a.getAttribute("href")?.slice(1);
+      return hash && !document.getElementById(decodeURIComponent(hash));
+    }).map((a) => a.getAttribute("href")),
+  );
+  assert.deepEqual(orphanAnchors, [], "Aucune ancre morte sur la page Contact");
   assert.match((await page.locator("main").textContent()) ?? "", /Témara, Maroc/);
   await page.getByText("Comprendre vos usages").waitFor({ state: "visible" });
 
@@ -106,13 +134,17 @@ async function screenshot(name, viewport) {
     documentWidth: document.documentElement.scrollWidth,
     viewportWidth: window.innerWidth,
   }));
+  assert.ok(metrics.documentWidth <= metrics.viewportWidth + 2, `${name}: overflow horizontal sur Contact ${JSON.stringify(metrics)}`);
   console.info(`${name}: UI smoke OK; contact page widths ${JSON.stringify(metrics)}`);
   await context.close();
 }
 
 try {
   await screenshot("desktop", { width: 1440, height: 900 });
+  await screenshot("tablet", { width: 768, height: 1024 });
   await screenshot("mobile", { width: 375, height: 812 });
+  await screenshot("desktop-dark", { width: 1440, height: 900 }, "dark");
+  await screenshot("mobile-dark", { width: 375, height: 812 }, "dark");
 } finally {
   await browser.close();
 }
