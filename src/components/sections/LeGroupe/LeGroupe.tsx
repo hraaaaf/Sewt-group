@@ -10,6 +10,7 @@ const team = [
     credentials: "PhD · IIT Chicago",
     src: "/team/ali-hajji.png",
     position: "center 8%",
+    zoom: 1.05,
   },
   {
     name: "Amine Hajji",
@@ -17,6 +18,7 @@ const team = [
     credentials: "Ing. · ENGEE Strasbourg",
     src: "/team/amine-hajji.png",
     position: "center 10%",
+    zoom: 1.12,
   },
   {
     name: "Ndiaga Mbodji",
@@ -24,6 +26,7 @@ const team = [
     credentials: "PhD · IAV Hassan II",
     src: "/team/ndiaga-mbodji.jpg",
     position: "center 20%",
+    zoom: 1,
   },
 ] as const;
 
@@ -119,7 +122,7 @@ export function LeGroupe() {
                     fill
                     sizes="(max-width: 639px) 90vw, (max-width: 1024px) 30vw, 19vw"
                     className="object-cover"
-                    style={{ objectPosition: person.position }}
+                    style={{ objectPosition: person.position, transform: `scale(${person.zoom})` }}
                   />
                 </div>
                 <p className="mt-3 font-display text-sm font-bold leading-snug text-fg">
