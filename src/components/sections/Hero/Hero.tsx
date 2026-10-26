@@ -98,7 +98,7 @@ export function Hero() {
           style={{ fontSize: "clamp(2.5rem, 8vw, 8rem)" }}
         >
           <span className="block sm:inline">Sun. Power.</span>{" "}
-          <span className="block sm:inline">People.</span>
+          <span className="block sm:inline">People</span>
         </motion.h1>
 
         <motion.p
