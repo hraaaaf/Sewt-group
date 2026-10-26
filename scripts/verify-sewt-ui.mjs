@@ -75,6 +75,23 @@ async function screenshot(name, viewport, theme = "light") {
     assert.equal(color, "rgb(27, 47, 92)", `${chapter} : chapitre navy nécessaire en modes clair/sombre`);
   }
   assert.equal(await page.locator("#le-groupe article").count(), 3);
+  // Word SEWT 2, page 5 : validated titles and project metadata.
+  const flagshipCards = page.locator("#flagship article");
+  assert.ok((await flagshipCards.count()) >= 3, "Three flagship projects displayed");
+  const flagshipTexts = await Promise.all(
+    [0, 1, 2].map((index) => flagshipCards.nth(index).textContent()),
+  );
+  assert.match(flagshipTexts[0] ?? "", /Site industriel/);
+  assert.match(flagshipTexts[0] ?? "", /1,1 MWc/);
+  assert.match(flagshipTexts[0] ?? "", /Sidi Kacem/);
+  assert.match(flagshipTexts[0] ?? "", /2025/);
+  assert.doesNotMatch(flagshipTexts[0] ?? "", /2023/);
+  assert.match(flagshipTexts[1] ?? "", /Exploitation agricole/);
+  assert.match(flagshipTexts[1] ?? "", /350 kWc/);
+  assert.match(flagshipTexts[1] ?? "", /Taroudant/);
+  assert.match(flagshipTexts[2] ?? "", /Secteur tertiaire/);
+  assert.match(flagshipTexts[2] ?? "", /200 kWc/);
+  assert.match(flagshipTexts[2] ?? "", /Casablanca/);
   assert.equal(await page.locator("#flagship #preuve").count(), 1);
   assert.equal(await page.locator("#roi").count(), 0);
   await page.locator('header img[alt="SEWT Group"]').waitFor({ state: "visible" });
