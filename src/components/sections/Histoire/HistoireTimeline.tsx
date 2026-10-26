@@ -46,7 +46,7 @@ const milestones: ReadonlyArray<Milestone> = [
   },
   {
     year: "2023",
-    title: "Groupe SEWT · 3 régions",
+    title: "Restructuration opérationnelle",
     description:
       "Réorganisation en groupe multi-entités. 15 MWc commissionnés, 50 MWc en pipeline. Présence dans 3 régions : Oriental, Centre, Sud.",
     kpi: "15",
