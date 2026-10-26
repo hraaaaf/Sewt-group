@@ -3,6 +3,7 @@
 import { motion } from "framer-motion";
 import { useEffect, useRef } from "react";
 import Image from "next/image";
+import Link from "next/link";
 
 // SEWT Riad Taroudant — revised 15.4s motion-first silent H.264 video.
 const HERO_VIDEO_MP4 = "/brand/hotel-riad-taroudant-hero.mp4";
@@ -112,7 +113,26 @@ export function Hero() {
           en service de leurs solutions énergétiques.
         </motion.p>
 
-
+        {/* CTA Word p.1 : alignés, centrés, avec empilement sur écrans étroits. */}
+        <motion.div
+          initial={{ opacity: 0, y: 12 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.42, duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+          className="mx-auto mt-6 flex w-full max-w-lg flex-col items-stretch justify-center gap-3 sm:mt-8 sm:flex-row sm:items-center"
+        >
+          <Link
+            href="/contact"
+            className="inline-flex min-h-12 flex-1 items-center justify-center rounded-full bg-white px-6 py-3 text-center font-sans text-sm font-semibold text-[#1B2F5C] transition-colors hover:bg-white/90 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white"
+          >
+            Échanger sur votre projet
+          </Link>
+          <Link
+            href="/#offre"
+            className="inline-flex min-h-12 flex-1 items-center justify-center rounded-full border border-white/70 bg-white/10 px-6 py-3 text-center font-sans text-sm font-semibold text-white backdrop-blur-sm transition-colors hover:bg-white/20 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white"
+          >
+            Découvrir nos solutions
+          </Link>
+        </motion.div>
       </div>
 
       {/* Vague organique — signature visuelle hero → manifeste */}
