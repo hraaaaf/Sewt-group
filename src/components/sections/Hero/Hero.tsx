@@ -5,8 +5,8 @@ import { useEffect, useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
 
-// Word SEWT 2 p.1: restore the original cinematic sequence.
-const HERO_VIDEO_MP4 = "/brand/hero-video.mp4";
+// Vidéo Hôtel Riad Taroudant validée par le propriétaire (PR #7) : préserver cette version.
+const HERO_VIDEO_MP4 = "/brand/hotel-riad-taroudant-hero.mp4";
 const HERO_POSTER = "/brand/hotel-riad-taroudant-poster.webp";
 
 export function Hero() {
