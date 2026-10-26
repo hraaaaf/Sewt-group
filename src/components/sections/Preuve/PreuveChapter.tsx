@@ -8,33 +8,13 @@ export function PreuveChapter() {
   return (
     <div
       id="preuve"
-      aria-label="Références clients SEWT Group"
-      className="mt-10 border-t border-border/60 pt-9 md:mt-14 md:pt-12"
+      aria-label="Références et partenaires SEWT Group"
+      className="mt-8 md:mt-10"
     >
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-        className="mb-7 text-center"
-      >
-        <p className="inline-flex items-center gap-2 font-mono text-[0.65rem] uppercase tracking-[0.22em] text-fg-subtle">
-          <span className="text-accent" aria-hidden>○</span>
-          Références
-        </p>
-        <h2
-          className="mt-4 font-display font-bold text-fg text-balance leading-[1.05]"
-          style={{ fontSize: "clamp(1.8rem, 3.5vw, 3rem)" }}
-        >
-          Références &amp;{" "}
-          <span className="text-accent">partenaires</span>
-        </h2>
-        <p className="mt-4 mx-auto max-w-2xl font-sans text-base text-fg-muted leading-relaxed">
-          Des institutions, industriels et organisations accompagnés dans des
-          projets solaires, énergétiques et techniques au Maroc.
-        </p>
-      </motion.div>
-
+      {/* Bandeau discret dans Projets réalisés, sans recréer une section autonome. */}
+      <h3 className="mb-4 font-display text-lg font-semibold leading-tight text-fg md:mb-5 md:text-xl">
+        Références &amp; <span className="text-accent">partenaires</span>
+      </h3>
       <motion.div
         initial={{ opacity: 0 }}
         whileInView={{ opacity: 1 }}
