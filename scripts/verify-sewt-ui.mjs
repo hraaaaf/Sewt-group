@@ -72,6 +72,7 @@ async function screenshot(name, viewport, theme = "light") {
   // Full-page screenshots do not trigger every whileInView animation on narrow screens.
   // Reveal each animated card and the KPI block at its actual viewport position.
   for (const selector of [
+    "#impact article",
     "#histoire ol > li",
     "#offre article",
   ]) {
@@ -128,6 +129,8 @@ async function screenshot(name, viewport, theme = "light") {
     await page.getByRole("button", { name: "Ouvrir le menu" }).click();
     await page.getByRole("dialog", { name: "Menu navigation" }).waitFor({ state: "visible" });
     await page.getByRole("dialog").getByRole("link", { name: "Contact" }).waitFor({ state: "visible" });
+    assert.equal(await page.getByRole("dialog").getByRole("link", { name: "Impact", exact: true }).count(), 0,
+      "The mobile drawer must not show Impact in Word V2");
     await page.getByRole("button", { name: "Fermer le menu" }).click();
   }
 
