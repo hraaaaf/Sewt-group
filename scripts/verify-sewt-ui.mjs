@@ -32,6 +32,21 @@ async function screenshot(name, viewport) {
     await page.locator(section).scrollIntoViewIfNeeded();
     await page.waitForTimeout(220);
   }
+  // Verify each team portrait and the field photo in the actual mobile viewport.
+  // A full-page screenshot alone does not trigger Framer Motion whileInView.
+  await page.locator("#le-groupe-heading").scrollIntoViewIfNeeded();
+  await page.waitForTimeout(220);
+  const teamImages = page.locator("#le-groupe img");
+  assert.equal(await teamImages.count(), 4, "La section équipe doit avoir 1 photo chantier et 3 portraits");
+  for (let index = 0; index < 4; index++) {
+    await teamImages.nth(index).scrollIntoViewIfNeeded();
+    await page.waitForFunction((i) => {
+      const img = document.querySelectorAll("#le-groupe img")[i];
+      return img?.complete && img.naturalWidth > 0;
+    }, index);
+    await page.waitForTimeout(200);
+  }
+
   // The partner marquee is animated only when it enters the viewport.
   // Check real image loading before the full-page snapshot so it does not look empty.
   await page.locator("#preuve").scrollIntoViewIfNeeded();
