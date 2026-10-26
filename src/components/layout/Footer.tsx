@@ -80,11 +80,11 @@ export function Footer() {
             © {new Date().getFullYear()} SEWT Group · Tous droits réservés
           </p>
           <div className="flex items-center gap-6 font-mono text-xs uppercase tracking-wide text-fg-subtle">
-            <a href="mailto:contact@sewt-group.ma?subject=Demande%20de%20mentions%20l%C3%A9gales" className="transition-colors hover:text-fg">
-              Demander les mentions légales
+            <a href="/mentions-legales" className="transition-colors hover:text-fg">
+              Mentions légales
             </a>
-            <a href="mailto:contact@sewt-group.ma?subject=Question%20sur%20la%20confidentialit%C3%A9" className="transition-colors hover:text-fg">
-              Question sur la confidentialité
+            <a href="/confidentialite" className="transition-colors hover:text-fg">
+              Confidentialité
             </a>
             <BackToTop />
           </div>

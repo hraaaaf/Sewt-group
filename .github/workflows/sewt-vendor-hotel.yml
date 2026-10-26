@@ -1,0 +1,101 @@
+name: SEWT — Internaliser le MP4 hôtel
+on:
+  push:
+    branches:
+      - recovery/sewt-original
+    paths:
+      - .github/workflows/sewt-vendor-hotel.yml
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  vendor:
+    name: Download, verify, and commit actual hotel video
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+      - name: Download real hotel footage and poster via HTTPS
+        env:
+          HOTEL_MP4: https://d2ol7oe51mr4n9.cloudfront.net/user_3Hr7zuByNIFoArCjlA8t5T2exht/6cd3a266-d078-4e5f-92ca-6d86cb36ac6a.mp4
+          HOTEL_POSTER: https://d2ol7oe51mr4n9.cloudfront.net/user_3Hr7zuByNIFoArCjlA8t5T2exht/96a26c6b-7092-4847-87e5-0d26460e0ed8.webp
+        run: |
+          set -euo pipefail
+          mkdir -p public/brand
+          curl --fail --location --retry 3 --max-time 240 --proto '=https' --proto-redir '=https' --output public/brand/hotel-riad-taroudant-hero.mp4 "$HOTEL_MP4"
+          curl --fail --location --retry 3 --max-time 90 --proto '=https' --proto-redir '=https' --output public/brand/hotel-riad-taroudant-poster.webp "$HOTEL_POSTER"
+          file public/brand/hotel-riad-taroudant-hero.mp4 public/brand/hotel-riad-taroudant-poster.webp
+      - name: Verify media content, length, codec, size, and image
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          from pathlib import Path
+          import json, subprocess
+          p = Path("public/brand/hotel-riad-taroudant-hero.mp4")
+          poster = Path("public/brand/hotel-riad-taroudant-poster.webp")
+          assert 1_000_000 < p.stat().st_size < 95_000_000, f"Video size unsupported: {p.stat().st_size}"
+          assert 5_000 < poster.stat().st_size < 12_000_000, "Poster size invalid"
+          assert poster.read_bytes()[:4] == b"RIFF" and poster.read_bytes()[8:12] == b"WEBP", "Poster is not WebP"
+          meta = json.loads(subprocess.check_output(["ffprobe","-v","error","-show_format","-show_streams","-of","json",str(p)]))
+          duration = float(meta["format"]["duration"])
+          videos = [s for s in meta["streams"] if s.get("codec_type") == "video"]
+          assert 10.0 <= duration <= 25.0, f"Unexpected footage duration: {duration}"
+          assert len(videos) == 1 and videos[0].get("codec_name") == "h264", "Video is not H.264"
+          assert int(videos[0].get("width",0)) >= 720 and int(videos[0].get("height",0)) >= 400, "Video low resolution"
+          print(f"Validated MP4: {p.stat().st_size} bytes, {duration:.2f}s, {videos[0]['width']}x{videos[0]['height']}")
+          PY
+          sha256sum public/brand/hotel-riad-taroudant-hero.mp4 public/brand/hotel-riad-taroudant-poster.webp
+      - name: Change Hero to self-hosted verified assets
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          from pathlib import Path
+          hero = Path("src/components/sections/Hero/Hero.tsx")
+          old = hero.read_text()
+          v = "https://d2ol7oe51mr4n9.cloudfront.net/user_3Hr7zuByNIFoArCjlA8t5T2exht/6cd3a266-d078-4e5f-92ca-6d86cb36ac6a.mp4"
+          poster = "https://d2ol7oe51mr4n9.cloudfront.net/user_3Hr7zuByNIFoArCjlA8t5T2exht/96a26c6b-7092-4847-87e5-0d26460e0ed8.webp"
+          assert old.count(v) == 1 and old.count(poster) == 1, "Hero sources changed: stop"
+          hero.write_text(old.replace(v, "/brand/hotel-riad-taroudant-hero.mp4").replace(poster,"/brand/hotel-riad-taroudant-poster.webp"))
+          test = Path("scripts/verify-sewt-ui.mjs")
+          t=test.read_text()
+          assert t.count("6cd3a266-d078-4e5f-92ca-6d86cb36ac6a") == 1
+          assert t.count("96a26c6b-7092-4847-87e5-0d26460e0ed8") == 1
+          t=t.replace(r"/6cd3a266-d078-4e5f-92ca-6d86cb36ac6a\\.mp4$", r"/hotel-riad-taroudant-hero\\.mp4$")
+          t=t.replace(r"/96a26c6b-7092-4847-87e5-0d26460e0ed8\\.webp$", r"/hotel-riad-taroudant-poster\\.webp$")
+          assert "hotel-riad-taroudant-hero" in t and "hotel-riad-taroudant-poster" in t
+          test.write_text(t)
+          cfg = Path("next.config.mjs")
+          config = cfg.read_text()
+          assert config.count(" https://d2ol7oe51mr4n9.cloudfront.net") == 2, "Expected CSP sources changed"
+          cfg.write_text(config.replace(" https://d2ol7oe51mr4n9.cloudfront.net",""))
+          PY
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 9.12.3
+          run_install: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: pnpm
+      - name: Validate integrated source (no deployment)
+        run: |
+          set -euo pipefail
+          pnpm install --frozen-lockfile
+          pnpm typecheck
+          pnpm test:contact
+          pnpm build
+      - name: Commit verified self-hosted files to current recovery branch
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git fetch origin recovery/sewt-original
+          test "$(git rev-parse HEAD)" = "$(git rev-parse origin/recovery/sewt-original)" || { echo "Branch advanced; refusing unsafe commit"; exit 1; }
+          git add public/brand/hotel-riad-taroudant-hero.mp4 public/brand/hotel-riad-taroudant-poster.webp src/components/sections/Hero/Hero.tsx next.config.mjs scripts/verify-sewt-ui.mjs
+          git diff --cached --check
+          git commit -m "feat(hero): self-host verified Riad Taroudant hotel video"
+          git push origin HEAD:recovery/sewt-original

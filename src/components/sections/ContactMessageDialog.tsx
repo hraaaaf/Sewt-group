@@ -125,7 +125,14 @@ export function ContactMessageDialog() {
               <label className="flex items-start gap-3 text-sm text-fg-muted">
                 <input type="checkbox" required checked={consent} onChange={e => setConsent(e.target.checked)}
                   className="mt-1 h-4 w-4 shrink-0 accent-accent" />
-                <span>J’accepte que SEWT utilise mes coordonnées pour répondre à ma demande.</span>
+                <span>
+                  J’accepte que SEWT utilise mes coordonnées uniquement pour répondre à ma demande.
+                  {" "}
+                  <a href="/confidentialite" target="_blank" rel="noopener noreferrer"
+                    className="text-accent underline underline-offset-2">
+                    Consulter la politique de confidentialité
+                  </a>.
+                </span>
               </label>
               {(status === "error" || loadingError) && (
                 <p role="alert" className="text-sm text-red-600 dark:text-red-400">
