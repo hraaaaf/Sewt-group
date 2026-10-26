@@ -1,44 +1,33 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import Image from "next/image";
-import Link from "next/link";
 
 // SEWT Riad Taroudant — revised 15.4s motion-first silent H.264 video.
-// Preview uses the verified CDN master. Mirror to /public/brand before production.
 const HERO_VIDEO_MP4 = "https://d2ol7oe51mr4n9.cloudfront.net/user_3Hr7zuByNIFoArCjlA8t5T2exht/6cd3a266-d078-4e5f-92ca-6d86cb36ac6a.mp4";
 const HERO_POSTER = "https://d2ol7oe51mr4n9.cloudfront.net/user_3Hr7zuByNIFoArCjlA8t5T2exht/96a26c6b-7092-4847-87e5-0d26460e0ed8.webp";
 
 export function Hero() {
   const videoRef = useRef<HTMLVideoElement>(null);
-  const [needsTap, setNeedsTap] = useState(false);
 
   useEffect(() => {
     const video = videoRef.current;
     if (!video) return;
 
-    // Respect the visitor's accessibility preference, but permit explicit play.
+    // Preserve the static poster for visitors who request reduced motion.
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
       video.pause();
-      setNeedsTap(true);
       return;
     }
 
     video.muted = true;
-    const attempt = video.play();
-    if (attempt) {
-      void attempt.catch(() => setNeedsTap(true));
-    }
+    void video.play().catch(() => {
+      // Autoplay is optional; the static hotel remains the fallback.
+    });
+  }, []);
 
-    // Safari/iOS may quietly prevent background autoplay in Low Power Mode.
-    const fallbackTimer = window.setTimeout(() => {
-      if (video.paused || video.readyState < HTMLMediaElement.HAVE_CURRENT_DATA) {
-        setNeedsTap(true);
-      }
-    }, 2200);
-
-    return () => window.clearTimeout(fallbackTimer);
+  return () => window.clearTimeout(fallbackTimer);
   }, []);
 
   const playVideo = () => {
@@ -80,9 +69,11 @@ export function Hero() {
           preload="auto"
           className="absolute inset-0 h-full w-full object-cover object-center"
           aria-hidden
-          onPlaying={() => setNeedsTap(false)}
-          onPause={() => setNeedsTap(true)}
-          onError={() => setNeedsTap(true)}
+          onClick={() => {
+            if (videoRef.current?.paused) {
+              void videoRef.current.play().catch(() => {});
+            }
+          }}
         >
           <source src={HERO_VIDEO_MP4} type="video/mp4" />
         </video>
@@ -98,20 +89,6 @@ export function Hero() {
           }}
         />
       </div>
-
-      {/* Visible on browsers that prevent autoplay (notably iPhone Low Power Mode).
-          It also allows visitors with reduced-motion enabled to opt into video. */}
-      {needsTap && (
-        <button
-          type="button"
-          onClick={playVideo}
-          className="absolute right-5 top-24 z-30 inline-flex items-center gap-2 rounded-full border border-white/50 bg-black/60 px-4 py-2.5 text-sm font-medium text-white shadow-lg backdrop-blur-md transition-colors hover:bg-black/75 md:right-10 md:top-28"
-          aria-label="Lire la vidéo de survol de l'hôtel"
-        >
-          <span aria-hidden="true">▶</span>
-          Lire le survol
-        </button>
-      )}
 
       {/* Contenu — ancré en bas, au-dessus de la vague */}
       <div className="absolute inset-x-0 bottom-[88px] z-10 px-5 text-center md:bottom-[104px] md:px-12 lg:bottom-[112px] lg:px-16">
@@ -148,25 +125,7 @@ export function Hero() {
           en service de leurs solutions énergétiques.
         </motion.p>
 
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.42, duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
-          className="mt-7 flex flex-wrap items-center justify-center gap-3 md:mt-9 md:gap-4"
-        >
-          <Link
-            href="/contact"
-            className="inline-flex min-h-12 items-center justify-center rounded-full bg-accent px-6 py-3 text-center font-sans text-sm font-semibold text-white transition-all duration-300 hover:bg-accent/90 hover:shadow-[0_0_28px_rgba(232,118,42,0.45)] md:px-8"
-          >
-            Échanger sur votre projet
-          </Link>
-          <Link
-            href="/#offre"
-            className="inline-flex min-h-12 items-center justify-center rounded-full border border-white/30 px-6 py-3 text-center font-sans text-sm font-semibold text-white backdrop-blur-sm transition-all duration-300 hover:border-white/50 hover:bg-white/10 md:px-8"
-          >
-            Découvrir nos solutions
-          </Link>
-        </motion.div>
+
       </div>
 
       {/* Vague organique — signature visuelle hero → manifeste */}
