@@ -159,7 +159,7 @@ async function screenshot(name, viewport, theme = "light") {
   }
   const emailButton = page.getByRole("link", { name: "Nous écrire", exact: true });
   assert.equal(await emailButton.count(), 1, "Un unique lien Nous écrire sur la page Contact");
-  assert.match((await emailButton.getAttribute("href")) ?? "", /^mailto:contact@sewt-group\\.ma\\?subject=/);
+  assert.match((await emailButton.getAttribute("href")) ?? "", new RegExp("^mailto:contact@sewt-group[.]ma[?]subject="));
   assert.equal(await page.locator("main form, main dialog, main input, main textarea").count(), 0,
     "Aucun formulaire ni champ de saisie sur la page Contact");
   const legal = page.getByRole("link", { name: "Mentions légales" });
