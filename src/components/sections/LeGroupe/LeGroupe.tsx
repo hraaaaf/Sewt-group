@@ -25,8 +25,9 @@ const team = [
     role: "Directeur Développement",
     credentials: "PhD · IAV Hassan II",
     src: "/team/ndiaga-mbodji-portrait.webp",
-    position: "center 66%",
-    zoom: 1,
+    position: "center center",
+    zoom: 1.2,
+    shiftY: "10%",
   },
 ] as const;
 
@@ -122,7 +123,12 @@ export function LeGroupe() {
                     fill
                     sizes="(max-width: 639px) 90vw, (max-width: 1024px) 30vw, 19vw"
                     className="object-cover"
-                    style={{ objectPosition: person.position, transform: `scale(${person.zoom})` }}
+                    style={{
+                      objectPosition: person.position,
+                      transform: "shiftY" in person
+                        ? `translateY(${person.shiftY}) scale(${person.zoom})`
+                        : `scale(${person.zoom})`,
+                    }}
                   />
                 </div>
                 <p className="mt-3 font-display text-sm font-bold leading-snug text-fg">
