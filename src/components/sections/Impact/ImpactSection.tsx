@@ -1,7 +1,6 @@
 "use client";
 
-import { motion, useInView, useReducedMotion } from "framer-motion";
-import { useEffect, useRef, useState } from "react";
+import { motion } from "framer-motion";
 
 const benefits = [
   {
@@ -22,46 +21,6 @@ const benefits = [
   },
 ] as const;
 
-const figures = [
-  { target: 30, prefix: "+", suffix: " ans", label: "d’expérience professionnelle" },
-  { target: 200, prefix: "+", suffix: "", label: "projets livrés" },
-  { target: 50, prefix: "", suffix: " MWc", label: "en pipeline de développement" },
-] as const;
-
-/** Count-up déclenché une fois à l'apparition ; valeur complète pour les lecteurs d'écran. */
-function CountUp({ target, prefix, suffix }: { target: number; prefix: string; suffix: string }) {
-  const ref = useRef<HTMLSpanElement>(null);
-  const inView = useInView(ref, { once: true, amount: 0.6 });
-  const reduceMotion = useReducedMotion();
-  const [current, setCurrent] = useState(0);
-
-  useEffect(() => {
-    if (!inView) return;
-    if (reduceMotion) {
-      setCurrent(target);
-      return;
-    }
-
-    let frame = 0;
-    let start: number | undefined;
-    const tick = (now: number) => {
-      if (start === undefined) start = now;
-      const progress = Math.min((now - start) / 1400, 1);
-      setCurrent(Math.round(target * (1 - Math.pow(1 - progress, 3))));
-      if (progress < 1) frame = window.requestAnimationFrame(tick);
-    };
-    frame = window.requestAnimationFrame(tick);
-    return () => window.cancelAnimationFrame(frame);
-  }, [inView, reduceMotion, target]);
-
-  return (
-    <span ref={ref} className="tabular-nums">
-      <span aria-hidden="true">{prefix}{current}{suffix}</span>
-      <span className="sr-only">{prefix}{target}{suffix}</span>
-    </span>
-  );
-}
-
 function fadeUp(delay = 0) {
   return {
     initial: { opacity: 0, y: 24 },
@@ -72,7 +31,7 @@ function fadeUp(delay = 0) {
 }
 
 /**
- * Bloc unique de présentation : raison d'être, bénéfices et chiffres clés.
+ * Bloc de présentation : raison d'être et bénéfices (chiffres supprimés, Word V2 p.1).
  * Référence : Site Web SEWT.docx, pages 1–2 et 4 (quatre cartes).
  */
 export function ImpactSection() {
@@ -83,13 +42,13 @@ export function ImpactSection() {
       className="bg-bg px-5 py-20 md:px-12 md:py-28 lg:px-16 lg:py-32"
     >
       <div className="mx-auto max-w-7xl">
-        <div className="grid grid-cols-1 items-start gap-10 lg:grid-cols-12 lg:gap-14">
+        <div className="grid grid-cols-1 items-start gap-10 lg:grid-cols-12 lg:items-center lg:gap-12">
           <motion.div {...fadeUp(0.05)} className="lg:col-span-6">
             <p className="section-label">Notre raison d’être</p>
             <h2
               id="impact-heading"
               className="mt-5 font-display font-bold leading-[1.05] text-balance text-fg"
-              style={{ fontSize: "clamp(2rem, 4.6vw, 4.2rem)" }}
+              style={{ fontSize: "clamp(2rem, 4.2vw, 3.8rem)" }}
             >
               Contribuer à la compétitivité énergétique{" "}
               <span className="text-accent">du Maroc.</span>
@@ -109,7 +68,7 @@ export function ImpactSection() {
             </div>
           </motion.div>
 
-          <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:col-span-6">
+          <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:col-span-6 lg:self-center">
             {benefits.map((benefit, index) => (
               <motion.article
                 key={benefit.title}
@@ -128,25 +87,6 @@ export function ImpactSection() {
           </div>
         </div>
 
-        <motion.div
-          {...fadeUp(0.2)}
-          className="mt-12 grid grid-cols-1 gap-7 border-t border-border pt-10 sm:grid-cols-3 md:mt-16"
-          aria-label="Chiffres clés SEWT Group"
-        >
-          {figures.map((figure) => (
-            <div key={figure.label}>
-              <p
-                className="font-display font-bold leading-none text-fg"
-                style={{ fontSize: "clamp(2rem, 4vw, 3.5rem)" }}
-              >
-                <CountUp target={figure.target} prefix={figure.prefix} suffix={figure.suffix} />
-              </p>
-              <p className="mt-2 font-sans text-sm text-fg-muted">
-                {figure.label}
-              </p>
-            </div>
-          ))}
-        </motion.div>
       </div>
     </section>
   );
