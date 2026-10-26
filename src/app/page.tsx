@@ -19,17 +19,17 @@ export default function HomePage() {
         {/* 02 — Raison d’être, bénéfices et chiffres clés réunis */}
         <ImpactSection />
 
-        {/* 04 — Expertises (Distribution · EPC · O&M) */}
-        <OffreChapter />
-
-        {/* 05 — Réalisations sélectionnées */}
-        <FlagshipSlider />
-
-        {/* 08 — Histoire du groupe */}
+        {/* 03 — Timeline immédiatement après la raison d’être (document p.4) */}
         <HistoireTimeline />
 
-        {/* 09 — Le Groupe / Fondateur / Équipe / Équipements */}
+        {/* 04 — Groupe, fondateur et équipe, réunis après la timeline (p.5–6) */}
         <LeGroupe />
+
+        {/* 05 — Expertises */}
+        <OffreChapter />
+
+        {/* 06 — Réalisations et partenaires */}
+        <FlagshipSlider />
 
       </main>
 

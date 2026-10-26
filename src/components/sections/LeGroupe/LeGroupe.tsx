@@ -65,9 +65,25 @@ export function LeGroupe() {
             à la mise en service et à la maintenance.
           </p>
           <p className="mt-4 max-w-lg font-sans text-sm leading-relaxed text-fg-muted">
-            M. Ali Hajji, fondateur du groupe, développe depuis 1992 une expertise
-            énergétique au Maroc, aux côtés des équipes de projets et de développement.
+            Notre équipe terrain regroupe 2 chefs d’équipe, 6 techniciens (plomberie,
+            électricité, électrotechnique), 3 agents administratifs, 1 ingénieur HSE
+            et 3 ingénieurs spécialisés en développement de projets.
           </p>
+          <div className="mt-7 max-w-lg border-t border-border pt-6">
+            <p className="font-mono text-[11px] uppercase tracking-[0.16em] text-accent">
+              Ali Hajji · Fondateur
+            </p>
+            <p className="mt-3 font-sans text-sm leading-relaxed text-fg-muted">
+              PhD de l’Illinois Institute of Technology, M. Ali Hajji fonde
+              Energy Engineering en 1992, première structure dédiée au solaire
+              au Maroc. Il apporte plus de 30 ans d’expérience dans l’industrie
+              solaire nationale et internationale.
+            </p>
+            <blockquote className="mt-5 border-l-2 border-accent pl-4 font-display text-base font-semibold leading-snug text-fg">
+              « L’énergie n’est pas seulement une ressource, c’est
+              <span className="text-accent"> le moteur de votre compétitivité.</span> »
+            </blockquote>
+          </div>
         </motion.div>
 
         <div className="lg:col-span-7">
