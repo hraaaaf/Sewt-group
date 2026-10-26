@@ -1,15 +1,56 @@
 "use client";
 
 import { motion } from "framer-motion";
+import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 
-// SEWT Riad Taroudant — 16.75s silent H.264 background (Higgsfield hotel montage).
+// SEWT Riad Taroudant — revised 15.4s motion-first silent H.264 video.
 // Preview uses the verified CDN master. Mirror to /public/brand before production.
-const HERO_VIDEO_MP4 = "https://d2ol7oe51mr4n9.cloudfront.net/user_3Hr7zuByNIFoArCjlA8t5T2exht/1f655bb8-1325-4422-9362-e22af28e7f81.mp4";
-const HERO_POSTER = "https://d2ol7oe51mr4n9.cloudfront.net/user_3Hr7zuByNIFoArCjlA8t5T2exht/ba3b2bbf-b80c-4672-869f-0b449dc1d0c2.webp";
+const HERO_VIDEO_MP4 = "https://d2ol7oe51mr4n9.cloudfront.net/user_3Hr7zuByNIFoArCjlA8t5T2exht/6cd3a266-d078-4e5f-92ca-6d86cb36ac6a.mp4";
+const HERO_POSTER = "https://d2ol7oe51mr4n9.cloudfront.net/user_3Hr7zuByNIFoArCjlA8t5T2exht/96a26c6b-7092-4847-87e5-0d26460e0ed8.webp";
 
 export function Hero() {
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const [needsTap, setNeedsTap] = useState(false);
+
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video) return;
+
+    // Respect the visitor's accessibility preference, but permit explicit play.
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      video.pause();
+      setNeedsTap(true);
+      return;
+    }
+
+    video.muted = true;
+    const attempt = video.play();
+    if (attempt) {
+      void attempt.catch(() => setNeedsTap(true));
+    }
+
+    // Safari/iOS may quietly prevent background autoplay in Low Power Mode.
+    const fallbackTimer = window.setTimeout(() => {
+      if (video.paused || video.readyState < HTMLMediaElement.HAVE_CURRENT_DATA) {
+        setNeedsTap(true);
+      }
+    }, 2200);
+
+    return () => window.clearTimeout(fallbackTimer);
+  }, []);
+
+  const playVideo = () => {
+    const video = videoRef.current;
+    if (!video) return;
+    video.muted = true;
+    void video.play().then(
+      () => setNeedsTap(false),
+      () => setNeedsTap(true),
+    );
+  };
+
   return (
     <section
       id="hero"
@@ -30,14 +71,18 @@ export function Hero() {
         />
         {/* Vidéo loop — s'affiche par dessus une fois chargée */}
         <video
+          ref={videoRef}
           autoPlay
           muted
           loop
           playsInline
           poster={HERO_POSTER}
-          preload="metadata"
-          className="absolute inset-0 h-full w-full object-cover object-center motion-reduce:hidden"
+          preload="auto"
+          className="absolute inset-0 h-full w-full object-cover object-center"
           aria-hidden
+          onPlaying={() => setNeedsTap(false)}
+          onPause={() => setNeedsTap(true)}
+          onError={() => setNeedsTap(true)}
         >
           <source src={HERO_VIDEO_MP4} type="video/mp4" />
         </video>
@@ -53,6 +98,20 @@ export function Hero() {
           }}
         />
       </div>
+
+      {/* Visible on browsers that prevent autoplay (notably iPhone Low Power Mode).
+          It also allows visitors with reduced-motion enabled to opt into video. */}
+      {needsTap && (
+        <button
+          type="button"
+          onClick={playVideo}
+          className="absolute right-5 top-24 z-30 inline-flex items-center gap-2 rounded-full border border-white/50 bg-black/60 px-4 py-2.5 text-sm font-medium text-white shadow-lg backdrop-blur-md transition-colors hover:bg-black/75 md:right-10 md:top-28"
+          aria-label="Lire la vidéo de survol de l'hôtel"
+        >
+          <span aria-hidden="true">▶</span>
+          Lire le survol
+        </button>
+      )}
 
       {/* Contenu — ancré en bas, au-dessus de la vague */}
       <div className="absolute inset-x-0 bottom-[88px] z-10 px-5 text-center md:bottom-[104px] md:px-12 lg:bottom-[112px] lg:px-16">
