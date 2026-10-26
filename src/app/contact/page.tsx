@@ -11,7 +11,7 @@ export default function ContactPage() {
   return (
     <>
       <Navbar />
-      <main className="min-h-svh bg-bg pt-32 pb-16 snap-start snap-always">
+      <main id="main" className="min-h-svh bg-bg pt-32 pb-16 snap-start snap-always">
         <Container>
           <div className="max-w-2xl text-center mx-auto mb-16">
             <h1 className="font-display text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-fg mb-6">
