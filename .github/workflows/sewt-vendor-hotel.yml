@@ -29,6 +29,10 @@ jobs:
           curl --fail --location --retry 3 --max-time 240 --proto '=https' --proto-redir '=https' --output public/brand/hotel-riad-taroudant-hero.mp4 "$HOTEL_MP4"
           curl --fail --location --retry 3 --max-time 90 --proto '=https' --proto-redir '=https' --output public/brand/hotel-riad-taroudant-poster.webp "$HOTEL_POSTER"
           file public/brand/hotel-riad-taroudant-hero.mp4 public/brand/hotel-riad-taroudant-poster.webp
+      - name: Install ffprobe for video validation
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq ffmpeg
       - name: Verify media content, length, codec, size, and image
         run: |
           set -euo pipefail
@@ -64,8 +68,8 @@ jobs:
           t=test.read_text()
           assert t.count("6cd3a266-d078-4e5f-92ca-6d86cb36ac6a") == 1
           assert t.count("96a26c6b-7092-4847-87e5-0d26460e0ed8") == 1
-          t=t.replace(r"/6cd3a266-d078-4e5f-92ca-6d86cb36ac6a\\.mp4$", r"/hotel-riad-taroudant-hero\\.mp4$")
-          t=t.replace(r"/96a26c6b-7092-4847-87e5-0d26460e0ed8\\.webp$", r"/hotel-riad-taroudant-poster\\.webp$")
+          t=t.replace("6cd3a266-d078-4e5f-92ca-6d86cb36ac6a", "hotel-riad-taroudant-hero")
+          t=t.replace("96a26c6b-7092-4847-87e5-0d26460e0ed8", "hotel-riad-taroudant-poster")
           assert "hotel-riad-taroudant-hero" in t and "hotel-riad-taroudant-poster" in t
           test.write_text(t)
           cfg = Path("next.config.mjs")
