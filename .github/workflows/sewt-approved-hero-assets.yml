@@ -25,13 +25,15 @@ jobs:
             --output public/brand/hotel-riad-taroudant-hero.mp4
           echo '2784d02afff163668940152ec30dc209fe32c278c233cb2efd0c4587b9349894  public/brand/hotel-riad-taroudant-hero.mp4' | sha256sum -c -
           test "$(wc -c < public/brand/hotel-riad-taroudant-hero.mp4)" -eq 1952877
-          test "$(ffprobe -v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 public/brand/hotel-riad-taroudant-hero.mp4)" = '10.000000'
-      - name: Derive aligned hotel first-frame poster
+      - name: Download pre-rendered matching poster into first-party static assets
         shell: bash
         run: |
           set -euo pipefail
-          ffmpeg -nostdin -v error -y -ss 0.35 -i public/brand/hotel-riad-taroudant-hero.mp4 -frames:v 1 -c:v libwebp -quality 82 public/brand/hotel-riad-taroudant-poster.webp
-          test -s public/brand/hotel-riad-taroudant-poster.webp
+          curl --fail --location --retry 3 --max-time 45 \
+            'https://d2ol7oe51mr4n9.cloudfront.net/user_3Hr7zuByNIFoArCjlA8t5T2exht/3bef4d57-5620-44f6-a1eb-e93f7f7362dc.webp' \
+            --output public/brand/hotel-riad-taroudant-poster.webp
+          echo 'ad39e5c2d40be45ce73f038d68395bcecfc3c92b3057f10f1cd79f3ea304f49e  public/brand/hotel-riad-taroudant-poster.webp' | sha256sum -c -
+          test "$(wc -c < public/brand/hotel-riad-taroudant-poster.webp)" -eq 32568
       - name: Commit exactly two first-party media replacements
         shell: bash
         run: |
