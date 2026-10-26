@@ -28,10 +28,16 @@ export default function LegalNoticesPage() {
               </p>
               <p className="text-fg-muted">Localisation communiquée : Témara, Maroc.</p>
               <p className="text-fg-muted">Contact : <a className="text-accent underline underline-offset-4" href="mailto:contact@sewt-group.ma">contact@sewt-group.ma</a>.</p>
-              <p className="rounded-xl border border-border bg-bg-elevated/60 p-4 text-sm leading-relaxed text-fg-muted">
-                Les références d'immatriculation (RC, ICE), le siège social juridiquement
-                déclaré et l'identité du représentant légal doivent encore être confirmés
-                à partir des documents officiels de la société avant la publication définitive.
+              <dl className="grid grid-cols-1 gap-3 rounded-xl border border-border bg-bg-elevated/60 p-5 text-sm text-fg-muted sm:grid-cols-2">
+                <div><dt className="font-semibold text-fg">Registre de commerce</dt><dd>139871 — Témara</dd></div>
+                <div><dt className="font-semibold text-fg">ICE</dt><dd>003317571000039</dd></div>
+                <div><dt className="font-semibold text-fg">Capital social</dt><dd>100 000 MAD</dd></div>
+                <div><dt className="font-semibold text-fg">Forme</dt><dd>SARL</dd></div>
+              </dl>
+              <p className="text-sm leading-relaxed text-fg-muted">
+                Les références ci-dessus ont été recoupées dans des registres et
+                annuaires publics. Le siège social complet et le représentant
+                légal sont à confirmer à partir d'un extrait RC récent avant publication.
               </p>
             </section>
 

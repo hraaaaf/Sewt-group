@@ -140,10 +140,10 @@ async function screenshot(name, viewport, theme = "light") {
   await contactDialog.getByRole("button", { name: "Fermer la fenêtre de message" }).click();
   await contactDialog.waitFor({ state: "hidden" });
   assert.equal(await page.locator("main input:visible").count(), 0, "Aucun champ visible hors de la fenêtre de contact");
-  const legal = page.getByRole("link", { name: "Demander les mentions légales" });
-  const privacy = page.getByRole("link", { name: "Question sur la confidentialité" });
-  assert.match((await legal.getAttribute("href")) ?? "", /^mailto:contact@sewt-group\.ma/);
-  assert.match((await privacy.getAttribute("href")) ?? "", /^mailto:contact@sewt-group\.ma/);
+  const legal = page.getByRole("link", { name: "Mentions légales" });
+  const privacy = page.getByRole("link", { name: "Confidentialité", exact: true });
+  assert.equal(await legal.getAttribute("href"), "/mentions-legales");
+  assert.equal(await privacy.getAttribute("href"), "/confidentialite");
   const orphanAnchors = await page.locator('a[href^="#"]').evaluateAll((links) =>
     links.filter((a) => {
       const hash = a.getAttribute("href")?.slice(1);
@@ -167,10 +167,16 @@ async function screenshot(name, viewport, theme = "light") {
   assert.ok(metrics.documentWidth <= metrics.viewportWidth + 2, `${name}: overflow horizontal sur Contact ${JSON.stringify(metrics)}`);
   console.info(`${name}: UI smoke OK; contact page widths ${JSON.stringify(metrics)}`);
   if (name === "desktop") {
-    for (const route of ["/notre-histoire", "/projects/centrale-pv-carriere-industrielle"]) {
+    for (const route of ["/notre-histoire", "/projects/centrale-pv-carriere-industrielle", "/mentions-legales", "/confidentialite"]) {
       await page.goto(`${site}${route}`, { waitUntil: "domcontentloaded", timeout: 30000 });
       assert.equal(await page.locator("main#main").count(), 1, `${route}: cible skip navigation`);
       await verifySkipNavigation(page, route);
+      if (route === "/mentions-legales") {
+        assert.match((await page.locator("main").textContent()) ?? "", /003317571000039/);
+      }
+      if (route === "/confidentialite") {
+        assert.match((await page.locator("main").textContent()) ?? "", /loi marocaine n° 09-08/);
+      }
     }
   }
   await context.close();

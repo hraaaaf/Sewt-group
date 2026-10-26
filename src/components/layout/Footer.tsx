@@ -50,7 +50,7 @@ export function Footer() {
               className="h-11 w-auto object-contain dark:brightness-0 dark:invert"
             />
             <p className="mt-3 max-w-xs text-sm text-fg-muted">
-              Sun Energy and Water Technologies. EPC marocain indépendant fondé en 1992.
+              Sun Energy and Water Technologies. Des compétences au service de la transition énergétique du Maroc.
             </p>
           </div>
           {groups.map((g) => (

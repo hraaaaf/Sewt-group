@@ -88,8 +88,9 @@ const jsonLd = {
       },
       image: `${siteUrl}/opengraph-image`,
       description:
-        "EPC solaire marocain indépendant fondé en 2010. Distribution équipements tier-1, installation clé en main et exploitation & maintenance solaire pour l'industrie, l'agriculture et le secteur public.",
-      foundingDate: "2010",
+        "Entreprise marocaine spécialisée dans les études, l'installation et la maintenance de solutions d'énergie solaire pour les activités professionnelles.",
+      // Date de création de la SARL d'après les informations d'immatriculation publiques.
+      foundingDate: "2023-08-09",
       founder: {
         "@type": "Person",
         name: "Ali HAJJI",
