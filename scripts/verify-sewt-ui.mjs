@@ -28,10 +28,23 @@ async function screenshot(name, viewport) {
   assert.equal(await page.locator("#roi").count(), 0);
   await page.locator('header img[alt="SEWT Group"]').waitFor({ state: "visible" });
 
-  for (const section of ["#impact", "#offre", "#flagship", "#histoire", "#le-groupe"]) {
+  for (const section of ["#impact", "#offre", "#flagship", "#preuve", "#histoire", "#le-groupe"]) {
     await page.locator(section).scrollIntoViewIfNeeded();
     await page.waitForTimeout(220);
   }
+  // The partner marquee is animated only when it enters the viewport.
+  // Check real image loading before the full-page snapshot so it does not look empty.
+  await page.locator("#preuve").scrollIntoViewIfNeeded();
+  await page.waitForFunction(() => {
+    const images = [...document.querySelectorAll("#preuve [data-marquee-root] img")];
+    return images.length >= 12 && images.some((img) => img.complete && img.naturalWidth > 0);
+  }, { timeout: 12000 });
+  const loadedPartnerLogos = await page.locator("#preuve [data-marquee-root] img").evaluateAll(
+    (imgs) => imgs.filter((img) => img.complete && img.naturalWidth > 0).length,
+  );
+  assert.ok(loadedPartnerLogos > 0, "Le bandeau partenaires doit afficher les logos existants");
+  await page.waitForTimeout(350);
+
   await page.locator("#hero").scrollIntoViewIfNeeded();
   await page.waitForTimeout(250);
 
