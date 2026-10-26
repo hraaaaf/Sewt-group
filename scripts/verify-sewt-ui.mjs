@@ -56,6 +56,18 @@ async function screenshot(name, viewport, theme = "light") {
     "Hero : le micro-slogan hérité mais retiré à la demande du propriétaire doit être absent");
   // Les deux CTA sont rétablis selon la validation Word 5/32.
   assert.equal(await page.locator("#offre article").count(), 3);
+  assert.equal((await page.locator("#le-groupe .section-label").first().textContent())?.trim(), "Le Groupe");
+  assert.match((await page.locator("#le-groupe-heading").textContent()) ?? "", /Une direction expérimentée[.]\s*Une équipe qualifiée[.]/);
+  assert.equal((await page.locator("#le-groupe-heading .text-accent").textContent())?.trim(), "qualifiée.");
+  const groupContent = (await page.locator("#le-groupe").textContent()) ?? "";
+  assert.doesNotMatch(groupContent, /Notre équipe terrain regroupe|Ambemar Maroc/i, "Ni l'ancien paragraphe ni le client ne doivent apparaître");
+  assert.match(groupContent, /Ingénieur de l’Ecole Centrale de Paris, M[.] Ali Hajji fonde/);
+  const teamImage = page.locator("#le-groupe img").first();
+  assert.equal((await teamImage.getAttribute("alt"))?.includes("Ambemar"), false, "Client exclu du texte alternatif");
+  assert.match((await teamImage.getAttribute("style")) ?? "", /object-position:/);
+  const expertisesHeading = page.locator("#offre-heading");
+  assert.equal((await expertisesHeading.locator(".text-accent").textContent())?.trim(), "énergétiques.");
+  assert.match((await page.locator("#offre").textContent()) ?? "", /nos services se\s+complémentent pour répondre aux besoins de votre site/);
   for (const chapter of ["#offre", "#histoire"]) {
     const color = await page.locator(chapter).evaluate((node) =>
       getComputedStyle(node).backgroundColor,
@@ -88,6 +100,23 @@ async function screenshot(name, viewport, theme = "light") {
         return node && Number(getComputedStyle(node).opacity) > 0.99;
       }, { selector, index });
     }
+  }
+
+  // These are the three exact user-supplied images extracted from Word 2 pages 4–5.
+  const expertiseFiles = [
+    "word2-photovoltaique.jpg",
+    "word2-solaire-thermique.jpg",
+    "word2-exploitation-maintenance.jpg",
+  ];
+  for (let index = 0; index < expertiseFiles.length; index++) {
+    const img = page.locator("#offre article").nth(index).locator("img");
+    const src = decodeURIComponent((await img.getAttribute("src")) ?? "");
+    assert.ok(src.includes("/projects/" + expertiseFiles[index]), "Exact image Word V2 for expertise " + (index+1));
+    await img.scrollIntoViewIfNeeded();
+    await page.waitForFunction((i) => {
+      const image = document.querySelectorAll("#offre article img")[i];
+      return image?.complete && image.naturalWidth > 0;
+    }, index, { timeout: 20000 });
   }
 
   // Verify each team portrait and the field photo in the actual mobile viewport.
