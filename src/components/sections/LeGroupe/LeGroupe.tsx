@@ -24,8 +24,8 @@ const team = [
     name: "Ndiaga Mbodji",
     role: "Directeur Développement",
     credentials: "PhD · IAV Hassan II",
-    src: "/team/ndiaga-mbodji.jpg",
-    position: "center 20%",
+    src: "/team/ndiaga-mbodji-portrait.webp",
+    position: "center center",
     zoom: 1,
   },
 ] as const;
