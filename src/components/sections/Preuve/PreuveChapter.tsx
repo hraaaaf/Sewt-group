@@ -64,7 +64,7 @@ export function PreuveChapter() {
                   alt={p.name}
                   loading="lazy"
                   decoding="async"
-                  className="h-10 w-auto max-w-[96px] object-contain grayscale opacity-60 hover:grayscale-0 hover:opacity-100 transition-all duration-400"
+                  className="h-11 w-auto max-w-[110px] object-contain grayscale opacity-85 hover:grayscale-0 hover:opacity-100 transition-all duration-300"
                 />
               ) : (
                 <span className="font-display text-xs font-bold text-fg-subtle text-center">
