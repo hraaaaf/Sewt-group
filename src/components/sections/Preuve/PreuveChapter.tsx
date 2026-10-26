@@ -9,14 +9,14 @@ export function PreuveChapter() {
     <div
       id="preuve"
       aria-label="Références clients SEWT Group"
-      className="mt-14 border-t border-border/60 pt-12 md:mt-20 md:pt-16"
+      className="mt-10 border-t border-border/60 pt-9 md:mt-14 md:pt-12"
     >
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
         transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-        className="mb-8 text-center"
+        className="mb-7 text-center"
       >
         <p className="inline-flex items-center gap-2 font-mono text-[0.65rem] uppercase tracking-[0.22em] text-fg-subtle">
           <span className="text-accent" aria-hidden>○</span>
@@ -45,17 +45,17 @@ export function PreuveChapter() {
         {/* Fades bords */}
         <div
           aria-hidden
-          className="pointer-events-none absolute inset-y-0 left-0 z-10 w-20 bg-gradient-to-r from-bg to-transparent"
+          className="pointer-events-none absolute inset-y-0 left-0 z-10 w-8 bg-gradient-to-r from-bg to-transparent md:w-14"
         />
         <div
           aria-hidden
-          className="pointer-events-none absolute inset-y-0 right-0 z-10 w-20 bg-gradient-to-l from-bg to-transparent"
+          className="pointer-events-none absolute inset-y-0 right-0 z-10 w-8 bg-gradient-to-l from-bg to-transparent md:w-14"
         />
-        <Marquee speed={28} pauseOnHover>
+        <Marquee speed={38} pauseOnHover>
           {partners.map((p) => (
             <div
               key={p.name}
-              className="mx-8 flex h-16 w-28 items-center justify-center"
+              className="mx-3 flex h-24 w-36 shrink-0 items-center justify-center sm:mx-5 sm:h-28 sm:w-44"
             >
               {p.logoSrc ? (
                 // eslint-disable-next-line @next/next/no-img-element
@@ -64,7 +64,7 @@ export function PreuveChapter() {
                   alt={p.name}
                   loading="lazy"
                   decoding="async"
-                  className="h-11 w-auto max-w-[110px] object-contain grayscale opacity-85 hover:grayscale-0 hover:opacity-100 transition-all duration-300"
+                  className="max-h-20 w-auto max-w-[140px] object-contain opacity-100 transition-transform duration-300 hover:scale-105 sm:max-h-24 sm:max-w-[170px]"
                 />
               ) : (
                 <span className="font-display text-xs font-bold text-fg-subtle text-center">
