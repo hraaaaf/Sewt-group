@@ -7,6 +7,15 @@ const site = process.env.SEWT_UI_BASE_URL ?? "http://127.0.0.1:3100";
 const browser = await chromium.launch({ headless: true });
 await mkdir("test-artifacts", { recursive: true });
 
+async function verifySkipNavigation(page, label) {
+  await page.keyboard.press("Tab");
+  const focused = await page.evaluate(() => document.activeElement?.getAttribute("href"));
+  assert.equal(focused, "#main", `${label}: lien d'évitement du contenu accessible au clavier`);
+  await page.keyboard.press("Enter");
+  assert.equal(new URL(page.url()).hash, "#main", `${label}: cible du lien d'évitement`);
+  assert.equal(await page.locator("main#main").count(), 1, `${label}: main#main unique`);
+}
+
 async function screenshot(name, viewport, theme = "light") {
   const context = await browser.newContext({
     viewport,
@@ -25,6 +34,7 @@ async function screenshot(name, viewport, theme = "light") {
     document.documentElement.classList.contains("dark") === (value === "dark"),
     theme,
   );
+  await verifySkipNavigation(page, `${name} accueil`);
   assert.equal(await page.locator("#hero video").count(), 1, "La vidéo originale du Hero doit rester visible");
   assert.match((await page.locator("#hero-heading").textContent()) ?? "", /Sun\.\s*Power\./);
   await page.getByRole("link", { name: "Échanger sur votre projet" }).waitFor({ state: "visible" });
@@ -100,6 +110,7 @@ async function screenshot(name, viewport, theme = "light") {
   );
   assert.notEqual(headerBg, "rgba(0, 0, 0, 0)", "La navigation interne doit avoir un fond");
   assert.notEqual(headerBg, "transparent", "La navigation interne ne doit pas être transparente");
+  await verifySkipNavigation(page, `${name} contact`);
   await page.getByRole("link", { name: "Parler de mon projet" }).first().waitFor({
     state: viewport.width >= 768 ? "visible" : "hidden",
   });
@@ -142,6 +153,13 @@ async function screenshot(name, viewport, theme = "light") {
   }));
   assert.ok(metrics.documentWidth <= metrics.viewportWidth + 2, `${name}: overflow horizontal sur Contact ${JSON.stringify(metrics)}`);
   console.info(`${name}: UI smoke OK; contact page widths ${JSON.stringify(metrics)}`);
+  if (name === "desktop") {
+    for (const route of ["/notre-histoire", "/projects/centrale-pv-carriere-industrielle"]) {
+      await page.goto(`${site}${route}`, { waitUntil: "domcontentloaded", timeout: 30000 });
+      assert.equal(await page.locator("main#main").count(), 1, `${route}: cible skip navigation`);
+      await verifySkipNavigation(page, route);
+    }
+  }
   await context.close();
 }
 
