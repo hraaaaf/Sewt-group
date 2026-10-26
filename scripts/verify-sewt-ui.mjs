@@ -41,12 +41,15 @@ async function screenshot(name, viewport, theme = "light") {
   assert.equal(await media.getAttribute("muted"), "", "Hero silencieux conservé");
   assert.equal(await media.getAttribute("loop"), "", "Hero en boucle conservé");
   assert.equal(await media.getAttribute("playsinline"), "", "Hero compatible avec iOS");
-  assert.match(await media.locator("source").getAttribute("src") ?? "", /\/hotel-riad-taroudant-hero\.mp4$/);
+  assert.match(await media.locator("source").getAttribute("src") ?? "", /\/hero-video\.mp4$/);
   assert.match(await media.getAttribute("poster") ?? "", /\/hotel-riad-taroudant-poster\.webp$/);
   assert.equal(await page.locator("#hero a").count(), 2, "Les deux CTA du Hero doivent être visibles");
   assert.equal((await page.locator('#hero a[href="/contact"]').textContent())?.trim(), "Échanger sur votre projet");
   assert.equal((await page.locator('#hero a[href="/#offre"]').textContent())?.trim(), "Découvrir nos solutions");
-  assert.match((await page.locator("#hero-heading").textContent()) ?? "", /Sun\.\s*Power\./);
+  assert.deepEqual((await page.locator("#hero-heading > span").allTextContents()).map((s) => s.trim()), ["Sun.", "Power.", "People."]);
+  assert.equal(await page.locator("#hero-heading").evaluate((e) => getComputedStyle(e).textAlign), "left", "Hero title aligned left");
+  assert.equal(await page.locator("header a").filter({ hasText: "Impact" }).count(), 0, "Impact removed from nav");
+  assert.equal(await page.locator('#impact [aria-label="Chiffres clés SEWT Group"]').count(), 0, "Word V2 removes KPI counters");
   assert.doesNotMatch((await page.locator("#hero").textContent()) ?? "", /Groupe énergétique marocain/i,
     "Hero : le micro-slogan hérité mais retiré à la demande du propriétaire doit être absent");
   // Les deux CTA sont rétablis selon la validation Word 5/32.
@@ -69,7 +72,6 @@ async function screenshot(name, viewport, theme = "light") {
   // Full-page screenshots do not trigger every whileInView animation on narrow screens.
   // Reveal each animated card and the KPI block at its actual viewport position.
   for (const selector of [
-    '#impact [aria-label="Chiffres clés SEWT Group"]',
     "#histoire ol > li",
     "#offre article",
   ]) {
@@ -84,14 +86,6 @@ async function screenshot(name, viewport, theme = "light") {
       }, { selector, index });
     }
   }
-
-  // Count-up : le contexte QA demande moins d'animations, donc les valeurs finales
-  // doivent apparaître lorsque les chiffres entrent dans le viewport.
-  await page.waitForFunction(() => {
-    const values = [...document.querySelectorAll('#impact [aria-label="Chiffres clés SEWT Group"] .tabular-nums [aria-hidden="true"]')]
-      .map((node) => node.textContent?.trim());
-    return JSON.stringify(values) === JSON.stringify(["+30 ans", "+200", "50 MWc"]);
-  });
 
   // Verify each team portrait and the field photo in the actual mobile viewport.
   // A full-page screenshot alone does not trigger Framer Motion whileInView.
