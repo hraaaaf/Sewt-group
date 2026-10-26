@@ -26,8 +26,14 @@ export default function LegalNoticesPage() {
                 SEWT Group — Sun Energy and Water Technologies Group, société à responsabilité
                 limitée (SARL), exerçant des activités d'études et de solutions énergétiques.
               </p>
-              <p className="text-fg-muted">Localisation communiquée : Témara, Maroc.</p>
-              <p className="text-fg-muted">Contact : <a className="text-accent underline underline-offset-4" href="mailto:contact@sewt-group.ma">contact@sewt-group.ma</a>.</p>
+              <p className="text-fg-muted">
+                Siège et localisation de l'entreprise : Témara, Maroc.
+              </p>
+              <p className="text-fg-muted">
+                E-mail : <a className="text-accent underline underline-offset-4" href="mailto:contact@sewt-group.ma">contact@sewt-group.ma</a>.
+                {" "}Téléphone : <a className="text-accent underline underline-offset-4" href="tel:+212661117155">(+212) 661 117 155</a>.
+                {" "}Fax : (+212) 537 741 233.
+              </p>
               <dl className="grid grid-cols-1 gap-3 rounded-xl border border-border bg-bg-elevated/60 p-5 text-sm text-fg-muted sm:grid-cols-2">
                 <div><dt className="font-semibold text-fg">Registre de commerce</dt><dd>139871 — Témara</dd></div>
                 <div><dt className="font-semibold text-fg">ICE</dt><dd>003317571000039</dd></div>
@@ -35,9 +41,8 @@ export default function LegalNoticesPage() {
                 <div><dt className="font-semibold text-fg">Forme</dt><dd>SARL</dd></div>
               </dl>
               <p className="text-sm leading-relaxed text-fg-muted">
-                Les références ci-dessus ont été recoupées dans des registres et
-                annuaires publics. Le siège social complet et le représentant
-                légal sont à confirmer à partir d'un extrait RC récent avant publication.
+                L'entreprise exerce des activités d'études, d'ingénierie et de réalisation
+                de solutions énergétiques et solaires au Maroc.
               </p>
             </section>
 
@@ -48,12 +53,9 @@ export default function LegalNoticesPage() {
                 440 N Barranca Ave #4133, Covina, CA 91723, États-Unis.
               </p>
               <p className="text-sm leading-relaxed text-fg-muted">
-                Pour les renseignements relatifs à cet hébergeur, consulter{" "}
                 <a className="text-accent underline underline-offset-4" href="https://vercel.com/legal" target="_blank" rel="noopener noreferrer">
-                  ses informations légales
+                  Informations légales de l'hébergeur
                 </a>.
-                La région effective et les flux de données applicables à la version
-                mise en production feront l'objet d'une vérification distincte.
               </p>
             </section>
 
