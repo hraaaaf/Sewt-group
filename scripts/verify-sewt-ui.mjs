@@ -62,6 +62,25 @@ async function screenshot(name, viewport, theme = "light") {
     await page.locator(section).scrollIntoViewIfNeeded();
     await page.waitForTimeout(220);
   }
+  // Full-page screenshots do not trigger every whileInView animation on narrow screens.
+  // Reveal each animated card and the KPI block at its actual viewport position.
+  for (const selector of [
+    '#impact [aria-label="Chiffres clés SEWT Group"]',
+    "#histoire ol > li",
+    "#offre article",
+  ]) {
+    const elements = page.locator(selector);
+    const count = await elements.count();
+    assert.ok(count > 0, `Animated QA target missing: ${selector}`);
+    for (let index = 0; index < count; index++) {
+      await elements.nth(index).scrollIntoViewIfNeeded();
+      await page.waitForFunction(({ selector, index }) => {
+        const node = document.querySelectorAll(selector)[index];
+        return node && Number(getComputedStyle(node).opacity) > 0.99;
+      }, { selector, index });
+    }
+  }
+
   // Verify each team portrait and the field photo in the actual mobile viewport.
   // A full-page screenshot alone does not trigger Framer Motion whileInView.
   await page.locator("#le-groupe-heading").scrollIntoViewIfNeeded();
