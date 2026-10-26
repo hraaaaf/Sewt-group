@@ -4,7 +4,7 @@
 
 **Validation client** : « Je valide les afters ! » — accord sur la direction visuelle, **sans transformer les demandes encore manquantes en tâches accomplies**.
 
-**Bilan** : 32 points documentés — **28 conformes/adaptés**, **3 écarts/partiels**, **1 différé**. La conformité correspond à la demande visuelle ou éditoriale et ne vaut pas validation juridique ou envoi réel d'e-mails.
+**Bilan actualisé** : 32 points documentés — **30 conformes/adaptés**, **1 activation technique restante (e-mail)**, **1 différé (villa → hôtel)**. La conformité correspond à la demande visuelle ou éditoriale et ne vaut pas validation juridique ou envoi réel d'e-mails.
 
 | # | Page | Demande précise | Statut | Preuve / réserve |
 |---:|:---:|---|---|---|
@@ -28,30 +28,31 @@
 | 18 | 4 | Réutiliser le paragraphe validé de p.1 | ✅ Conforme | Paragraphe intégré sans doublon éditorial |
 | 19 | 4 | Conserver quatre boîtes et réduire leur taille | ✅ Conforme visuellement | Quatre cartes compactes à droite comme sur le modèle illustré ; le texte du Word parle de gauche |
 | 20 | 4 | Conserver la timeline 1992–2023 | ✅ Conforme | Les cinq jalons sont conservés et affichés |
-| 21 | 4 | Placer la timeline juste après le nouveau paragraphe de raison d’être | ⚠️ Écart d’ordre | Accueil actuel : Raison d’être → Expertises → Projets + partenaires → Timeline → Équipe, donc pas immédiatement après la raison d’être |
+| 21 | 4 | Placer la timeline juste après le nouveau paragraphe de raison d’être | ✅ Conforme | Timeline immédiatement après Raison d’être ; équipe juste derrière, commit 9cb0495, captures desktop/mobile contrôlées |
 | 22 | 5 | Insérer le bandeau « Références & partenaires » dans Projets réalisés | ✅ Conforme | PreuveChapter est un enfant de FlagshipSlider ; chargement des logos testé |
-| 23 | 5 | Fusionner portrait du fondateur, dirigeants et équipe de terrain | ⚠️ Partiel éditorial | Présentation + 3 portraits réunis ; le long texte/citation du fondateur figurant dans la capture 10 a été condensé plutôt que repris intégralement |
+| 23 | 5 | Fusionner portrait du fondateur, dirigeants et équipe de terrain | ✅ Conforme | Biographie détaillée, équipes terrain, formation IIT, Energy Engineering 1992 et citation du fondateur restaurées sans séparer la composition p.6 |
 | 24 | 6 | Disposition de la capture APRÈS (13) : texte gauche, terrain en haut droite, portraits dessous | ✅ Conforme | Image de chantier et 3 portraits affichés en grille desktop ; mobile adapté, approuvé visuellement |
 | 25 | 6 | Supprimer section « Des équipements de qualité... » | ✅ Conforme | Bloc fournisseurs supprimé de l'accueil |
 | 26 | 7 | Supprimer section « Pré-évaluez le potentiel solaire de votre site » | ✅ Conforme | RoiSimulator n'est plus rendu sur la home ; code préservé |
 | 27 | 7 | Adresse : seulement Témara, Maroc | ✅ Conforme | Résidence Islah retirée de la page Contact |
 | 28 | 7 | Nouveau texte « Chaque site a ses contraintes... » | ✅ Conforme | Texte intégral présent dans /contact |
 | 29 | 7 | Supprimer les champs de saisie, ne garder que « Nous écrire » | ✅ Conforme côté interface | Formulaire visible retiré ; bouton mailto et coordonnées restent |
-| 30 | 7 | « Nous écrire » pour envoyer un mail automatiquement | ⚠️ Non réalisé techniquement | mailto ouvre une application mail ; aucun envoi serveur/réception confirmée. L'intégration Resend a été explicitement différée |
+| 30 | 7 | « Nous écrire » pour envoyer un mail automatiquement | ⚠️ Préparé, activation en attente | Bouton seul sur Contact → boîte de dialogue e-mail/message → API sécurisée → Resend ou webhook ; envoi réel exige secrets privés, domaine vérifié et boîte destinataire active |
 | 31 | 7 | Carte 01 « Comprendre vos usages » et texte | ✅ Conforme | Carte ajoutée sur /contact |
 | 32 | 8 | Cartes 02 et 03 : « Étudier la solution », « Installer et accompagner » | ✅ Conforme | Titres/descriptions intégralement repris |
 
-## Actions non closes
+## Corrections effectuées à la demande du propriétaire (26 octobre 2026)
 
-- [ ] **P.1 — Villa → hôtel** : action volontairement **reportée**, à réaliser dans le bloc correctement identifié, **sans remplacer la vidéo du Hero** ni faire passer un projet résidentiel pour l'hôtel.
-- [ ] **P.4 — Emplacement timeline** : le document dit « juste après » le paragraphe de raison d'être, alors que le site intercale les expertises et projets. **À arbitrer avant réordonnancement**, car le propriétaire vient de valider les « afters ».
-- [ ] **P.5 — Contenu d'Ali Hajji** : confirmer si l'ancien long texte/citation de fondateur doit réellement être préservé, ou si le résumé actuel dans la composition p.6 « après » suffit. Son aspect visuel est approuvé.
-- [ ] **P.7 — Envoi automatique** : le bouton `mailto:` ne déclenche pas une livraison automatique. Aucun service destinataire/boutique d'email n'est prouvé ; Resend et secrets restent **différés** sur demande du propriétaire.
-- [ ] **Avant publication du site** : confirmer les coordonnées de réception, traiter les textes complets « Mentions légales » et « Confidentialité » (le footer actuel propose des liens mailto, pas des documents de conformité), puis validation finale.
-- [ ] **Clôture** : demander une autorisation explicite avant merge `main` et déploiement Vercel, non autorisés pour le moment.
-- [ ] **SÉCURITÉ OBLIGATOIRE** : une fois la roadmap réellement achevée, remettre le dépôt GitHub actuellement PUBLIC en **PRIVATE** et vérifier la visibilité via GitHub. Ne pas supposer qu'une alerte seule le fait.
+- [x] **P.4 — Ordre timeline** : [commit 9cb0495](https://github.com/hraaaaf/Sewt-group/commit/9cb0495afd79e34ece18e2f5b08701b458292fbf). Raison d’être → Timeline → Équipe réunie → Expertises → Projets.
+- [x] **P.5 — Bio et citation fondateur** : même commit, restauration du contenu détaillé d’Ali Hajji dans la partie gauche du layout « après », sans recréer de section séparée.
+- [x] **P.7 — Code d’envoi intégré** : [commit 4688c71](https://github.com/hraaaaf/Sewt-group/commit/4688c713999dac7e0d4897194e30c4a05b88f9ae) (transport serveur Resend, CSRF, rate limit, tests), [41a755a](https://github.com/hraaaaf/Sewt-group/commit/41a755ab0aee350f42594214066880f53b6fbfd1) et [72b98d4](https://github.com/hraaaaf/Sewt-group/commit/72b98d404a4c93d18f33735ae35efab2f06de322) (dialogue contact, test navigateur), [69c6510](https://github.com/hraaaaf/Sewt-group/commit/69c65104f2b8760be03098cc56fca0cfd74a417d) (test champs visibles). [CI #40252531264](https://github.com/hraaaaf/Sewt-group/actions/runs/40252531264) entièrement verte. **Pas d’envoi réel prouvé, aucune configuration fournisseur activée.**
+- [ ] **P.7 — Activation et preuve de réception** : confirmer `contact@sewt-group.ma`, vérifier le domaine émetteur Resend, mettre `RESEND_API_KEY`, `RESEND_FROM_EMAIL`, `CONTACT_RECIPIENT_EMAIL`, `UPSTASH_REDIS_REST_URL`, `UPSTASH_REDIS_REST_TOKEN` dans l'environnement **sans aucun secret GitHub/chat**, puis tester la réception/bounces dans un environnement autorisé. Aucune fusion/déploiement sans feu vert.
+- [ ] **P.1 — Villa → hôtel** : report explicitement demandé ; ne pas toucher au film du Hero.
+- [ ] **Juridique** : finaliser mentions légales et confidentialité avant publication.
+- [ ] **Clôture** : approbation du propriétaire puis passage obligatoire du dépôt GitHub actuellement PUBLIC à PRIVATE après la dernière étape de la roadmap. La surveillance seule ne le fait pas.
 
-## Observations annexes, hors document client
+## Contrôles
 
-- Les métadonnées structurées du site évoquent parfois la date de fondation 2010, alors que la timeline du groupe démarre en 1992. Faire valider la distinction société vs expérience du groupe avant modification.
-- La CI exécute pnpm/typecheck/tests contact/build/Playwright sur la branche, **pas une preuve de livraison d'e-mails ou d'approbation réglementaire**.
+- Captures bureau, tablette et mobile comparées, après corrections [CI #40252531264](https://github.com/hraaaaf/Sewt-group/actions/runs/40252531264).
+- Fournisseur d'email simulé dans les tests d’intégration uniquement ; succès API ≠ preuve de réception du message.
+- PR #2 en brouillon ; `main` et Vercel non modifiés.
