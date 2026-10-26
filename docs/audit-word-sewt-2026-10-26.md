@@ -4,13 +4,13 @@
 
 **Validation client** : « Je valide les afters ! » — accord sur la direction visuelle, **sans transformer les demandes encore manquantes en tâches accomplies**.
 
-**Bilan actualisé** : 32 points documentés — **30 conformes/adaptés**, **1 activation technique restante (e-mail)**, **1 différé (villa → hôtel)**. La conformité correspond à la demande visuelle ou éditoriale et ne vaut pas validation juridique ou envoi réel d'e-mails.
+**Bilan actualisé** : 32 points documentés — **31 conformes/adaptés**, **1 activation technique restante (e-mail Resend)**, **aucune photo séparée à remplacer**. La conformité correspond à la demande visuelle ou éditoriale et ne vaut pas validation juridique ou envoi réel d'e-mails.
 
 | # | Page | Demande précise | Statut | Preuve / réserve |
 |---:|:---:|---|---|---|
 | 1 | 1 | Centrer le texte du Hero | ✅ Conforme | Hero centré en desktop/mobile dans les captures |
 | 2 | 1 | Remplacer le titre par « Sun. Power. People », en blanc | ✅ Conforme | Titre du Hero en blanc ; vidéo initiale conservée |
-| 3 | 1 | Photo de l’hôtel à la place de la villa | ⏸️ Reporté | Différé à la demande du propriétaire ; ne PAS toucher à la vidéo du Hero ni mélanger les fiches projets |
+| 3 | 1 | Clarification : vidéo de villa → vidéo de l’hôtel dans le Hero | ✅ Conforme | Le propriétaire confirme que la demande concernait la vidéo et qu'elle fonctionne sur iPhone ; MP4 H.264 de 15,38 s (3 236 323 octets) et poster copiés sous public/brand, références locales intégrées |
 | 4 | 1 | Nouveau paragraphe du Hero, texte complet | ✅ Conforme | Texte vérifié dans Hero.tsx et visible |
 | 5 | 1 | Deux CTA alignés et nouveaux libellés | ✅ Conforme | « Échanger sur votre projet » / « Découvrir nos solutions » |
 | 6 | 1 | « Contribuer à la transition énergétique du Royaume » | ✅ Conforme (hiérarchie adaptée) | Texte conservé comme sous-titre du bloc Raison d’être, l'intitulé principal retenu étant celui de p.4 |
@@ -47,7 +47,7 @@
 - [x] **P.5 — Bio et citation fondateur** : même commit, restauration du contenu détaillé d’Ali Hajji dans la partie gauche du layout « après », sans recréer de section séparée.
 - [x] **P.7 — Code d’envoi intégré** : [commit 4688c71](https://github.com/hraaaaf/Sewt-group/commit/4688c713999dac7e0d4897194e30c4a05b88f9ae) (transport serveur Resend, CSRF, rate limit, tests), [41a755a](https://github.com/hraaaaf/Sewt-group/commit/41a755ab0aee350f42594214066880f53b6fbfd1) et [72b98d4](https://github.com/hraaaaf/Sewt-group/commit/72b98d404a4c93d18f33735ae35efab2f06de322) (dialogue contact, test navigateur), [69c6510](https://github.com/hraaaaf/Sewt-group/commit/69c65104f2b8760be03098cc56fca0cfd74a417d) (test champs visibles). [CI #40252531264](https://github.com/hraaaaf/Sewt-group/actions/runs/40252531264) entièrement verte. **Pas d’envoi réel prouvé, aucune configuration fournisseur activée.**
 - [ ] **P.7 — Activation et preuve de réception** : confirmer `contact@sewt-group.ma`, vérifier le domaine émetteur Resend, mettre `RESEND_API_KEY`, `RESEND_FROM_EMAIL`, `CONTACT_RECIPIENT_EMAIL`, `UPSTASH_REDIS_REST_URL`, `UPSTASH_REDIS_REST_TOKEN` dans l'environnement **sans aucun secret GitHub/chat**, puis tester la réception/bounces dans un environnement autorisé. Aucune fusion/déploiement sans feu vert.
-- [ ] **P.1 — Villa → hôtel** : report explicitement demandé ; ne pas toucher au film du Hero.
+- [x] **P.1 — Vidéo villa → hôtel** : confusion résolue par le propriétaire, lecture iPhone validée ; MP4 réel et poster intégrés dans public/brand. Aucun changement d'une photo distincte n'est prévu.
 - [ ] **Juridique** : finaliser mentions légales et confidentialité avant publication.
 - [ ] **Clôture** : approbation du propriétaire puis passage obligatoire du dépôt GitHub actuellement PUBLIC à PRIVATE après la dernière étape de la roadmap. La surveillance seule ne le fait pas.
 
@@ -56,3 +56,11 @@
 - Captures bureau, tablette et mobile comparées, après corrections [CI #40252531264](https://github.com/hraaaaf/Sewt-group/actions/runs/40252531264).
 - Fournisseur d'email simulé dans les tests d’intégration uniquement ; succès API ≠ preuve de réception du message.
 - PR #2 en brouillon ; `main` et Vercel non modifiés.
+
+## Vérifications finales des livrables (26/10/2026)
+
+- MP4 H.264 Hôtel Riad Taroudant : `public/brand/hotel-riad-taroudant-hero.mp4`, 3 236 323 octets, 15,38 s, 1280×720, SHA-256 `720933360426330657b3b3c60e22d9592bef4f0af173acafbb4d3e209a9b4be9`. Poster : `public/brand/hotel-riad-taroudant-poster.webp`. Téléchargés et validés par [Actions #40302161362](https://github.com/hraaaaf/Sewt-group/actions/runs/40302161362), commit bot `4fd9f82`.
+- Pages `/mentions-legales` et `/confidentialite` créées, liées au footer et à la fenêtre Contact ; RC **139871** / ICE **003317571000039** recoupés avec données publiques et documentation sous `docs/legal-cndp-verifications.md`.
+- Envoi Resend : code sécurisé existant, destination `CONTACT_RECIPIENT_EMAIL=contact@sewt-group.ma` ajoutée à Vercel Preview + Production. **API key `RESEND_API_KEY`, domaine expéditeur `RESEND_FROM_EMAIL`, réception réelle, formalités CNDP et conservation restent à valider.** Aucun message réel envoyé.
+- Nouvel environnement de revue : Preview Vercel du commit `54b04b4` créée séparément de la Production, test en cours. Pas de merge/main ni de déploiement en Production.
+- Dépôt PUBLIC temporairement ; **retour obligatoire PRIVATE** à clôture de la roadmap.

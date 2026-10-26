@@ -8,7 +8,7 @@
 ## Décisions actées
 
 - **Logo : version couleur** `This_Appeal-CL-1-Sans_logo-Fond_transparent.png` (orange + bleu marine, transparence) ; utiliser un recadrage aux pixels utiles pour éviter les immenses marges transparentes. Variante monochrome blanche pour fond sombre si nécessaire. Original fourni dans le ZIP client `This_Appeal-NB-1-Sans_logo-Fond_transparent.zip`. Vérifier netteté, proportion, alt, menu mobile et contraste sur fond clair/foncé.
-- **Photo de l'hôtel : déjà présente dans le dépôt** sous `public/projects/hotel-riad-taroudant.jpg`, référencée par `src/data/projects.ts` (autre photo existante `public/projects/hotel-90-kwc.jpg`). **À TRAITER ULTÉRIEUREMENT** : localiser précisément la vignette de villa visée, puis placer l'image hôtel au bon endroit. Ne pas changer la vidéo du Hero et ne pas attribuer la photo de l'hôtel à une fiche de projet résidentiel.
+- **Photo de l'hôtel : déjà présente dans le dépôt** sous `public/projects/hotel-riad-taroudant.jpg`, référencée par `src/data/projects.ts` (autre photo existante `public/projects/hotel-90-kwc.jpg`). **Clarification du propriétaire le 26/10 : il parlait de la vidéo du Hero, et non d'une autre photo de villa.** Vidéo hôtel H.264 15,38 s téléchargée et intégrée dans `public/brand/hotel-riad-taroudant-hero.mp4` (3 236 323 octets) avec poster local. Ne pas inventer un second remplacement photo.
 - **« Ressembler à ça » signifie reprendre la disposition de l'exemple « après » de la page 6 (image n°13)** : bloc de présentation à gauche, visuel horizontal de l'équipe Ambemar en haut à droite, trois portraits alignés en dessous. Les visuels « avant » des pages 5–6 sont les images 10, 11 et 12. Objectif : une section unique après la timeline, **pas** trois pages séparées.
 - **Les demandes commerciales / Resend sont secondaires.** La page de contact souhaitée dans le retour client comporte uniquement un bouton `Nous écrire` lançant le logiciel de messagerie via `mailto:` ; préserver le code sécurisé de réception existant mais ne pas activer de webhook ni de service de mail tant que non décidé. Conserver la possibilité d'un formulaire en évolution ultérieure, sans l'imposer dans l'interface.
 
@@ -16,7 +16,7 @@
 
 ### Lot 0 — Sauvegarde et repérage [À faire]
 - [ ] Conserver le snapshot restauré du déploiement du 16/06/2026 et les commits de récupération ; éviter de rebâtir le site de zéro.
-- [ ] Cartographier les 16 captures dans les composants réels de la home et vérifier les vues bureau/mobile et modes clair/sombre. Le repérage villa → hôtel est **reporté** (voir point différé).
+- [x] Les 16 images du Word ont été rapprochées du site et les vues 375/768/1440 en clair/sombre ont été testées. Demande villa → hôtel explicitement résolue par la nouvelle **vidéo** du Hero.
 - [ ] S'assurer que toute modification passe par la branche de travail et une PR. `main` et la production restent intouchées.
 
 ### Lot 1 — Logo, navigation et hero [À faire]
@@ -25,8 +25,8 @@
 - [ ] Centrer le texte du hero ; remplacer « Soleil Eau Ingénierie » par **« Sun. Power. People »** en blanc.
 - [ ] Remplacer le paragraphe du hero exactement par : « Des solutions solaires conçues pour répondre à vos besoins. Sun Energy accompagne particuliers, agriculteurs et professionnels de l’étude de faisabilité à la mise en service de leurs solutions énergétiques. »
 - [ ] Aligner les CTA et utiliser les libellés **« Échanger sur votre projet »** et **« Découvrir nos solutions »**.
-- [ ] **Différé, non bloquant pour les autres lots :** remplacer uniquement la vignette de villa visée par la photo de l'hôtel, après confirmation de son emplacement. **Préserver la vidéo et le poster du Hero.**
-**Acceptation :** logo lisible sur desktop et mobile, pas de déformation, hero centré, deux CTA alignés, animations accessibles. La photo villa → hôtel est exclue de ce lot et restera une tâche différée jusqu'à décision explicite.
+- [x] **Vidéo hôtel validée sur iPhone par le propriétaire** : MP4 du Hero transféré dans le dépôt et poster hébergé localement. Aucune autre photo à remplacer (malentendu clôturé).
+**Acceptation actualisée :** Hero vidéo hôtel (iPhone confirmé), titre centré, sans CTA ni boutons superflus selon la dernière consigne, logo et navigation présents, fallback image locale et MP4/affiche locaux. La revue du nouveau commit et de la Preview reste à finaliser avant production.
 
 ### Lot 2 — Notre raison d'être et chiffres [À faire]
 **Références : pages 1–2, captures 2–3, et page 4, capture 7.**
