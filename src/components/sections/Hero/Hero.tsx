@@ -27,19 +27,6 @@ export function Hero() {
     });
   }, []);
 
-  return () => window.clearTimeout(fallbackTimer);
-  }, []);
-
-  const playVideo = () => {
-    const video = videoRef.current;
-    if (!video) return;
-    video.muted = true;
-    void video.play().then(
-      () => setNeedsTap(false),
-      () => setNeedsTap(true),
-    );
-  };
-
   return (
     <section
       id="hero"
