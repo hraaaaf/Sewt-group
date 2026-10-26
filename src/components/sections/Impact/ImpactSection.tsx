@@ -59,9 +59,6 @@ export function ImpactSection() {
               Contribuer à la compétitivité énergétique{" "}
               <span className="text-accent">du Maroc.</span>
             </h2>
-            <p className="mt-5 font-mono text-xs font-semibold uppercase tracking-[0.12em] text-fg-subtle">
-              Contribuer à la transition énergétique du Royaume
-            </p>
             <div className="mt-6 max-w-xl space-y-4 font-sans text-base leading-relaxed text-fg-muted text-pretty">
               <p>
                 Sun Energy and Water Technologies Group a été créée avec la conviction
