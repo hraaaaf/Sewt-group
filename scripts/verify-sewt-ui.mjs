@@ -157,18 +157,11 @@ async function screenshot(name, viewport, theme = "light") {
   } else {
     assert.ok(logoFilter.includes("invert(1)"), "La variante claire du logo doit être visible en mode sombre");
   }
-  await page.getByRole("button", { name: "Nous écrire" }).click();
-  const contactDialog = page.getByRole("dialog", { name: "Écrire à SEWT" });
-  await contactDialog.waitFor({ state: "visible" });
-  await contactDialog.getByRole("textbox", { name: "Votre adresse e-mail" }).waitFor({ state: "visible" });
-  await contactDialog.getByRole("textbox", { name: "Votre message" }).waitFor({ state: "visible" });
-  assert.match(
-    (await contactDialog.getByRole("link", { name: "Ouvrir ma messagerie à la place" }).getAttribute("href")) ?? "",
-    /^mailto:contact@sewt-group\.ma/,
-  );
-  await contactDialog.getByRole("button", { name: "Fermer la fenêtre de message" }).click();
-  await contactDialog.waitFor({ state: "hidden" });
-  assert.equal(await page.locator("main input:visible").count(), 0, "Aucun champ visible hors de la fenêtre de contact");
+  const emailButton = page.getByRole("link", { name: "Nous écrire", exact: true });
+  assert.equal(await emailButton.count(), 1, "Un unique lien Nous écrire sur la page Contact");
+  assert.match((await emailButton.getAttribute("href")) ?? "", /^mailto:contact@sewt-group\\.ma\\?subject=/);
+  assert.equal(await page.locator("main form, main dialog, main input, main textarea").count(), 0,
+    "Aucun formulaire ni champ de saisie sur la page Contact");
   const legal = page.getByRole("link", { name: "Mentions légales" });
   const privacy = page.getByRole("link", { name: "Confidentialité", exact: true });
   assert.equal(await legal.getAttribute("href"), "/mentions-legales");
