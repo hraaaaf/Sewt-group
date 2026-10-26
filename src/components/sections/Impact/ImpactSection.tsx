@@ -1,6 +1,7 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion, useInView, useReducedMotion } from "framer-motion";
+import { useEffect, useRef, useState } from "react";
 
 const benefits = [
   {
@@ -22,10 +23,44 @@ const benefits = [
 ] as const;
 
 const figures = [
-  { value: "+30 ans", label: "d’expérience professionnelle" },
-  { value: "+200", label: "projets livrés" },
-  { value: "50 MWc", label: "en pipeline de développement" },
+  { target: 30, prefix: "+", suffix: " ans", label: "d’expérience professionnelle" },
+  { target: 200, prefix: "+", suffix: "", label: "projets livrés" },
+  { target: 50, prefix: "", suffix: " MWc", label: "en pipeline de développement" },
 ] as const;
+
+/** Count-up déclenché une fois à l'apparition ; valeur complète pour les lecteurs d'écran. */
+function CountUp({ target, prefix, suffix }: { target: number; prefix: string; suffix: string }) {
+  const ref = useRef<HTMLSpanElement>(null);
+  const inView = useInView(ref, { once: true, amount: 0.6 });
+  const reduceMotion = useReducedMotion();
+  const [current, setCurrent] = useState(0);
+
+  useEffect(() => {
+    if (!inView) return;
+    if (reduceMotion) {
+      setCurrent(target);
+      return;
+    }
+
+    let frame = 0;
+    let start: number | undefined;
+    const tick = (now: number) => {
+      if (start === undefined) start = now;
+      const progress = Math.min((now - start) / 1400, 1);
+      setCurrent(Math.round(target * (1 - Math.pow(1 - progress, 3))));
+      if (progress < 1) frame = window.requestAnimationFrame(tick);
+    };
+    frame = window.requestAnimationFrame(tick);
+    return () => window.cancelAnimationFrame(frame);
+  }, [inView, reduceMotion, target]);
+
+  return (
+    <span ref={ref} className="tabular-nums">
+      <span aria-hidden="true">{prefix}{current}{suffix}</span>
+      <span className="sr-only">{prefix}{target}{suffix}</span>
+    </span>
+  );
+}
 
 function fadeUp(delay = 0) {
   return {
@@ -104,7 +139,7 @@ export function ImpactSection() {
                 className="font-display font-bold leading-none text-fg"
                 style={{ fontSize: "clamp(2rem, 4vw, 3.5rem)" }}
               >
-                {figure.value}
+                <CountUp target={figure.target} prefix={figure.prefix} suffix={figure.suffix} />
               </p>
               <p className="mt-2 font-sans text-sm text-fg-muted">
                 {figure.label}
