@@ -60,8 +60,8 @@ export function HistoireTimeline() {
       id="histoire"
       data-chapter="histoire"
       data-chapter-label="03 · Histoire"
-      className="relative py-[calc(5rem+96px)] md:py-[calc(7rem+96px)]"
-      style={{ background: "rgb(var(--brand-rgb))" }}
+      className="relative bg-[#1B2F5C] py-[calc(5rem+96px)] md:py-[calc(7rem+96px)]"
+      
     >
       {/* Vague organique entrante — ivoire → navy */}
       <div
@@ -153,7 +153,7 @@ export function HistoireTimeline() {
                         ease: "easeInOut",
                       }}
                     />
-                    <span className="relative block h-4 w-4 rounded-full bg-accent ring-4 ring-brand" />
+                    <span className="relative block h-4 w-4 rounded-full bg-accent ring-4 ring-[#1B2F5C]" />
                   </div>
                 </div>
 

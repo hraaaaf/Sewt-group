@@ -23,8 +23,8 @@ export function OffreChapter() {
     <section
       id="offre"
       aria-labelledby="offre-heading"
-      className="relative px-5 pt-20 pb-[120px] md:px-12 md:pt-28 md:pb-[144px] lg:px-16 lg:pt-32"
-      style={{ background: "rgb(var(--brand-rgb))" }}
+      className="relative bg-[#1B2F5C] px-5 pt-20 pb-[120px] md:px-12 md:pt-28 md:pb-[144px] lg:px-16 lg:pt-32"
+      
     >
       {/* Header */}
       <motion.div {...fadeUp()} className="mb-12">
