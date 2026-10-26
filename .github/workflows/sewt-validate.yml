@@ -1,0 +1,57 @@
+name: SEWT — Validation de la branche
+
+on:
+  push:
+    branches: [recovery/sewt-original]
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    name: Install, test and build
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Set up pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 9.12.3
+          run_install: false
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: pnpm
+      - name: Install locked dependencies
+        run: pnpm install --frozen-lockfile
+      - name: TypeScript
+        run: pnpm typecheck
+      - name: Contact API tests
+        run: pnpm test:contact
+      - name: Next.js production build
+        run: pnpm build
+
+      - name: Install Playwright browser
+        run: pnpm exec playwright install --with-deps chromium
+      - name: UI smoke tests and desktop/mobile screenshots
+        run: |
+          pnpm exec next start --hostname 127.0.0.1 --port 3100 > /tmp/sewt-next.log 2>&1 &
+          echo $! > /tmp/sewt-next.pid
+          for i in $(seq 1 60); do
+            if curl --silent --fail http://127.0.0.1:3100/ > /dev/null; then break; fi
+            sleep 1
+          done
+          node scripts/verify-sewt-ui.mjs
+      - name: Upload visual review artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: sewt-desktop-mobile-review
+          path: test-artifacts/
+          if-no-files-found: ignore
+          retention-days: 7

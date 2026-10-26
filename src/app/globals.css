@@ -1,0 +1,211 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* =========================================================
+   SEWT — Design Tokens
+   Brand = navy ENERGY · Accent = orange SUN
+   ========================================================= */
+@layer base {
+  :root {
+    /* Surface */
+    --bg-rgb: 248 246 240;            /* #F8F6F0 — Ivoire chaud */
+    --bg-elevated-rgb: 255 255 255;
+    --surface-rgb: 238 234 224;
+    --surface-muted-rgb: 226 220 206;
+
+    /* Foreground */
+    --fg-rgb: 17 28 56;               /* #111C38 — Navy nuit */
+    --fg-muted-rgb: 60 72 100;
+    --fg-subtle-rgb: 90 102 126;
+
+    /* Brand = ENERGY navy */
+    --brand-rgb: 27 47 92;            /* #1B2F5C */
+    --brand-hover-rgb: 21 36 71;
+    --brand-contrast-rgb: 248 246 240;
+
+    /* Accent = SUN orange */
+    --accent-rgb: 232 118 42;         /* #E8762A */
+    --accent-hover-rgb: 212 101 32;
+
+    /* Semantic */
+    --success-rgb: 31 138 76;
+    --warning-rgb: 232 118 42;
+    --danger-rgb: 178 58 43;
+    --info-rgb: 27 47 92;
+
+    /* Borders */
+    --border-rgb: 214 209 196;
+    --border-strong-rgb: 168 162 144;
+
+    /* Glass */
+    --glass-bg: rgba(255, 255, 255, 0.55);
+    --glass-border: rgba(17, 28, 56, 0.08);
+    --glass-blur: 16px;
+
+    /* Shadows */
+    --shadow-sm: 0 1px 2px rgba(17, 28, 56, 0.06);
+    --shadow-md: 0 8px 24px rgba(17, 28, 56, 0.08);
+    --shadow-lg: 0 24px 60px rgba(17, 28, 56, 0.12);
+    --shadow-glow: 0 0 40px rgba(232, 118, 42, 0.28);
+
+    /* Section card radius */
+    --section-radius: 3rem;
+  }
+
+  .dark {
+    /* Surface — anthracite pur, zéro teinte bleue */
+    --bg-rgb: 13 13 11;              /* #0D0D0B — charbon profond, légèrement chaud */
+    --bg-elevated-rgb: 20 20 17;     /* #141411 */
+    --surface-rgb: 28 27 23;         /* #1C1B17 */
+    --surface-muted-rgb: 38 37 32;   /* #262520 */
+
+    /* Foreground — ivoire chaud */
+    --fg-rgb: 242 238 226;           /* #F2EEE2 — ivoire */
+    --fg-muted-rgb: 168 164 148;
+    --fg-subtle-rgb: 108 104 90;
+
+    /* Brand — ambre solaire en dark */
+    --brand-rgb: 214 138 48;         /* #D68A30 — ambre doré */
+    --brand-hover-rgb: 232 158 70;
+    --brand-contrast-rgb: 13 13 11;
+
+    /* Accent — orange soleil */
+    --accent-rgb: 248 142 68;
+    --accent-hover-rgb: 255 165 95;
+
+    /* Semantic */
+    --success-rgb: 74 222 128;
+    --warning-rgb: 248 142 68;
+    --danger-rgb: 248 113 113;
+    --info-rgb: 214 138 48;          /* ambre, pas bleu */
+
+    /* Borders */
+    --border-rgb: 42 40 34;
+    --border-strong-rgb: 68 64 52;
+
+    /* Glass */
+    --glass-bg: rgba(28, 27, 23, 0.60);
+    --glass-border: rgba(242, 238, 226, 0.07);
+    --glass-blur: 18px;
+
+    /* Shadows */
+    --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.5);
+    --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.6);
+    --shadow-lg: 0 24px 60px rgba(0, 0, 0, 0.7);
+    --shadow-glow: 0 0 60px rgba(248, 142, 68, 0.35);
+  }
+
+  * {
+    @apply border-border;
+  }
+
+  html {
+    @apply scroll-smooth antialiased;
+    -webkit-text-size-adjust: 100%;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  html.lenis,
+  html.lenis body {
+    height: auto;
+  }
+
+  .lenis.lenis-smooth {
+    scroll-behavior: auto !important;
+  }
+
+  .lenis.lenis-smooth [data-lenis-prevent] {
+    overscroll-behavior: contain;
+  }
+
+  .lenis.lenis-stopped {
+    overflow: hidden;
+  }
+
+  body {
+    @apply bg-bg font-sans text-fg;
+    min-height: 100svh;
+    overflow-x: hidden;
+  }
+
+  ::selection {
+    background: rgb(var(--accent-rgb) / 0.35);
+    color: rgb(var(--fg-rgb));
+  }
+
+  :focus-visible {
+    outline: 2px solid rgb(var(--accent-rgb));
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
+
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb {
+    background: rgb(var(--border-strong-rgb) / 0.4);
+    border-radius: 999px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: rgb(var(--border-strong-rgb) / 0.7);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.001ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.001ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
+
+/* =========================================================
+   Utilities
+   ========================================================= */
+@layer utilities {
+  /* Section card — signature visuelle Nordic : radius bas uniquement */
+  .section-card {
+    border-bottom-left-radius: var(--section-radius);
+    border-bottom-right-radius: var(--section-radius);
+    overflow: hidden;
+  }
+
+  /* Label de section style Nordic "○ ABOUT" */
+  .section-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: rgb(var(--fg-muted-rgb));
+  }
+  .section-label::before {
+    content: "○";
+    color: rgb(var(--accent-rgb));
+  }
+
+  .text-balance { text-wrap: balance; }
+  .text-pretty { text-wrap: pretty; }
+
+  .glass {
+    background: var(--glass-bg);
+    backdrop-filter: blur(var(--glass-blur)) saturate(160%);
+    -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(160%);
+    border: 1px solid var(--glass-border);
+  }
+
+  .mask-fade-x {
+    mask-image: linear-gradient(
+      to right,
+      transparent 0%,
+      black 12%,
+      black 88%,
+      transparent 100%
+    );
+  }
+}

@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/svg+xml" href="src/favicon.svg" />
+    <title>Sun Energy</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="src/styles.css">
+</head>
+
+<body class="bg-white">
+    <!-- Navbar -->
+    <nav class=" pb-1   fixed w-full bg-white z-10 shadow-md">
+        <div class="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
+            <div class="relative flex h-16 items-center justify-between">
+                <!-- Mobile menu button-->
+                <div class="absolute inset-y-0 left-0 flex items-center sm:hidden">
+                    <button type="button" command="--toggle" commandfor="mobile-menu"
+                        class="relative inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-white/5 hover:text-white focus:outline-2 focus:-outline-offset-1 focus:outline-indigo-500">
+                        <span class="absolute -inset-0.5"></span>
+                        <span class="sr-only">Open main menu</span>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="#005792" stroke-width="2" data-slot="icon"
+                            aria-hidden="true" class="size-8 in-aria-expanded:hidden">
+                            <path d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" stroke-linecap="round"
+                                stroke-linejoin="round" />
+                        </svg>
+                    </button>
+                </div>
+                <div class="flex flex-1 items-center justify-center sm:items-stretch sm:justify-between">
+                    <div class="flex shrink-0 items-center">
+                        <a href="index.html">
+                            <img src="src/brand-name.jpg" alt="SEWT Logo" class="h-12 md:h-14">
+                        </a>
+                    </div>
+                    <div class="hidden flex items-center sm:ml-6 sm:block ">
+                        <div class="flex items-center gap-6  ">
+                            <!-- Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-white/5 hover:text-white" -->
+                            <div class="text-lg font-bold text-center home-page transition duration-300 p-3">
+                                <a href="index.html" class="nav-title-hover">Acceuil</a>
+                            </div>
+                            <div class=" text-lg font-bold text-center transition duration-300">
+                                <a href="pages/about.html" class="nav-title-hover">Le Groupe</a>
+                            </div>
+                            <div class=" text-lg font-bold text-center transition duration-300">
+                                <a href="pages/services.html" class="nav-title-hover">Nos Services</a>
+                            </div>
+                            <div class=" text-lg font-bold text-center transition duration-300">
+                                <a href="pages/projects.html" class="nav-title-hover">Nos Réalisations</a>
+                            </div>
+                            <div class=" text-lg font-bold text-center transition duration-300">
+                                <a href="pages/contact.html" class="nav-title-hover">Contact</a>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- </div> -->
+
+        <el-disclosure id="mobile-menu" hidden class="block sm:hidden">
+            <div class="space-y-1 px-2 pt-2 pb-3">
+                <!-- Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-white/5 hover:text-white" -->
+                <div class="text-bg-color font-bold text-lg transition duration-300">
+                    <a href="#">Acceuil</a>
+                </div>
+                <div class="text-bg-color font-bold text-lg transition duration-300">
+                    <a href="pages/about.html">Le Groupe</a>
+                </div>
+                <div class="text-bg-color font-bold text-lg transition duration-300">
+                    <a href="pages/services.html">Nos Services</a>
+                </div>
+                <div class="text-bg-color font-bold text-lg transition duration-300">
+                    <a href="pages/projects.html">Nos Réalisations</a>
+                </div>
+                <div class="text-bg-color font-bold text-lg transition duration-300">
+                    <a href="pages/contact.html">Contact</a>
+                </div>
+            </div>
+        </el-disclosure>
+    </nav>
+    <!-- Page Content Container -->
+    <div class="pt-20">
+
+        <!-- Home Page -->
+        <!--  -->
+        <div class="bg-gray-100 py-20 md:py-15">
+            <div class=" px-4 text-center">
+                <div class="bg-cover bg-center rounded-xl overflow-hidden shadow-lg h-auto"
+                    style="background-image: url('src/bg_motto.jpeg');">
+                    <div class="bg-black bg-opacity-50 p-20 md:p-40">
+                        <h1 class="text-4xl md:text-5xl font-extrabold text-white mb-4">Toute l’expertise pour
+                            réussir votre transition énergétique</h1>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- About Us Summary -->
+        <div class="py-20">
+            <div class="container mx-auto px-4 text-center">
+                <h2 class="text-4xl font-bold text-[#005792] mb-4">LE GROUPE</h2>
+                <p class="max-w-3xl mx-auto text-gray-700 leading-relaxed">Sun Energy and Water Technologies Group a
+                    été créée avec la conviction de faire de l’énergie solaire un pilier majeur de la transition
+                    énergétique voulue pour le Royaume.</p>
+                <p class="max-w-3xl mx-auto text-gray-700 leading-relaxed">En tant que professionnels des énergies
+                    renouvelables, nous détenons les qualifications nécessaires pour garantir à nos partenaires des
+                    installations de qualité et conformes aux normes et réglementations en vigueur.</p>
+                <a href="pages/about.html" class="mt-6 inline-block text-[#ff6f00] font-semibold hover:underline">En
+                    Savoir plus &rarr;</a>
+            </div>
+        </div>
+
+        <!-- Services Highlight -->
+        <div class="bg-gray-50 py-20">
+            <div class="container mx-auto px-4">
+                <h2 class="text-4xl font-bold text-[#005792] text-center mb-10">CE QUE NOUS PROPOSONS</h2>
+                <div class="grid md:grid-cols-3 gap-8 ">
+                    <div class="bg-white  rounded-lg justify-center shadow-lg transition-shadow duration-300">
+                        <div class="service-image-wrapper-home bg-[url('src/services/pv_hold.jpeg')] bg-black bg-opacity-40 bg-no-repeat bg-cover  ">
+                            <!-- <img src="src/services/pv_hold.jpeg" alt="Service Maintenance" class="service-image"
+                                loading="lazy"> -->
+                        </div>
+                        <!-- <hr class="mt-4"> -->
+                        <div class=" p-6">
+                            <h3 class="text-xl font-semibold text-center text-[#005792] mb-2">Photovoltaïque</h3>
+                            <p class="text-gray-600">Produisez votre électricité et réduisez vos factures grâce à une
+                                installation photovoltaïque
+                            </p>
+                        </div>
+                    </div>
+                    <div class="bg-white rounded-lg justify-center  shadow-lg transition-shadow duration-300">
+                        <div class="service-image-wrapper-home md:order-2 bg-[url('src/services/therm_cover_2.jpeg')] bg-black bg-opacity-40 bg-no-repeat bg-cover">
+                                <!-- <img src="src/thermique_hold.jpeg" 
+                                     alt="Service Thermique" 
+                                     class="service-image"
+                                     loading="lazy"> -->
+                            </div>
+                        <!-- <hr class="my-4"> -->
+                        <div class="p-6">
+                            <h3 class="text-xl font-semibold text-center text-[#005792] mb-2">Thermique</h3>
+                            <p class="text-gray-600">Exploitez la chaleur de l’air et du soleil pour produire de l’eau
+                                chaude
+                            </p>
+                        </div>
+                    </div>
+                    <div class="bg-white rounded-lg justify-center  shadow-lg transition-shadow duration-300">
+                        <div class="service-image-wrapper-home bg-[url('src/services/service_maintenance.png')] bg-black bg-opacity-40 bg-no-repeat bg-cover">
+                                <!-- <img src="src/" 
+                                     alt="Service Maintenance" 
+                                     class="service-image"
+                                     loading="lazy"> -->
+                            </div>
+                        <!-- <hr class="my-4"> -->
+                        <div class="p-6">
+                            <h3 class="text-xl font-semibold text-center text-[#005792] mb-2">Exploitation et
+                                Maintenance</h3>
+                            <p class="text-gray-600">Pour garantir le bon fonctionnement de votre installation, la
+                                maintenance préventive est une étape clé.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="text-center mt-10">
+                    <a href="pages/services.html" class="text-[#ff6f00] font-semibold hover:underline">En savoir plus
+                        &rarr;
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- main projects -->
+        <div class="bg-gray-50 py-20">
+            <div class="container mx-auto px-4">
+                <h1 class="text-4xl font-bold text-[#005792] text-center mb-10">NOS RÉALISATIONS</h1>
+                <div class="grid md:grid-cols-2 lg:grid-cols-3  gap-8">
+                    <div class="bg-white rounded-lg shadow-lg overflow-hidden ">
+                        <img src="src/projects/1,1MWc.jpeg" alt="Solar farm project" class="w-full h-48 object-cover ">
+                        <div class="p-6 flex justify-between ">
+                            <h3 class="text-xl font-semibold text-[#005792] mb-2">Carrière</h3>
+                            <h3 class="text-xl font-semibold brand-orange mb-2">1,1 MWc</h3>
+                        </div>
+                    </div>
+                    <div class="bg-white rounded-lg shadow-lg overflow-hidden">
+                        <img src="src/projects/350 kWc.png" alt="Solar farm project" class="w-full h-48 object-cover">
+                        <div class="p-6">
+                            <div class="flex justify-between">
+                                <h3 class="text-xl font-semibold text-[#005792] mb-2">Domaine agricole</h3>
+                                <h3 class="text-xl font-semibold brand-orange mb-2">350 kWc</h3>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="bg-white rounded-lg shadow-lg overflow-hidden">
+                        <img src="src/projects/200 kWc.jpeg" alt="Commercial rooftop solar"
+                            class="w-full h-48 object-cover">
+                        <div class="p-6">
+                            <div class="flex justify-between">
+                                <h3 class="text-xl font-semibold text-[#005792] mb-2">Bureaux</h3>
+                                <h3 class="text-xl font-semibold brand-orange mb-2">200 kWc</h3>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="text-center mt-10">
+                    <a href="pages/projects.html" class="text-[#ff6f00] font-semibold hover:underline">Voir tous les
+                        projets &rarr;</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- CLIENT CAROUSEL -->
+        <div class="w-full max-w-6xl container mx-auto px-4 overflow-hidden rounded-xl p-6 justify-center">
+            <h1 class="text-4xl font-bold text-center text-[#005792] mb-4">NOS PARTENAIRES</h1>
+
+            <!-- Main scroller wrapper with overflow hidden to hide images outside the viewport -->
+            <div class="relative w-full overflow-hidden ">
+                <!--
+                This is the actual animated container.
+                It holds two identical sets of images to create the infinite loop effect.
+            -->
+                <div class="scrolling-container-sm md:scrolling-container ">
+                    <!-- First set of images -->
+                    <img src="src/partenaires/onp.png" alt="Placeholder Image 1"
+                        class="w-36 rounded-xl object-contain bg-white flex-shrink-0 carousel-item-spacing">
+                    <img src="src/partenaires/ormva-tf.png" alt="Placeholder Image 2"
+                        class="w-36 rounded-xl object-contain bg-white flex-shrink-0 carousel-item-spacing">
+                    <img src="src/partenaires/axa.png" alt="Placeholder Image 2"
+                        class="w-36 rounded-xl object-contain bg-white flex-shrink-0 carousel-item-spacing">
+                    <img src="src/partenaires/bbg.png" alt="Placeholder Image 2"
+                        class="w-36 rounded-xl object-contain bg-white flex-shrink-0 carousel-item-spacing">
+                    <img src="src/partenaires/clinique_dentaire_un.png" alt="Placeholder Image 2"
+                        class="w-48 rounded-xl object-contain bg-white flex-shrink-0 carousel-item-spacing">
+                    <img src="src/partenaires/cms.png" alt="Placeholder Image 2"
+                        class="w-36 rounded-xl object-contain bg-white flex-shrink-0 carousel-item-spacing">
+                    <img src="src/partenaires/iresen.png" alt="Placeholder Image 2"
+                        class="w-48 rounded-xl object-contain bg-white flex-shrink-0 carousel-item-spacing">
+                    <img src="src/partenaires/kgs.png" alt="Placeholder Image 2"
+                        class="w-48 rounded-xl object-contain bg-white flex-shrink-0 carousel-item-spacing">
+                    <img src="src/partenaires/super_auto.png" alt="Placeholder Image 2"
+                        class="w-48 rounded-xl object-contain bg-white flex-shrink-0 carousel-item-spacing">
+                    <img src="src/partenaires/ump6p.png" alt="Placeholder Image 2"
+                        class="w-36 rounded-xl object-contain bg-white flex-shrink-0 carousel-item-spacing">
+                    <img src="src/partenaires/unido.png" alt="Placeholder Image 2"
+                        class="w-32 rounded-xl object-contain bg-white flex-shrink-0 carousel-item-spacing">
+                    <img src="src/partenaires/yozi_market.png" alt="Placeholder Image 2"
+                        class="w-42 rounded-xl object-contain bg-white flex-shrink-0 carousel-item-spacing">
+
+
+                    <!-- Second, identical set of images to create the illusion of an infinite loop -->
+                    <img src="src/partenaires/onp.png" alt="Placeholder Image 1"
+                        class="w-36 rounded-xl object-contain bg-white flex-shrink-0 carousel-item-spacing">
+                    <img src="src/partenaires/ormva-tf.png" alt="Placeholder Image 2"
+                        class="w-36 rounded-xl object-contain bg-white flex-shrink-0 carousel-item-spacing">
+                    <img src="src/partenaires/axa.png" alt="Placeholder Image 2"
+                        class="w-36 rounded-xl object-contain bg-white flex-shrink-0 carousel-item-spacing">
+                    <img src="src/partenaires/bbg.png" alt="Placeholder Image 2"
+                        class="w-36 rounded-xl object-contain bg-white flex-shrink-0 carousel-item-spacing">
+                    <img src="src/partenaires/clinique_dentaire_un.png" alt="Placeholder Image 2"
+                        class="w-48 rounded-xl object-contain bg-white flex-shrink-0 carousel-item-spacing">
+                    <img src="src/partenaires/cms.png" alt="Placeholder Image 2"
+                        class="w-36 rounded-xl object-contain bg-white flex-shrink-0 carousel-item-spacing">
+                    <img src="src/partenaires/iresen.png" alt="Placeholder Image 2"
+                        class="w-48 rounded-xl object-contain bg-white flex-shrink-0 carousel-item-spacing">
+                    <img src="src/partenaires/kgs.png" alt="Placeholder Image 2"
+                        class="w-48 rounded-xl object-contain bg-white flex-shrink-0 carousel-item-spacing">
+                    <img src="src/partenaires/super_auto.png" alt="Placeholder Image 2"
+                        class="w-48 rounded-xl object-contain bg-white flex-shrink-0 carousel-item-spacing">
+                    <img src="src/partenaires/ump6p.png" alt="Placeholder Image 2"
+                        class="w-36 rounded-xl object-contain bg-white flex-shrink-0 carousel-item-spacing">
+                    <img src="src/partenaires/unido.png" alt="Placeholder Image 2"
+                        class="w-32 rounded-xl object-contain bg-white flex-shrink-0 carousel-item-spacing">
+                    <img src="src/partenaires/yozi_market.png" alt="Placeholder Image 2"
+                        class="w-42 rounded-xl object-contain bg-white flex-shrink-0 carousel-item-spacing">
+                </div>
+            </div>
+        </div>
+        <!-- END CLIENT CAROUSEL-->
+    </div>
+
+    <!-- Contact Us Page -->
+    <!-- Footer -->
+    <footer class="bg-white py-6 text-center text-gray-600 shadow-inner mt-12">
+        <div class="container mx-auto px-6">
+            <p>&copy; 2025 SEWT-GROUP. Tous droits réservés.</p>
+        </div>
+    </footer>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindplus/elements@1" type="module"></script>
+    <script src="src/script.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- <script src="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.js"></script> -->
+
+
+</body>
+
+</html>

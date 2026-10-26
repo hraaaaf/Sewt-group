@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/svg+xml" href="../src/favicon.svg" />
+    <title>Sun Energy</title>
+    <link href="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="../src/styles.css">
+</head>
+
+<body class="">
+
+    <!-- Navbar -->
+    <nav class=" pb-1 fixed w-full bg-white z-10 shadow-md">
+        <div class="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
+            <div class="relative flex h-16 items-center justify-between">
+                <!-- Mobile menu button-->
+                <div class="absolute inset-y-0 left-0 flex items-center sm:hidden">
+                    <button type="button" command="--toggle" commandfor="mobile-menu"
+                        class="relative inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-white/5 hover:text-white focus:outline-2 focus:-outline-offset-1 focus:outline-indigo-500">
+                        <span class="absolute -inset-0.5"></span>
+                        <span class="sr-only">Open main menu</span>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="#005792" stroke-width="2" data-slot="icon"
+                            aria-hidden="true" class="size-8 in-aria-expanded:hidden">
+                            <path d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" stroke-linecap="round"
+                                stroke-linejoin="round" />
+                        </svg>
+                    </button>
+                </div>
+                <div class="flex flex-1 items-center justify-center sm:items-stretch sm:justify-between">
+                    <div class="flex shrink-0 items-center">
+                        <a href="../index.html">
+                            <img src="../src/brand-name.jpg" alt="SEWT Logo" class="h-12 md:h-14">
+                        </a>
+                    </div>
+                    <div class="hidden sm:ml-6 sm:block">
+                        <div class="flex items-center gap-6">
+                            <!-- Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-white/5 hover:text-white" -->
+                            <div class="text-lg font-bold text-center transition duration-300 p-3">
+                                <a href="../index.html" class="nav-title-hover">Acceuil</a>
+                            </div>
+                            <div class=" text-lg font-bold text-center transition duration-300">
+                                <a href="about.html" class="nav-title-hover">Le Groupe</a>
+                            </div>
+                            <div class=" text-lg font-bold text-center  transition duration-300">
+                                <a href="services.html" class="nav-title-hover">Nos Services</a>
+                            </div>
+                            <div class=" text-lg font-bold text-center transition duration-300">
+                                <a href="projects.html" class="nav-title-hover">Nos Réalisations</a>
+                            </div>
+                            <div class=" text-lg font-bold text-center contact-page transition duration-300">
+                                <a href="contact.html" class="nav-title-hover">Contact</a>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- </div> -->
+
+        <el-disclosure id="mobile-menu" hidden class="block sm:hidden">
+            <div class="space-y-1 px-2 pt-2 pb-3">
+                <!-- Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-white/5 hover:text-white" -->
+                <div class="text-bg-color font-bold text-lg transition duration-300">
+                    <a href="../index.html">Acceuil</a>
+                </div>
+                <div class="text-bg-color font-bold text-lg transition duration-300">
+                    <a href="about.html">Le Groupe</a>
+                </div>
+                <div class="text-bg-color font-bold text-lg transition duration-300">
+                    <a href="services.html">Nos Services</a>
+                </div>
+                <div class="text-bg-color font-bold text-lg transition duration-300">
+                    <a href="projects.html">Nos Réalisations</a>
+                </div>
+                <div class="text-bg-color font-bold text-lg transition duration-300">
+                    <a href="contact.html">Contact</a>
+                </div>
+            </div>
+        </el-disclosure>
+    </nav>
+
+    <div class="pt-20 bg-white">
+        <div class="  py-12 md:py-20 bg-gray-50 ">
+            <h2 class="text-4xl md:text-4xl font-extrabold text-primary-blue text-center mb-6">
+                Contactez-nous
+            </h1>
+            <p class="text-center text-gray-600 mb-12 max-w-2xl mx-auto">
+                Vous avez des questions ? N'hésitez pas à nous contacter<br>Notre équipe est prête à répondre à toutes vos questions
+            </p>
+
+            <!-- Information Card Container - RESTYLED -->
+            <div
+                class="max-w-4xl mx-auto bg-white/95 border-t-4 border-primary-blue p-6 md:p-12 rounded-2xl shadow-lg grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- 3. Email - RESTYLED (Inner borders removed for separation via shadow/bg) -->
+                <div
+                    class="flex flex-col items-center text-center py-6 px-4 bg-gray-50 rounded-xl border border-gray-100 transition">
+                    <div class="p-4 bg-primary-blue rounded-full text-white mb-4 shadow-md">
+                        <!-- Icon: Mail -->
+                        <i data-lucide="mail" class="w-6 h-6"></i>
+                    </div>
+                    <h2 class="text-xl font-semibold text-gray-800 mb-2">E-mail</h2>
+                    <p class="text-primary-blue font-medium text-gray-600 transition duration-200 mt-1">
+                        contact@sewt-group.ma
+                    </p>
+                </div>
+                <!-- 2. Phone - RESTYLED (Inner borders removed for separation via shadow/bg) -->
+                <div
+                    class="flex flex-col items-center text-center p-6 bg-gray-50 rounded-xl border border-gray-100 transition">
+                    <div class="p-4 bg-primary-blue rounded-full text-white mb-4 shadow-md">
+                        <!-- Icon: Phone -->
+                        <i data-lucide="phone" class="w-6 h-6"></i>
+                    </div>
+                    <h2 class="text-xl font-semibold text-gray-800 mb-2">Téléphone</h2>
+                    <p class="text-gray-600 mb-1">
+                        Tél: (+212) 661 117 155
+                    </p>
+                </div>
+                <!-- 1. Address - RESTYLED -->
+                <div
+                    class="flex flex-col items-center text-center p-6 bg-gray-50 rounded-xl border border-gray-100 transition">
+                    <div class="p-4 bg-primary-blue rounded-full text-white mb-4 shadow-md">
+                        <!-- Icon: Map Pin -->
+                        <i data-lucide="printer" class="w-6 h-6"></i>
+                    </div>
+                    <h2 class="text-xl font-semibold text-gray-800 mb-2">Fax</h2>
+                    <p class="text-gray-600">
+                        Fax: (+212) 537 741 233
+                    </p>
+                </div>
+
+            </div>
+
+            <!-- Operating Hours & Map Placeholder -->
+            <div class="max-w-4xl mx-auto mt-12 grid grid-cols-1 md:grid-cols-1 gap-8">
+                <!-- Operating Hours -->
+                
+                <!-- Map Placeholder -->
+                <div class="bg-gray-200 h-72 rounded-xl overflow-hidden shadow-lg flex items-center justify-center">
+                    <!-- <div class="text-gray-500 text-lg font-medium p-4 text-center"> -->
+                    <!-- <p class="mt-2">Localisation du bureau (Placeholder)</p> -->
+                    <iframe width="100%" height="100%" style="border:0" loading="lazy" allowfullscreen
+                        src="https://www.google.com/maps/embed/v1/search?q=R%C3%A9sidence%20islah%2C%20Temara%2C%20Morocco&key=REDACTED_GOOGLE_MAPS_API_KEY"></iframe>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <div class="text-center mt-10">
+        <a href="../index.html" class="text-[#ff6f00] font-semibold hover:underline">&larr; Retour </a>
+    </div>
+    <!-- Footer -->
+    <footer class="bg-white py-6 text-center text-gray-600 shadow-inner mt-12">
+        <div class="container mx-auto px-6">
+            <p class="block">&copy; 2025 SEWT-GROUP. Tous droits réservés.</p>
+
+        </div>
+    </footer>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindplus/elements@1" type="module"></script>
+    <script src="src/script.js"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script>
+        lucide.createIcons();
+    </script>
+    <script></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+</body>
+
+</html>
