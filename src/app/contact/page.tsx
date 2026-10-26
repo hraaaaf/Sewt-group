@@ -2,6 +2,7 @@ import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { Container } from "@/components/layout/Container";
 import { Mail, Phone, Printer, MapPin, ArrowUpRight } from "lucide-react";
+import { ContactMessageDialog } from "@/components/sections/ContactMessageDialog";
 
 export const metadata = {
   title: "Contact",
@@ -47,17 +48,7 @@ export default function ContactPage() {
           </div>
 
           <div className="mb-20 flex flex-col items-center gap-3 rounded-3xl border border-border-strong bg-bg-elevated/40 px-6 py-10 text-center">
-            <a
-              href="mailto:contact@sewt-group.ma?subject=Projet%20solaire%20SEWT"
-              className="inline-flex min-h-12 items-center justify-center gap-2 rounded-full bg-accent px-8 py-3 font-sans text-sm font-semibold text-white transition-colors hover:bg-accent/90 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent"
-            >
-              <Mail className="h-4 w-4" aria-hidden />
-              Nous écrire
-              <ArrowUpRight className="h-4 w-4" aria-hidden />
-            </a>
-            <p className="max-w-xl text-sm text-fg-muted">
-              Ce bouton ouvre votre logiciel de messagerie pour rédiger votre demande.
-            </p>
+            <ContactMessageDialog />
           </div>
 
           <section aria-labelledby="processus-heading" className="mb-20">

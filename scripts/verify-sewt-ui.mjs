@@ -122,10 +122,17 @@ async function screenshot(name, viewport, theme = "light") {
   } else {
     assert.ok(logoFilter.includes("invert(1)"), "La variante claire du logo doit être visible en mode sombre");
   }
+  await page.getByRole("button", { name: "Nous écrire" }).click();
+  const contactDialog = page.getByRole("dialog", { name: "Écrire à SEWT" });
+  await contactDialog.waitFor({ state: "visible" });
+  await contactDialog.getByRole("textbox", { name: "Votre adresse e-mail" }).waitFor({ state: "visible" });
+  await contactDialog.getByRole("textbox", { name: "Votre message" }).waitFor({ state: "visible" });
   assert.match(
-    (await page.getByRole("link", { name: "Nous écrire" }).getAttribute("href")) ?? "",
+    (await contactDialog.getByRole("link", { name: "Ouvrir ma messagerie à la place" }).getAttribute("href")) ?? "",
     /^mailto:contact@sewt-group\.ma/,
   );
+  await contactDialog.getByRole("button", { name: "Fermer la fenêtre de message" }).click();
+  await contactDialog.waitFor({ state: "hidden" });
   assert.equal(await page.locator("main input").count(), 0);
   const legal = page.getByRole("link", { name: "Demander les mentions légales" });
   const privacy = page.getByRole("link", { name: "Question sur la confidentialité" });
