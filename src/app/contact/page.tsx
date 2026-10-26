@@ -27,7 +27,7 @@ export default function ContactPage() {
             {/* Cartes de contact premium */}
             {[
               { icon: Mail, label: "E-mail", value: "contact@sewt-group.ma", href: "mailto:contact@sewt-group.ma" },
-              { icon: Phone, label: "Téléphone", value: "(+212) 661 117 155", href: "tel:+212661117155" },
+              { icon: Phone, label: "Téléphone", value: "(+212) 667 35 67 94", href: "tel:+212667356794" },
               { icon: Printer, label: "Fax", value: "(+212) 537 741 233" },
               { icon: MapPin, label: "Adresse", value: "Témara, Maroc", href: "https://maps.google.com/?q=Temara,+Maroc" },
             ].map((item, i) => (
