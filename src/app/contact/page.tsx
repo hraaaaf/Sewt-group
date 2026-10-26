@@ -52,8 +52,7 @@ export default function ContactPage() {
           </div>
 
           <section aria-labelledby="processus-heading" className="mb-20">
-            <p className="section-label">Notre accompagnement</p>
-            <h2 id="processus-heading" className="mt-4 font-display text-3xl font-bold text-fg sm:text-4xl">
+            <h2 id="processus-heading" className="font-display text-3xl font-bold text-fg sm:text-4xl">
               De vos besoins à la mise en service.
             </h2>
             <div className="mt-8 grid grid-cols-1 gap-5 md:grid-cols-3">
