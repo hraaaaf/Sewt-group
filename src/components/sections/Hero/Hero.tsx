@@ -122,7 +122,7 @@ export function Hero() {
         >
           <Link
             href="/contact"
-            className="inline-flex min-h-12 flex-1 items-center justify-center rounded-full bg-white px-6 py-3 text-center font-sans text-sm font-semibold text-[#1B2F5C] transition-colors hover:bg-white/90 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white"
+            className="inline-flex min-h-12 flex-1 items-center justify-center rounded-full bg-accent px-6 py-3 text-center font-sans text-sm font-semibold text-[#111C38] shadow-lg transition-colors hover:bg-accent-hover focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white"
           >
             Échanger sur votre projet
           </Link>
