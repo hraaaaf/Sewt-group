@@ -4,10 +4,10 @@ import { motion } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
 
-// Vidéo hero — remplacer par version finale quand disponible
-const HERO_VIDEO_WEBM = "/brand/hero-video.webm";
-const HERO_VIDEO_MP4  = "/brand/hero-video.mp4";
-const HERO_POSTER     = "/brand/hero-poster.webp";
+// SEWT Riad Taroudant — 16.75s silent H.264 background (Higgsfield hotel montage).
+// Preview uses the verified CDN master. Mirror to /public/brand before production.
+const HERO_VIDEO_MP4 = "https://d2ol7oe51mr4n9.cloudfront.net/user_3Hr7zuByNIFoArCjlA8t5T2exht/1f655bb8-1325-4422-9362-e22af28e7f81.mp4";
+const HERO_POSTER = "https://d2ol7oe51mr4n9.cloudfront.net/user_3Hr7zuByNIFoArCjlA8t5T2exht/ba3b2bbf-b80c-4672-869f-0b449dc1d0c2.webp";
 
 export function Hero() {
   return (
@@ -20,8 +20,8 @@ export function Hero() {
       <div className="absolute inset-0 overflow-hidden">
         {/* Fallback image — visible avant que la vidéo charge */}
         <Image
-          src="/projects/sidi-kacem-1100kwc.jpg"
-          alt="Centrale solaire SEWT Group — 1,1 MWc Sidi Kacem"
+          src="/projects/hotel-riad-taroudant.jpg"
+          alt="Installation photovoltaïque SEWT Group — Hôtel Riad Taroudant, 90 kWc"
           fill
           priority
           quality={85}
@@ -36,11 +36,10 @@ export function Hero() {
           playsInline
           poster={HERO_POSTER}
           preload="metadata"
-          className="absolute inset-0 h-full w-full object-cover object-center"
+          className="absolute inset-0 h-full w-full object-cover object-center motion-reduce:hidden"
           aria-hidden
         >
-          <source src={HERO_VIDEO_WEBM} type="video/webm" />
-          <source src={HERO_VIDEO_MP4}  type="video/mp4" />
+          <source src={HERO_VIDEO_MP4} type="video/mp4" />
         </video>
         {/* Overlay bicouche : vignette périmétrique + gradient bas fort */}
         <div
