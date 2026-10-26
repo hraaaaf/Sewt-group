@@ -34,7 +34,7 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
   return (
     <>
       <Navbar />
-      <main className="min-h-svh bg-bg pt-28 pb-16 sm:pt-36">
+      <main id="main" className="min-h-svh bg-bg pt-28 pb-16 sm:pt-36">
         <Container>
           {/* Navigation retour */}
           <Link 

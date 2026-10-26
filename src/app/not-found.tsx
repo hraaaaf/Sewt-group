@@ -4,7 +4,7 @@ import { LinkButton } from "@/components/ui/Button";
 
 export default function NotFound() {
   return (
-    <main className="relative flex min-h-svh items-center">
+    <main id="main" className="relative flex min-h-svh items-center">
       <div aria-hidden className="absolute inset-0 -z-10 gradient-mesh-dark opacity-80" />
       <Container className="text-center">
         <p className="font-mono text-xs uppercase tracking-wide text-fg-subtle">Erreur 404</p>
