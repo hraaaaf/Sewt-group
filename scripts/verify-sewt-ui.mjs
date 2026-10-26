@@ -47,6 +47,8 @@ async function screenshot(name, viewport, theme = "light") {
   assert.equal((await page.locator('#hero a[href="/contact"]').textContent())?.trim(), "Échanger sur votre projet");
   assert.equal((await page.locator('#hero a[href="/#offre"]').textContent())?.trim(), "Découvrir nos solutions");
   assert.match((await page.locator("#hero-heading").textContent()) ?? "", /Sun\.\s*Power\./);
+  assert.doesNotMatch((await page.locator("#hero").textContent()) ?? "", /Groupe énergétique marocain/i,
+    "Hero : le micro-slogan hérité mais retiré à la demande du propriétaire doit être absent");
   // Les deux CTA sont rétablis selon la validation Word 5/32.
   assert.equal(await page.locator("#offre article").count(), 3);
   for (const chapter of ["#offre", "#histoire"]) {
