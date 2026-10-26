@@ -5,7 +5,7 @@ import { Container } from "@/components/layout/Container";
 
 export const metadata: Metadata = {
   title: "Confidentialité",
-  description: "Informations sur le traitement des données du formulaire de contact SEWT Group.",
+  description: "Informations sur les échanges par e-mail avec SEWT Group.",
   robots: { index: false, follow: false },
 };
 
@@ -34,22 +34,22 @@ export default function PrivacyPage() {
             <section className="mt-10 space-y-3" aria-labelledby="privacy-purpose">
               <h2 id="privacy-purpose" className="font-display text-2xl font-bold">Pourquoi recueillons-nous des données ?</h2>
               <p className="text-fg-muted">
-                Le bouton « Nous écrire » permet de transmettre une demande de contact.
-                L'adresse e-mail et le message sont nécessaires pour la traiter ;
-                le nom est facultatif. La case de consentement n'est pas précochée.
-                Les données communiquées ne sont pas destinées, par cette seule demande,
-                à une inscription automatique à une liste de prospection.
+                Le bouton « Nous écrire » ouvre votre messagerie avec le destinataire
+                et l'objet préremplis. Aucun formulaire n'est affiché sur le site
+                et aucun message n'est envoyé avant votre confirmation dans
+                votre messagerie. Si vous envoyez un e-mail, vos coordonnées
+                et son contenu servent à répondre à votre demande, sans inscription
+                automatique à une liste de prospection.
               </p>
             </section>
 
             <section className="mt-10 space-y-3" aria-labelledby="privacy-recipients">
               <h2 id="privacy-recipients" className="font-display text-2xl font-bold">Destinataires et prestataires</h2>
               <p className="text-fg-muted">
-                Les demandes sont destinées à l'équipe SEWT chargée de répondre.
-                Lorsqu'il sera activé, le transport transactionnel Resend acheminera
-                ces demandes par e-mail au destinataire configuré. Vercel héberge
-                l'application et Upstash peut limiter les tentatives abusives à partir
-                d'un identifiant dérivé de l'adresse IP, sans publier l'adresse brute.
+                Les messages que vous choisissez d'envoyer sont destinés à l'équipe SEWT
+                chargée de répondre. Ils passent par les services de messagerie
+                de l'expéditeur et du destinataire, et non par un formulaire du site.
+                Le site est hébergé sur Vercel.
               </p>
               <p className="text-fg-muted">
                 Certains prestataires peuvent traiter des données hors du Maroc.
@@ -61,12 +61,10 @@ export default function PrivacyPage() {
             <section className="mt-10 space-y-3" aria-labelledby="privacy-retention">
               <h2 id="privacy-retention" className="font-display text-2xl font-bold">Sécurité et conservation</h2>
               <p className="text-fg-muted">
-                Les demandes sont transmises au serveur via une connexion HTTPS.
-                Des contrôles techniques limitent les envois automatisés.
-                Les messages doivent être conservés seulement le temps nécessaire au
-                traitement de la demande et aux éventuelles obligations applicables.
-                La durée opérationnelle exacte de conservation dans les boîtes e-mail
-                et chez les prestataires sera confirmée avant l'activation du service.
+                Vous rédigez et envoyez votre message depuis votre application de messagerie,
+                hors du site. Les courriels reçus doivent être conservés uniquement
+                pendant la durée nécessaire au traitement des demandes et aux
+                obligations applicables. SEWT doit confirmer ses durées de conservation.
               </p>
             </section>
 
@@ -83,18 +81,19 @@ export default function PrivacyPage() {
               <p className="rounded-xl border border-border bg-bg-elevated/60 p-4 text-sm text-fg-muted">
                 Le numéro de récépissé ou d'autorisation CNDP et les informations
                 définitives sur les transferts de données n'ont pas encore été communiqués.
-                Leur vérification est requise avant l'activation publique du formulaire.
+                Leur vérification reste nécessaire pour les traitements concernés,
+                notamment avant toute collecte directe future via le site.
               </p>
             </section>
 
             <section className="mt-10 space-y-3" aria-labelledby="privacy-cookies">
               <h2 id="privacy-cookies" className="font-display text-2xl font-bold">Cookies et préférences techniques</h2>
               <p className="text-fg-muted">
-                Le formulaire utilise un cookie technique de protection contre les
-                soumissions non autorisées. Le site peut conserver localement un choix
-                de thème d'affichage. Si des outils de mesure d'audience ou de
-                publicité impliquant des données personnelles sont ajoutés, cette
-                information devra être mise à jour et les consentements requis obtenus.
+                Le bouton « Nous écrire » ne dépose aucun cookie de formulaire.
+                Le site peut conserver localement un choix de thème d'affichage.
+                Si des outils de mesure d'audience ou de publicité impliquant des
+                données personnelles sont ajoutés, cette information devra être
+                mise à jour et les consentements requis obtenus.
               </p>
             </section>
           </article>
