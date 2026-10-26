@@ -44,9 +44,16 @@ export default function LegalNoticesPage() {
             <section className="mt-10 space-y-3" aria-labelledby="legal-host">
               <h2 id="legal-host" className="font-display text-2xl font-bold text-fg">Hébergement</h2>
               <p className="text-fg-muted">
-                L'application web est déployée sur l'infrastructure de Vercel.
-                Les coordonnées contractuelles précises de l'entité hébergeuse
-                et la région d'hébergement seront confirmées avant la publication définitive.
+                Le site est hébergé sur l'infrastructure de Vercel Inc.,
+                440 N Barranca Ave #4133, Covina, CA 91723, États-Unis.
+              </p>
+              <p className="text-sm leading-relaxed text-fg-muted">
+                Pour les renseignements relatifs à cet hébergeur, consulter{" "}
+                <a className="text-accent underline underline-offset-4" href="https://vercel.com/legal" target="_blank" rel="noopener noreferrer">
+                  ses informations légales
+                </a>.
+                La région effective et les flux de données applicables à la version
+                mise en production feront l'objet d'une vérification distincte.
               </p>
             </section>
 
