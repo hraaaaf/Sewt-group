@@ -92,8 +92,7 @@ export function LeGroupe() {
                 alt="Équipe SEWT Group sur un chantier"
                 fill
                 sizes="(max-width: 1024px) 95vw, 55vw"
-                className="object-cover"
-                style={{ objectPosition: "center 78%", transform: "scale(1.38)", transformOrigin: "center bottom" }}
+                className="object-cover object-[center_92%] sm:object-[center_78%]"
               />
               <div
                 className="absolute inset-0"
