@@ -13,7 +13,7 @@ const contactSchema = z.object({
   message: z.string().max(2000).optional(),
   rgpd: z.literal(true),
   _hp: z.string().max(200).optional().default(""),
-  monthlyBill: z.number().positive().max(1_000_000),
+  monthlyBill: z.number().positive().max(1_000_000).optional(),
   roi: z.record(z.unknown()).optional(),
   source: z.enum(["roi-gate", "contact-form"]).optional(),
 });
@@ -29,6 +29,9 @@ type ContactPostOptions = {
   webhookUrl?: string;
   webhookSecret?: string;
   fetcher?: typeof fetch;
+  resendApiKey?: string;
+  resendFromEmail?: string;
+  resendRecipientEmail?: string;
 };
 
 const MAX_BODY_BYTES = 32_768;
@@ -110,7 +113,7 @@ async function readBoundedJson(request: Request): Promise<
 }
 
 export function createContactPostHandler(options: ContactPostOptions) {
-  const { isProduction, rateLimiter, webhookUrl, webhookSecret } = options;
+  const { isProduction, rateLimiter, webhookUrl, webhookSecret, resendApiKey, resendFromEmail, resendRecipientEmail } = options;
   const fetcher = options.fetcher ?? fetch;
 
   return async function POST(request: Request): Promise<Response> {
@@ -132,7 +135,7 @@ export function createContactPostHandler(options: ContactPostOptions) {
 
     if (rateLimiter) {
       try {
-        const identifier = createHmac("sha256", webhookSecret ?? "local-rate-limit")
+        const identifier = createHmac("sha256", webhookSecret ?? resendApiKey ?? "local-rate-limit")
           .update(ip)
           .digest("hex");
         const limit = await rateLimiter.limit(identifier);
@@ -185,6 +188,63 @@ export function createContactPostHandler(options: ContactPostOptions) {
     }
 
     if (parsed.data._hp.trim() !== "") return json({ ok: true }, { status: 200 });
+
+    // The Resend transport is optional and server-side only. The existing
+    // authenticated webhook remains available for CRM installations.
+    const resendSelected = Boolean(resendApiKey || resendFromEmail || resendRecipientEmail);
+    if (resendSelected) {
+      // Incomplete settings must fail closed; no silent fallback to another destination.
+      const sender = resendFromEmail?.trim() ?? "";
+      const receiver = resendRecipientEmail?.trim() ?? "";
+      if (
+        !resendApiKey?.startsWith("re_") ||
+        !sender ||
+        /[\r\n]/.test(sender) ||
+        !z.string().email().safeParse(receiver).success
+      ) {
+        return json({ ok: false, error: "Service de contact indisponible" }, { status: 503 });
+      }
+
+      const data = parsed.data;
+      const message = [
+        "Nouvelle demande depuis le site SEWT",
+        `Identifiant : ${data.submissionId}`,
+        `E-mail : ${data.email}`,
+        `Nom : ${data.name ?? "Non indiqué"}`,
+        `Société : ${data.company ?? "Non indiquée"}`,
+        `Téléphone : ${data.phone ?? "Non indiqué"}`,
+        `Secteur : ${data.sector ?? "Non indiqué"}`,
+        `Facture mensuelle : ${data.monthlyBill === undefined ? "Non indiquée" : `${data.monthlyBill} MAD`}`,
+        "",
+        "Message :",
+        data.message ?? "(sans message)",
+      ].join("\n");
+      try {
+        const delivery = await fetcher("https://api.resend.com/emails", {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${resendApiKey}`,
+            "Content-Type": "application/json",
+            "Idempotency-Key": `sewt-contact/${data.submissionId}`,
+          },
+          body: JSON.stringify({
+            from: sender,
+            to: [receiver],
+            reply_to: data.email,
+            subject: "Nouvelle demande — site SEWT",
+            text: message,
+          }),
+          cache: "no-store",
+          redirect: "error",
+          signal: AbortSignal.timeout(5_000),
+        });
+        if (!delivery.ok) return json({ ok: false, error: "Échec de transmission" }, { status: 502 });
+        // Resend accepts the email for delivery; this does not confirm inbox receipt.
+        return json({ ok: true }, { status: 200 });
+      } catch {
+        return json({ ok: false, error: "Échec de transmission" }, { status: 502 });
+      }
+    }
 
     if (!webhookUrl || !webhookSecret || webhookSecret.length < 32) {
       return json({ ok: false, error: "Service de contact indisponible" }, { status: 503 });

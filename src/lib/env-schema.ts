@@ -6,6 +6,9 @@ const serverEnvSchema = z.object({
   // configuration can return a controlled 503 instead of preventing startup.
   CONTACT_WEBHOOK_URL: z.string().optional(),
   CONTACT_WEBHOOK_SECRET: z.string().optional(),
+  RESEND_API_KEY: z.string().optional(),
+  RESEND_FROM_EMAIL: z.string().optional(),
+  CONTACT_RECIPIENT_EMAIL: z.string().optional(),
   UPSTASH_REDIS_REST_URL: z.string().optional(),
   UPSTASH_REDIS_REST_TOKEN: z.string().optional(),
 });

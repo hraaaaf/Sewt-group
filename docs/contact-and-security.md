@@ -38,3 +38,32 @@ The CSP allows `'unsafe-eval'` only in development for React diagnostics. The
 production policy omits it. Inline scripts and styles remain allowed because
 this app currently uses static headers and App Router hydration/inline styles;
 moving to a nonce-based policy requires a separate rendering and caching review.
+
+
+## Direct transactional email using Resend (optional, not yet live)
+
+The simplified /contact page may use a minimal modal (email, message and consent)
+behind the single visible “Nous écrire” button. Its messages are submitted to
+the existing `POST /api/contact` route, protected by CSRF, schema validation,
+a 32 KiB maximum payload, a hidden bot field and fail-closed production rate
+limiting (five attempts/IP/hour). The /contact modal does not make up
+a monthly electricity bill.
+
+The API can use either the existing authenticated webhook OR the Resend API.
+To select Resend, configure all three server-only variables:
+`RESEND_API_KEY`, `RESEND_FROM_EMAIL` (verified sender domain), and
+`CONTACT_RECIPIENT_EMAIL`. Also configure
+`UPSTASH_REDIS_REST_URL` and `UPSTASH_REDIS_REST_TOKEN`. Partial Resend
+configuration returns 503, never claiming delivery.
+
+Resend receives a plain-text message using its real `POST /emails` payload
+(`from`, `to`, `reply_to`, `subject`, `text`); a UUID-derived
+`Idempotency-Key` limits accidental retries (Resend stores keys for 24 hours).
+Successful responses mean **accepted for delivery only**, NOT that the target
+mailbox exists or received the email. Before going live, verify the DNS sender,
+the actual shared recipient mailbox and bounces/delivery events with a live test.
+Do not place API keys in code, chat, Git or public client configuration.
+
+If provider configuration is missing or delivery fails, the client must
+show a failure state and offer an explicit `mailto:` fallback. A generic
+server-to-Resend test is mocked and cannot prove real delivery.

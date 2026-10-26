@@ -12,4 +12,7 @@ export const POST = createContactPostHandler({
   ),
   webhookUrl: serverEnv.CONTACT_WEBHOOK_URL,
   webhookSecret: serverEnv.CONTACT_WEBHOOK_SECRET,
+  resendApiKey: serverEnv.RESEND_API_KEY,
+  resendFromEmail: serverEnv.RESEND_FROM_EMAIL,
+  resendRecipientEmail: serverEnv.CONTACT_RECIPIENT_EMAIL,
 });

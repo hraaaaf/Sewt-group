@@ -55,6 +55,9 @@ function makeHandler(options: {
   webhookUrl?: string | null;
   webhookSecret?: string | null;
   fetcher?: typeof fetch;
+  resendApiKey?: string;
+  resendFromEmail?: string;
+  resendRecipientEmail?: string;
 } = {}) {
   return createContactPostHandler({
     isProduction: options.isProduction ?? true,
@@ -62,6 +65,9 @@ function makeHandler(options: {
     webhookUrl: options.webhookUrl === null ? undefined : options.webhookUrl ?? "https://receiver.example.test/leads",
     webhookSecret: options.webhookSecret === null ? undefined : options.webhookSecret ?? webhookSecret,
     fetcher: options.fetcher ?? (async () => new Response(null, { status: 202 })),
+    resendApiKey: options.resendApiKey,
+    resendFromEmail: options.resendFromEmail,
+    resendRecipientEmail: options.resendRecipientEmail,
   });
 }
 
@@ -194,4 +200,55 @@ test("ROI gate and contact form payload shapes are both accepted", async () => {
 
   assert.equal(await statusOf(handler, roiGate), 200);
   assert.equal(await statusOf(handler, contactForm), 200);
+});
+
+
+test("Resend accepts simple website contact without fictitious monthly bill", async () => {
+  let call: { url: string; auth: string | null; idem: string | null; body: Record<string, unknown> } | undefined;
+  const handler = makeHandler({
+    resendApiKey: "re_test_only_not_real",
+    resendFromEmail: "SEWT Group <leads@mail.sewt-group.ma>",
+    resendRecipientEmail: "contact@sewt-group.ma",
+    fetcher: async (url, options) => {
+      call = {
+        url: String(url),
+        auth: new Headers(options?.headers).get("Authorization"),
+        idem: new Headers(options?.headers).get("Idempotency-Key"),
+        body: JSON.parse(String(options?.body)) as Record<string, unknown>,
+      };
+      return new Response(JSON.stringify({ id: "test-email-id" }), { status: 200 });
+    },
+  });
+  const simpleContact = {
+    email: "visitor@example.test",
+    message: "Je souhaite discuter de mon projet énergétique.",
+    submissionId: "33333333-3333-4333-8333-333333333333",
+    rgpd: true,
+    source: "contact-form",
+    _hp: "",
+  };
+  assert.equal(await statusOf(handler, simpleContact), 200);
+  assert.equal(call?.url, "https://api.resend.com/emails");
+  assert.equal(call?.auth, "Bearer re_test_only_not_real");
+  assert.equal(call?.idem, "sewt-contact/33333333-3333-4333-8333-333333333333");
+  assert.equal(call?.body.from, "SEWT Group <leads@mail.sewt-group.ma>");
+  assert.deepEqual(call?.body.to, ["contact@sewt-group.ma"]);
+  assert.equal(call?.body.reply_to, "visitor@example.test");
+  assert.match(String(call?.body.text), /Je souhaite discuter/);
+  assert.match(String(call?.body.text), /Facture mensuelle : Non indiquée/);
+});
+
+test("Resend missing config and provider rejection fail closed", async () => {
+  const simpleContact = { email: "visitor@example.test", submissionId, message: "Projet solaire.", rgpd: true, source: "contact-form" };
+  const missing = makeHandler({ resendApiKey: "re_missing" });
+  assert.equal(await statusOf(missing, simpleContact), 503);
+  let calls = 0;
+  const denied = makeHandler({
+    resendApiKey: "re_test_only_not_real",
+    resendFromEmail: "SEWT Group <leads@mail.sewt-group.ma>",
+    resendRecipientEmail: "contact@sewt-group.ma",
+    fetcher: async () => { calls++; return new Response(null, { status: 401 }); },
+  });
+  assert.equal(await statusOf(denied, simpleContact), 502);
+  assert.equal(calls, 1);
 });
