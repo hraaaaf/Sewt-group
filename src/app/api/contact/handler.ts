@@ -25,6 +25,8 @@ type ContactRateLimiter = {
 
 type ContactPostOptions = {
   isProduction: boolean;
+  // Explicit opt-in is required in the deployed route, pending domain/mailbox setup.
+  enabled?: boolean;
   rateLimiter: ContactRateLimiter | null;
   webhookUrl?: string;
   webhookSecret?: string;
@@ -117,6 +119,10 @@ export function createContactPostHandler(options: ContactPostOptions) {
   const fetcher = options.fetcher ?? fetch;
 
   return async function POST(request: Request): Promise<Response> {
+    if (options.enabled === false) {
+      return json({ ok: false, error: "Service e-mail en attente de l'activation du domaine" }, { status: 503 });
+    }
+
     const csrfHeader = request.headers.get("x-csrf-token") ?? "";
     const csrfCookie = request.headers.get("cookie")
       ?.split(";")

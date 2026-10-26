@@ -79,3 +79,33 @@ set the credentials only in a private server environment, and test a real
 submission end to end. GitHub repository visibility is temporarily PUBLIC;
 never commit secrets. Vercel production and `main` remain frozen until explicitly
 authorized.
+
+## Octobre 2026 — instructions explicites : PRÉPARER, NE PAS BRANCHER
+
+Le propriétaire a demandé de **préparer tout le code e-mail, puis d'attendre**
+l'enregistrement du domaine du site et la création de l'adresse professionnelle
+en `@domaine` avant toute connexion. Le nom `contact@sewt-group.ma` n'est
+qu'une destination **proposée** dans la configuration; ne pas le décrire comme
+une boîte existante ou vérifiée.
+
+La route déployée impose `CONTACT_EMAIL_ENABLED=true` (absent par défaut).
+Même avec une clé API Resend présente, l'absence de ce drapeau empêche tout
+envoi et renvoie 503. Le **webhook commercial n'est pas raccordé à la route** :
+seul Resend pourra assurer le transport final, comme demandé. Les tests de
+l'ancien handler générique peuvent toujours simuler un webhook sans l'activer.
+
+Séquence de branchement ultérieure :
+1. Acheter/enregistrer et vérifier la propriété du domaine exact choisi.
+2. Créer et confirmer la boîte de réception professionnelle `@domaine`.
+3. Vérifier un sous-domaine d'envoi sur Resend (DNS DKIM/SPF, DMARC
+   recommandé) et créer une clé API restreinte, sans l'écrire dans Git.
+4. Configurer en privé sur Vercel `CONTACT_RECIPIENT_EMAIL`,
+   `RESEND_FROM_EMAIL`, `RESEND_API_KEY`, Upstash pour les environnements
+   utilisés, puis contrôler un vrai envoi, sa réception et les rebonds.
+5. **Ensuite seulement** passer `CONTACT_EMAIL_ENABLED=true`, effectuer
+   un redéploiement autorisé et revérifier la réception. Prévenir le responsable
+   si les vérifications juridiques CNDP applicables restent incomplètes.
+
+Pour l'instant : `CONTACT_EMAIL_ENABLED` absent, aucun envoi réel, aucun
+nouveau domaine ni aucune boîte créés. Les pages juridiques et les tests du
+site peuvent progresser indépendamment.

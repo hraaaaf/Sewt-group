@@ -51,6 +51,7 @@ type TestRateLimiter = {
 
 function makeHandler(options: {
   isProduction?: boolean;
+  enabled?: boolean;
   rateLimiter?: TestRateLimiter | null;
   webhookUrl?: string | null;
   webhookSecret?: string | null;
@@ -61,6 +62,7 @@ function makeHandler(options: {
 } = {}) {
   return createContactPostHandler({
     isProduction: options.isProduction ?? true,
+    enabled: options.enabled,
     rateLimiter: options.rateLimiter === undefined ? allowedRateLimiter() : options.rateLimiter,
     webhookUrl: options.webhookUrl === null ? undefined : options.webhookUrl ?? "https://receiver.example.test/leads",
     webhookSecret: options.webhookSecret === null ? undefined : options.webhookSecret ?? webhookSecret,
@@ -251,4 +253,24 @@ test("Resend missing config and provider rejection fail closed", async () => {
   });
   assert.equal(await statusOf(denied, simpleContact), 502);
   assert.equal(calls, 1);
+});
+
+test("email hookup stays off even if Resend credentials are supplied", async () => {
+  let outboundCalls = 0;
+  const handler = makeHandler({
+    enabled: false,
+    resendApiKey: "re_valid_but_not_for_live_use",
+    resendFromEmail: "SEWT <leads@mail.example.test>",
+    resendRecipientEmail: "contact@example.test",
+    fetcher: async () => { outboundCalls++; return new Response(null, { status: 200 }); },
+  });
+  assert.equal(await statusOf(handler), 503);
+  assert.equal(outboundCalls, 0);
+});
+
+test("deployed email gate defaults to disabled unless explicitly true", () => {
+  assert.equal(parseServerEnv({}).CONTACT_EMAIL_ENABLED, undefined);
+  assert.equal(parseServerEnv({ CONTACT_EMAIL_ENABLED: "false" }).CONTACT_EMAIL_ENABLED, "false");
+  assert.equal(parseServerEnv({ CONTACT_EMAIL_ENABLED: "true" }).CONTACT_EMAIL_ENABLED, "true");
+  assert.throws(() => parseServerEnv({ CONTACT_EMAIL_ENABLED: "yes" }));
 });
