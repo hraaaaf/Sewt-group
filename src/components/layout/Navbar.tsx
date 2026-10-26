@@ -7,7 +7,6 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { X, Menu } from "lucide-react";
 import { cn } from "@/lib/cn";
-import { ThemeToggle } from "@/components/ui/ThemeToggle";
 
 const links = [
   { href: "/#le-groupe",     label: "Groupe",      index: "01" },
@@ -83,40 +82,21 @@ export function Navbar() {
             ))}
           </nav>
 
-          {/* Right actions */}
-          <div className="flex items-center gap-3">
-            <ThemeToggle
-              className={cn(
-                "transition-all duration-500",
-                overHomeHero ? "[&_svg]:text-white" : "",
-              )}
-            />
-            <Link
-              href="/contact"
-              className={cn(
-                "hidden md:inline-flex items-center gap-2 rounded-full px-5 py-2 text-sm font-semibold transition-all duration-300",
-                overHomeHero
-                  ? "border border-white/20 bg-white/15 text-white backdrop-blur-sm hover:bg-white/25"
-                  : "bg-accent text-white hover:bg-accent/90",
-              )}
-            >
-              Parler de mon projet
-            </Link>
-            <button
-              type="button"
-              onClick={() => setOpen(true)}
-              aria-label="Ouvrir le menu"
-              aria-expanded={open}
-              className={cn(
-                "flex h-10 w-10 items-center justify-center rounded-full transition-all duration-300",
-                overHomeHero
-                  ? "border border-white/30 text-white hover:bg-white/10"
-                  : "border border-border text-fg hover:text-accent",
-              )}
-            >
-              <Menu className="h-4 w-4" aria-hidden />
-            </button>
-          </div>
+          {/* Navigation remains available without promotional CTA or dev-like switches. */}
+          <button
+            type="button"
+            onClick={() => setOpen(true)}
+            aria-label="Ouvrir le menu"
+            aria-expanded={open}
+            className={cn(
+              "flex h-10 w-10 items-center justify-center rounded-full transition-all duration-300",
+              overHomeHero
+                ? "border border-white/30 text-white hover:bg-white/10"
+                : "border border-border text-fg hover:text-accent",
+            )}
+          >
+            <Menu className="h-4 w-4" aria-hidden />
+          </button>
         </div>
       </header>
 
@@ -176,17 +156,6 @@ export function Navbar() {
               ))}
             </nav>
 
-            {/* Footer drawer */}
-            <div className="flex flex-col gap-3 px-8 pb-10">
-              <ThemeToggle />
-              <Link
-                href="/contact"
-                onClick={() => setOpen(false)}
-                className="flex items-center justify-center gap-2 rounded-full bg-accent px-6 py-3.5 text-sm font-semibold text-white"
-              >
-                Parler de mon projet →
-              </Link>
-            </div>
           </motion.div>
         )}
       </AnimatePresence>

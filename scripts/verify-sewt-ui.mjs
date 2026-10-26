@@ -35,10 +35,17 @@ async function screenshot(name, viewport, theme = "light") {
     theme,
   );
   await verifySkipNavigation(page, `${name} accueil`);
-  assert.equal(await page.locator("#hero video").count(), 1, "La vidéo originale du Hero doit rester visible");
+  assert.equal(await page.locator("#hero video").count(), 1, "Une unique vidéo de l'hôtel doit être présente dans le Hero");
+  const media = page.locator("#hero video");
+  assert.equal(await media.getAttribute("autoplay"), "", "Hero autoplay conservé");
+  assert.equal(await media.getAttribute("muted"), "", "Hero silencieux conservé");
+  assert.equal(await media.getAttribute("loop"), "", "Hero en boucle conservé");
+  assert.equal(await media.getAttribute("playsinline"), "", "Hero compatible avec iOS");
+  assert.match(await media.locator("source").getAttribute("src") ?? "", /\/6cd3a266-d078-4e5f-92ca-6d86cb36ac6a\.mp4$/);
+  assert.match(await media.getAttribute("poster") ?? "", /\/96a26c6b-7092-4847-87e5-0d26460e0ed8\.webp$/);
+  assert.equal(await page.locator("#hero button, #hero a").count(), 0, "Aucun bouton ni lien visible dans le Hero épuré");
   assert.match((await page.locator("#hero-heading").textContent()) ?? "", /Sun\.\s*Power\./);
-  await page.getByRole("link", { name: "Échanger sur votre projet" }).waitFor({ state: "visible" });
-  await page.getByRole("link", { name: "Découvrir nos solutions" }).waitFor({ state: "visible" });
+  // La version Hero hôtel approuvée est volontairement sans CTA : la navigation reste dans le menu.
   assert.equal(await page.locator("#offre article").count(), 3);
   for (const chapter of ["#offre", "#histoire"]) {
     const color = await page.locator(chapter).evaluate((node) =>
@@ -111,9 +118,8 @@ async function screenshot(name, viewport, theme = "light") {
   assert.notEqual(headerBg, "rgba(0, 0, 0, 0)", "La navigation interne doit avoir un fond");
   assert.notEqual(headerBg, "transparent", "La navigation interne ne doit pas être transparente");
   await verifySkipNavigation(page, `${name} contact`);
-  await page.getByRole("link", { name: "Parler de mon projet" }).first().waitFor({
-    state: viewport.width >= 768 ? "visible" : "hidden",
-  });
+  assert.equal(await page.locator("header").getByRole("link", { name: "Parler de mon projet" }).count(), 0);
+  assert.equal(await page.locator("header").getByRole("button", { name: /thème|theme/i }).count(), 0);
   const logoFilter = await page.locator('header img[alt="SEWT Group"]').evaluate((el) =>
     getComputedStyle(el).filter
   );
