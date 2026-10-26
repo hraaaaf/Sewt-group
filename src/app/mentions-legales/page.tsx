@@ -67,8 +67,9 @@ export default function LegalNoticesPage() {
             <section className="mt-10 space-y-3" aria-labelledby="legal-privacy">
               <h2 id="legal-privacy" className="font-display text-2xl font-bold text-fg">Données personnelles</h2>
               <p className="text-fg-muted">
-                La collecte des coordonnées au moyen du formulaire de contact est décrite
-                dans notre <a className="text-accent underline underline-offset-4" href="/confidentialite">politique de confidentialité</a>.
+                Le bouton « Nous écrire » ouvre la messagerie de votre appareil, sans
+                formulaire de collecte sur le site. Les courriels adressés à SEWT sont
+                traités comme précisé dans notre <a className="text-accent underline underline-offset-4" href="/confidentialite">politique de confidentialité</a>.
                 Le traitement est soumis notamment à la loi marocaine n° 09-08 et aux
                 formalités applicables auprès de la CNDP.
               </p>
