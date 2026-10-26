@@ -43,9 +43,11 @@ async function screenshot(name, viewport, theme = "light") {
   assert.equal(await media.getAttribute("playsinline"), "", "Hero compatible avec iOS");
   assert.match(await media.locator("source").getAttribute("src") ?? "", /\/hotel-riad-taroudant-hero\.mp4$/);
   assert.match(await media.getAttribute("poster") ?? "", /\/hotel-riad-taroudant-poster\.webp$/);
-  assert.equal(await page.locator("#hero button, #hero a").count(), 0, "Aucun bouton ni lien visible dans le Hero épuré");
+  assert.equal(await page.locator("#hero a").count(), 2, "Les deux CTA du Hero doivent être visibles");
+  assert.equal((await page.locator('#hero a[href="/contact"]').textContent())?.trim(), "Échanger sur votre projet");
+  assert.equal((await page.locator('#hero a[href="/#offre"]').textContent())?.trim(), "Découvrir nos solutions");
   assert.match((await page.locator("#hero-heading").textContent()) ?? "", /Sun\.\s*Power\./);
-  // La version Hero hôtel approuvée est volontairement sans CTA : la navigation reste dans le menu.
+  // Les deux CTA sont rétablis selon la validation Word 5/32.
   assert.equal(await page.locator("#offre article").count(), 3);
   for (const chapter of ["#offre", "#histoire"]) {
     const color = await page.locator(chapter).evaluate((node) =>
@@ -80,6 +82,14 @@ async function screenshot(name, viewport, theme = "light") {
       }, { selector, index });
     }
   }
+
+  // Count-up : le contexte QA demande moins d'animations, donc les valeurs finales
+  // doivent apparaître lorsque les chiffres entrent dans le viewport.
+  await page.waitForFunction(() => {
+    const values = [...document.querySelectorAll('#impact [aria-label="Chiffres clés SEWT Group"] .tabular-nums [aria-hidden="true"]')]
+      .map((node) => node.textContent?.trim());
+    return JSON.stringify(values) === JSON.stringify(["+30 ans", "+200", "50 MWc"]);
+  });
 
   // Verify each team portrait and the field photo in the actual mobile viewport.
   // A full-page screenshot alone does not trigger Framer Motion whileInView.
