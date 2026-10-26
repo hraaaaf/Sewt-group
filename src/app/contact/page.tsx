@@ -47,7 +47,7 @@ export default function ContactPage() {
             ))}
           </div>
 
-          <div className="mb-20 flex flex-col items-center gap-3 rounded-3xl border border-border-strong bg-bg-elevated/40 px-6 py-10 text-center">
+          <div className="mb-20 flex justify-center">
             <ContactMessageDialog />
           </div>
 
