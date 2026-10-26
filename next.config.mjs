@@ -13,13 +13,13 @@ const CSP = [
   // Fonts
   "font-src 'self' https://fonts.gstatic.com",
   // Images : domaines utilisés + data URIs pour les placeholders SVG
-  "img-src 'self' data: blob: https://images.unsplash.com https://cdn.midjourney.com https://maps.googleapis.com https://maps.gstatic.com https://d2ol7oe51mr4n9.cloudfront.net",
+  "img-src 'self' data: blob: https://images.unsplash.com https://cdn.midjourney.com https://maps.googleapis.com https://maps.gstatic.com",
   // Connexions fetch/XHR : API routes + Google Maps API
   "connect-src 'self' https://maps.googleapis.com",
   // Frames : Google Maps embed uniquement
   "frame-src https://www.google.com https://maps.google.com",
   // Médias : CDN SEWT temporaire autorisé exclusivement pour le Hero Preview (Higgsfield).
-  "media-src 'self' https://d2ol7oe51mr4n9.cloudfront.net",
+  "media-src 'self'",
   // Workers (Lenis / GSAP n'en utilisent pas)
   "worker-src 'none'",
   // Formulaires

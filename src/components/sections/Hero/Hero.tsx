@@ -5,8 +5,8 @@ import { useEffect, useRef } from "react";
 import Image from "next/image";
 
 // SEWT Riad Taroudant — revised 15.4s motion-first silent H.264 video.
-const HERO_VIDEO_MP4 = "https://d2ol7oe51mr4n9.cloudfront.net/user_3Hr7zuByNIFoArCjlA8t5T2exht/6cd3a266-d078-4e5f-92ca-6d86cb36ac6a.mp4";
-const HERO_POSTER = "https://d2ol7oe51mr4n9.cloudfront.net/user_3Hr7zuByNIFoArCjlA8t5T2exht/96a26c6b-7092-4847-87e5-0d26460e0ed8.webp";
+const HERO_VIDEO_MP4 = "/brand/hotel-riad-taroudant-hero.mp4";
+const HERO_POSTER = "/brand/hotel-riad-taroudant-poster.webp";
 
 export function Hero() {
   const videoRef = useRef<HTMLVideoElement>(null);

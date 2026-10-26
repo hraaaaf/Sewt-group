@@ -41,8 +41,8 @@ async function screenshot(name, viewport, theme = "light") {
   assert.equal(await media.getAttribute("muted"), "", "Hero silencieux conservé");
   assert.equal(await media.getAttribute("loop"), "", "Hero en boucle conservé");
   assert.equal(await media.getAttribute("playsinline"), "", "Hero compatible avec iOS");
-  assert.match(await media.locator("source").getAttribute("src") ?? "", /\/6cd3a266-d078-4e5f-92ca-6d86cb36ac6a\.mp4$/);
-  assert.match(await media.getAttribute("poster") ?? "", /\/96a26c6b-7092-4847-87e5-0d26460e0ed8\.webp$/);
+  assert.match(await media.locator("source").getAttribute("src") ?? "", /\/hotel-riad-taroudant-hero\.mp4$/);
+  assert.match(await media.getAttribute("poster") ?? "", /\/hotel-riad-taroudant-poster\.webp$/);
   assert.equal(await page.locator("#hero button, #hero a").count(), 0, "Aucun bouton ni lien visible dans le Hero épuré");
   assert.match((await page.locator("#hero-heading").textContent()) ?? "", /Sun\.\s*Power\./);
   // La version Hero hôtel approuvée est volontairement sans CTA : la navigation reste dans le menu.
