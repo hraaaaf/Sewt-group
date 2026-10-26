@@ -1,15 +1,32 @@
 "use client";
 
 import { motion } from "framer-motion";
+import { useEffect, useRef } from "react";
 import Image from "next/image";
-import Link from "next/link";
 
-// Vidéo hero — remplacer par version finale quand disponible
-const HERO_VIDEO_WEBM = "/brand/hero-video.webm";
-const HERO_VIDEO_MP4  = "/brand/hero-video.mp4";
-const HERO_POSTER     = "/brand/hero-poster.webp";
+// SEWT Riad Taroudant — revised 15.4s motion-first silent H.264 video.
+const HERO_VIDEO_MP4 = "https://d2ol7oe51mr4n9.cloudfront.net/user_3Hr7zuByNIFoArCjlA8t5T2exht/6cd3a266-d078-4e5f-92ca-6d86cb36ac6a.mp4";
+const HERO_POSTER = "https://d2ol7oe51mr4n9.cloudfront.net/user_3Hr7zuByNIFoArCjlA8t5T2exht/96a26c6b-7092-4847-87e5-0d26460e0ed8.webp";
 
 export function Hero() {
+  const videoRef = useRef<HTMLVideoElement>(null);
+
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video) return;
+
+    // Preserve the static poster for visitors who request reduced motion.
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      video.pause();
+      return;
+    }
+
+    video.muted = true;
+    void video.play().catch(() => {
+      // Autoplay is optional; the static hotel remains the fallback.
+    });
+  }, []);
+
   return (
     <section
       id="hero"
@@ -20,8 +37,8 @@ export function Hero() {
       <div className="absolute inset-0 overflow-hidden">
         {/* Fallback image — visible avant que la vidéo charge */}
         <Image
-          src="/projects/sidi-kacem-1100kwc.jpg"
-          alt="Centrale solaire SEWT Group — 1,1 MWc Sidi Kacem"
+          src="/projects/hotel-riad-taroudant.jpg"
+          alt="Installation photovoltaïque SEWT Group — Hôtel Riad Taroudant, 90 kWc"
           fill
           priority
           quality={85}
@@ -30,17 +47,22 @@ export function Hero() {
         />
         {/* Vidéo loop — s'affiche par dessus une fois chargée */}
         <video
+          ref={videoRef}
           autoPlay
           muted
           loop
           playsInline
           poster={HERO_POSTER}
-          preload="metadata"
+          preload="auto"
           className="absolute inset-0 h-full w-full object-cover object-center"
           aria-hidden
+          onClick={() => {
+            if (videoRef.current?.paused) {
+              void videoRef.current.play().catch(() => {});
+            }
+          }}
         >
-          <source src={HERO_VIDEO_WEBM} type="video/webm" />
-          <source src={HERO_VIDEO_MP4}  type="video/mp4" />
+          <source src={HERO_VIDEO_MP4} type="video/mp4" />
         </video>
         {/* Overlay bicouche : vignette périmétrique + gradient bas fort */}
         <div
@@ -90,25 +112,7 @@ export function Hero() {
           en service de leurs solutions énergétiques.
         </motion.p>
 
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.42, duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
-          className="mt-7 flex flex-wrap items-center justify-center gap-3 md:mt-9 md:gap-4"
-        >
-          <Link
-            href="/contact"
-            className="inline-flex min-h-12 items-center justify-center rounded-full bg-accent px-6 py-3 text-center font-sans text-sm font-semibold text-white transition-all duration-300 hover:bg-accent/90 hover:shadow-[0_0_28px_rgba(232,118,42,0.45)] md:px-8"
-          >
-            Échanger sur votre projet
-          </Link>
-          <Link
-            href="/#offre"
-            className="inline-flex min-h-12 items-center justify-center rounded-full border border-white/30 px-6 py-3 text-center font-sans text-sm font-semibold text-white backdrop-blur-sm transition-all duration-300 hover:border-white/50 hover:bg-white/10 md:px-8"
-          >
-            Découvrir nos solutions
-          </Link>
-        </motion.div>
+
       </div>
 
       {/* Vague organique — signature visuelle hero → manifeste */}
