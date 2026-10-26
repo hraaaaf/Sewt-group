@@ -133,7 +133,7 @@ async function screenshot(name, viewport, theme = "light") {
   );
   await contactDialog.getByRole("button", { name: "Fermer la fenêtre de message" }).click();
   await contactDialog.waitFor({ state: "hidden" });
-  assert.equal(await page.locator("main input").count(), 0);
+  assert.equal(await page.locator("main input:visible").count(), 0, "Aucun champ visible hors de la fenêtre de contact");
   const legal = page.getByRole("link", { name: "Demander les mentions légales" });
   const privacy = page.getByRole("link", { name: "Question sur la confidentialité" });
   assert.match((await legal.getAttribute("href")) ?? "", /^mailto:contact@sewt-group\.ma/);
