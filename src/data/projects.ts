@@ -3,12 +3,12 @@ import type { Project } from "@/types/project";
 export const projects: Project[] = [
   {
     slug: "centrale-pv-carriere-industrielle",
-    title: "Centrale photovoltaïque 1,1 MWc — Sidi Kacem",
+    title: "Site industriel",
     client: "Opérateur industriel (confidentiel)",
     sector: "industrie",
     status: "operational",
     location: "Sidi Kacem, Maroc",
-    year: 2023,
+    year: 2025,
     capacityKwc: 1_100,
     summary:
       "Centrale photovoltaïque au sol de 1,1 MWc — le plus grand projet du portefeuille SEWT. Structure fixe inclinée, raccordement HTA, monitoring temps réel. Couverture directe de la charge industrielle de pointe.",
@@ -21,7 +21,7 @@ export const projects: Project[] = [
     keyMetrics: [
       { label: "Puissance crête", value: "1 100", unit: "kWc" },
       { label: "Localisation", value: "Sidi Kacem" },
-      { label: "Mise en service", value: "2023" },
+      { label: "Mise en service", value: "2025" },
     ],
     chapters: [
       {
@@ -49,7 +49,7 @@ export const projects: Project[] = [
   },
   {
     slug: "centrale-pv-domaine-agricole",
-    title: "Centrale photovoltaïque 350 kWc — Taroudant",
+    title: "Exploitation agricole",
     client: "Domaine agricole (confidentiel)",
     sector: "agriculture",
     status: "operational",
@@ -95,11 +95,11 @@ export const projects: Project[] = [
   },
   {
     slug: "autoconsommation-bureaux",
-    title: "Autoconsommation tertiaire — Bureaux",
+    title: "Secteur tertiaire",
     client: "Acteur tertiaire (confidentiel)",
     sector: "tertiaire",
     status: "operational",
-    location: "Maroc",
+    location: "Casablanca",
     year: 2024,
     capacityKwc: 200,
     summary:

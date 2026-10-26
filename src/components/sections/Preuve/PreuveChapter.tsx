@@ -11,10 +11,7 @@ export function PreuveChapter() {
       aria-label="Références et partenaires SEWT Group"
       className="mt-8 md:mt-10"
     >
-      {/* Bandeau discret dans Projets réalisés, sans recréer une section autonome. */}
-      <h3 className="mb-4 font-display text-lg font-semibold leading-tight text-fg md:mb-5 md:text-xl">
-        Références &amp; <span className="text-accent">partenaires</span>
-      </h3>
+      {/* Word V2 p.6 : conserver seulement le bandeau de logos, sans titre visible. */}
       <motion.div
         initial={{ opacity: 0 }}
         whileInView={{ opacity: 1 }}

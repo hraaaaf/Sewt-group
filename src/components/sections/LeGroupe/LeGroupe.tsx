@@ -53,35 +53,29 @@ export function LeGroupe() {
     >
       <div className="mx-auto grid max-w-7xl grid-cols-1 items-start gap-10 lg:grid-cols-12 lg:gap-12">
         <motion.div {...fadeUp()} className="lg:col-span-5 lg:sticky lg:top-28">
-          <p className="section-label">Le Groupe · Notre équipe</p>
+          <p className="section-label">Le Groupe</p>
           <h2
             id="le-groupe-heading"
             className="mt-5 font-display font-bold leading-[1.06] text-fg"
             style={{ fontSize: "clamp(2rem, 3.7vw, 3.65rem)" }}
           >
-            19 collaborateurs.<br />
-            Une direction{" "}
-            <span className="text-accent">d’excellence.</span>
+            Une direction expérimentée.<br />
+            Une équipe <span className="text-accent">qualifiée.</span>
           </h2>
           <p className="mt-6 max-w-lg font-sans text-base leading-relaxed text-fg-muted">
             Notre équipe réunit une expertise de terrain, des techniciens qualifiés
             et des ingénieurs spécialisés pour accompagner chaque projet, de l’étude
             à la mise en service et à la maintenance.
           </p>
-          <p className="mt-4 max-w-lg font-sans text-sm leading-relaxed text-fg-muted">
-            Notre équipe terrain regroupe 2 chefs d’équipe, 6 techniciens (plomberie,
-            électricité, électrotechnique), 3 agents administratifs, 1 ingénieur HSE
-            et 3 ingénieurs spécialisés en développement de projets.
-          </p>
           <div className="mt-7 max-w-lg border-t border-border pt-6">
             <p className="font-mono text-[11px] uppercase tracking-[0.16em] text-accent">
               Ali Hajji · Fondateur
             </p>
             <p className="mt-3 font-sans text-sm leading-relaxed text-fg-muted">
-              PhD de l’Illinois Institute of Technology, M. Ali Hajji fonde
-              Energy Engineering en 1992, première structure dédiée au solaire
-              au Maroc. Il apporte plus de 30 ans d’expérience dans l’industrie
-              solaire nationale et internationale.
+              Ingénieur de l’Ecole Centrale de Paris, M. Ali Hajji fonde
+              Energy Engineering en 1992, structure pionnière de l’optimisation et de l’innovation
+              énergétique au Maroc. Il apporte plus de 30 ans d’expérience dans l’industrie solaire nationale et
+              internationale.
             </p>
             <blockquote className="mt-5 border-l-2 border-accent pl-4 font-display text-base font-semibold leading-snug text-fg">
               « L’énergie n’est pas seulement une ressource, c’est
@@ -95,10 +89,10 @@ export function LeGroupe() {
             <div className="relative aspect-[16/7] sm:aspect-[16/6]">
               <Image
                 src="/team/team-terrain.jpg"
-                alt="Équipe SEWT Group sur le chantier Ambemar Maroc"
+                alt="Équipe SEWT Group sur un chantier"
                 fill
                 sizes="(max-width: 1024px) 95vw, 55vw"
-                className="object-cover object-center"
+                className="object-cover object-[center_92%] sm:object-[center_78%]"
               />
               <div
                 className="absolute inset-0"
@@ -108,7 +102,7 @@ export function LeGroupe() {
                 }}
               />
               <p className="absolute bottom-3 left-4 font-mono text-[10px] uppercase tracking-wider text-white sm:bottom-5 sm:left-6">
-                L’équipe sur le terrain · Ambemar Maroc
+                L’équipe sur le terrain
               </p>
             </div>
           </motion.div>

@@ -46,11 +46,35 @@ async function screenshot(name, viewport, theme = "light") {
   assert.equal(await page.locator("#hero a").count(), 2, "Les deux CTA du Hero doivent être visibles");
   assert.equal((await page.locator('#hero a[href="/contact"]').textContent())?.trim(), "Échanger sur votre projet");
   assert.equal((await page.locator('#hero a[href="/#offre"]').textContent())?.trim(), "Découvrir nos solutions");
-  assert.match((await page.locator("#hero-heading").textContent()) ?? "", /Sun\.\s*Power\./);
+  assert.deepEqual((await page.locator("#hero-heading > span").allTextContents()).map((s) => s.trim()), ["Sun.", "Power.", "People."]);
+  assert.equal(await page.locator("#hero-heading").evaluate((e) => getComputedStyle(e).textAlign), "left", "Hero title aligned left");
+  assert.equal(await page.locator("header a").filter({ hasText: "Impact" }).count(), 0, "Impact removed from nav");
+  assert.equal(await page.locator('#impact [aria-label="Chiffres clés SEWT Group"]').count(), 0, "Word V2 removes KPI counters");
+  assert.equal(await page.locator("#histoire ol > li").count(), 5, "Les cinq étapes de la frise sont conservées");
+  assert.equal(await page.locator("#histoire ol > li").last().getByRole("heading", { level: 3 }).textContent(), "Restructuration opérationnelle", "Word V2 p.2 : nouveau titre pour 2023");
   assert.doesNotMatch((await page.locator("#hero").textContent()) ?? "", /Groupe énergétique marocain/i,
     "Hero : le micro-slogan hérité mais retiré à la demande du propriétaire doit être absent");
   // Les deux CTA sont rétablis selon la validation Word 5/32.
   assert.equal(await page.locator("#offre article").count(), 3);
+  assert.equal((await page.locator("#le-groupe .section-label").first().textContent())?.trim(), "Le Groupe");
+  assert.match((await page.locator("#le-groupe-heading").textContent()) ?? "", /Une direction expérimentée[.]\s*Une équipe qualifiée[.]/);
+  assert.equal((await page.locator("#le-groupe-heading .text-accent").textContent())?.trim(), "qualifiée.");
+  const groupContent = (await page.locator("#le-groupe").textContent()) ?? "";
+  assert.doesNotMatch(groupContent, /Notre équipe terrain regroupe|Ambemar Maroc/i, "Ni l'ancien paragraphe ni le client ne doivent apparaître");
+  assert.match(groupContent, /Ingénieur de l’Ecole Centrale de Paris, M[.] Ali Hajji fonde/);
+  const teamImage = page.locator("#le-groupe img").first();
+  assert.equal((await teamImage.getAttribute("alt"))?.includes("Ambemar"), false, "Client exclu du texte alternatif");
+  const teamCrop = await teamImage.evaluate((el) => ({
+    position: getComputedStyle(el).objectPosition,
+    transform: getComputedStyle(el).transform,
+  }));
+  assert.equal(teamCrop.transform, "none", "Aucun zoom qui découpe les visages des techniciens");
+  assert.match(teamCrop.position, viewport.width < 640 ? /92%/ : /78%/,
+    "Recadrage responsive pour masquer l'enseigne client et garder les visages");
+
+  const expertisesHeading = page.locator("#offre-heading");
+  assert.equal((await expertisesHeading.locator(".text-accent").textContent())?.trim(), "énergétiques.");
+  assert.match((await page.locator("#offre").textContent()) ?? "", /nos services se\s+complémentent pour répondre aux besoins de votre site/);
   for (const chapter of ["#offre", "#histoire"]) {
     const color = await page.locator(chapter).evaluate((node) =>
       getComputedStyle(node).backgroundColor,
@@ -58,7 +82,27 @@ async function screenshot(name, viewport, theme = "light") {
     assert.equal(color, "rgb(27, 47, 92)", `${chapter} : chapitre navy nécessaire en modes clair/sombre`);
   }
   assert.equal(await page.locator("#le-groupe article").count(), 3);
+  // Word SEWT 2, page 5 : validated titles and project metadata.
+  const flagshipCards = page.locator("#flagship article");
+  assert.ok((await flagshipCards.count()) >= 3, "Three flagship projects displayed");
+  const flagshipTexts = await Promise.all(
+    [0, 1, 2].map((index) => flagshipCards.nth(index).textContent()),
+  );
+  assert.match(flagshipTexts[0] ?? "", /Site industriel/);
+  assert.match(flagshipTexts[0] ?? "", /1,1 MWc/);
+  assert.match(flagshipTexts[0] ?? "", /Sidi Kacem/);
+  assert.match(flagshipTexts[0] ?? "", /2025/);
+  assert.doesNotMatch(flagshipTexts[0] ?? "", /2023/);
+  assert.match(flagshipTexts[1] ?? "", /Exploitation agricole/);
+  assert.match(flagshipTexts[1] ?? "", /350 kWc/);
+  assert.match(flagshipTexts[1] ?? "", /Taroudant/);
+  assert.match(flagshipTexts[2] ?? "", /Secteur tertiaire/);
+  assert.match(flagshipTexts[2] ?? "", /200 kWc/);
+  assert.match(flagshipTexts[2] ?? "", /Casablanca/);
   assert.equal(await page.locator("#flagship #preuve").count(), 1);
+  assert.equal(await page.locator("#preuve h3").count(), 0, "Word V2 p.6 : pas de titre Références & partenaires");
+  assert.doesNotMatch((await page.locator("#preuve").textContent()) ?? "", /Références\s*(?:&|et)\s*partenaires/i);
+  assert.ok(await page.locator("#preuve [data-marquee-root] img").count() >= 12, "Les logos partenaires sont préservés");
   assert.equal(await page.locator("#roi").count(), 0);
   await page.locator('header img[alt="SEWT Group"]').waitFor({ state: "visible" });
 
@@ -69,7 +113,7 @@ async function screenshot(name, viewport, theme = "light") {
   // Full-page screenshots do not trigger every whileInView animation on narrow screens.
   // Reveal each animated card and the KPI block at its actual viewport position.
   for (const selector of [
-    '#impact [aria-label="Chiffres clés SEWT Group"]',
+    "#impact article",
     "#histoire ol > li",
     "#offre article",
   ]) {
@@ -85,13 +129,22 @@ async function screenshot(name, viewport, theme = "light") {
     }
   }
 
-  // Count-up : le contexte QA demande moins d'animations, donc les valeurs finales
-  // doivent apparaître lorsque les chiffres entrent dans le viewport.
-  await page.waitForFunction(() => {
-    const values = [...document.querySelectorAll('#impact [aria-label="Chiffres clés SEWT Group"] .tabular-nums [aria-hidden="true"]')]
-      .map((node) => node.textContent?.trim());
-    return JSON.stringify(values) === JSON.stringify(["+30 ans", "+200", "50 MWc"]);
-  });
+  // These are the three exact user-supplied images extracted from Word 2 pages 4–5.
+  const expertiseFiles = [
+    "word2-photovoltaique.jpg",
+    "word2-solaire-thermique.jpg",
+    "word2-exploitation-maintenance.jpg",
+  ];
+  for (let index = 0; index < expertiseFiles.length; index++) {
+    const img = page.locator("#offre article").nth(index).locator("img");
+    const src = decodeURIComponent((await img.getAttribute("src")) ?? "");
+    assert.ok(src.includes("/projects/" + expertiseFiles[index]), "Exact image Word V2 for expertise " + (index+1));
+    await img.scrollIntoViewIfNeeded();
+    await page.waitForFunction((i) => {
+      const image = document.querySelectorAll("#offre article img")[i];
+      return image?.complete && image.naturalWidth > 0;
+    }, index, { timeout: 20000 });
+  }
 
   // Verify each team portrait and the field photo in the actual mobile viewport.
   // A full-page screenshot alone does not trigger Framer Motion whileInView.
@@ -134,6 +187,8 @@ async function screenshot(name, viewport, theme = "light") {
     await page.getByRole("button", { name: "Ouvrir le menu" }).click();
     await page.getByRole("dialog", { name: "Menu navigation" }).waitFor({ state: "visible" });
     await page.getByRole("dialog").getByRole("link", { name: "Contact" }).waitFor({ state: "visible" });
+    assert.equal(await page.getByRole("dialog").getByRole("link", { name: "Impact", exact: true }).count(), 0,
+      "The mobile drawer must not show Impact in Word V2");
     await page.getByRole("button", { name: "Fermer le menu" }).click();
   }
 
@@ -175,7 +230,26 @@ async function screenshot(name, viewport, theme = "light") {
     }).map((a) => a.getAttribute("href")),
   );
   assert.deepEqual(orphanAnchors, [], "Aucune ancre morte sur la page Contact");
-  assert.match((await page.locator("main").textContent()) ?? "", /Témara, Maroc/);
+  // Word SEWT 2 p.6: Contact unchanged and fully conformant.
+  const contactText = (await page.locator("main").textContent()) ?? "";
+  assert.match(contactText, /Témara, Maroc/);
+  assert.doesNotMatch(contactText, /Résidence Islah/i);
+  assert.ok(contactText.includes("Chaque site a ses contraintes et ses habitudes. Nous abordons le projet à partir de vos besoins énergétiques, puis vous accompagnons de l’étude au suivi des équipements."),
+    "Exact approved Contact introduction");
+  const steps = [
+    ["01", "Comprendre vos usages", "Nous partons des besoins énergétiques de votre entreprise, de votre exploitation ou de votre site industriel."],
+    ["02", "Étudier la solution", "L’étude permet de définir un système solaire adapté à vos usages et aux caractéristiques de votre site."],
+    ["03", "Installer et accompagner", "Après l’installation, l’exploitation et la maintenance contribuent au suivi de vos équipements."],
+  ];
+  const cards = page.locator('section[aria-labelledby="processus-heading"] article');
+  assert.equal(await cards.count(), 3, "Three approved Contact cards");
+  for (let index = 0; index < steps.length; index++) {
+    const [number, title, body] = steps[index];
+    const card = cards.nth(index);
+    assert.equal((await card.locator("p").first().textContent())?.trim(), number);
+    assert.equal((await card.locator("h3").textContent())?.trim(), title);
+    assert.equal((await card.locator("p").last().textContent())?.trim(), body);
+  }
   await page.getByText("Comprendre vos usages").waitFor({ state: "visible" });
 
   await page.screenshot({

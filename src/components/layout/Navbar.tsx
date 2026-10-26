@@ -12,8 +12,7 @@ const links = [
   { href: "/#le-groupe",     label: "Groupe",      index: "01" },
   { href: "/#offre",         label: "Expertises",  index: "02" },
   { href: "/#flagship",      label: "Réalisations",index: "03" },
-  { href: "/#impact",        label: "Impact",      index: "04" },
-  { href: "/contact",       label: "Contact",     index: "05" },
+  { href: "/contact",       label: "Contact",     index: "04" },
 ];
 
 export function Navbar() {

@@ -5,7 +5,7 @@ import { useEffect, useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
 
-// SEWT Riad Taroudant — revised 15.4s motion-first silent H.264 video.
+// Vidéo Hôtel Riad Taroudant validée par le propriétaire (PR #7) : préserver cette version.
 const HERO_VIDEO_MP4 = "/brand/hotel-riad-taroudant-hero.mp4";
 const HERO_POSTER = "/brand/hotel-riad-taroudant-poster.webp";
 
@@ -78,25 +78,27 @@ export function Hero() {
         />
       </div>
 
-      {/* Contenu — ancré en bas, au-dessus de la vague */}
-      <div className="absolute inset-x-0 bottom-[88px] z-10 px-5 text-center md:bottom-[104px] md:px-12 lg:bottom-[112px] lg:px-16">
+      {/* Word V2: left-aligned text, three title lines, responsive. */}
+      <div className="absolute inset-x-0 bottom-[88px] z-10 w-full px-5 text-left md:bottom-[104px] md:px-12 lg:bottom-[112px] lg:px-16">
+        <div className="mx-auto w-full max-w-7xl">
         <motion.h1
           id="hero-heading"
           initial={{ opacity: 0, y: 36 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.08, duration: 1, ease: [0.16, 1, 0.3, 1] }}
-          className="font-display font-bold leading-[0.98] tracking-tight text-white"
-          style={{ fontSize: "clamp(2.5rem, 8vw, 8rem)" }}
+          className="font-display font-bold leading-[0.94] tracking-tight text-white"
+          style={{ fontSize: "clamp(2.85rem, 6.6vw, 7.4rem)" }}
         >
-          <span className="block sm:inline">Sun. Power.</span>{" "}
-          <span className="block sm:inline">People</span>
+          <span className="block">Sun.</span>
+          <span className="block">Power.</span>
+          <span className="block">People.</span>
         </motion.h1>
 
         <motion.p
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.28, duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
-          className="mx-auto mt-5 max-w-3xl font-sans text-[0.875rem] leading-relaxed text-white/85 md:mt-7 md:text-lg"
+          className="mt-5 max-w-2xl font-sans text-[0.875rem] leading-relaxed text-white/85 md:mt-6 md:text-lg"
         >
           Des solutions solaires conçues pour répondre à vos besoins. Sun Energy accompagne
           particuliers, agriculteurs et professionnels de l’étude de faisabilité à la mise
@@ -108,7 +110,7 @@ export function Hero() {
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.42, duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
-          className="mx-auto mt-6 flex w-full max-w-lg flex-col items-stretch justify-center gap-3 sm:mt-8 sm:flex-row sm:items-center"
+          className="mt-6 flex w-full max-w-lg flex-col items-stretch justify-start gap-3 sm:mt-8 sm:flex-row sm:items-center"
         >
           <Link
             href="/contact"
@@ -123,6 +125,7 @@ export function Hero() {
             Découvrir nos solutions
           </Link>
         </motion.div>
+        </div>
       </div>
 
       {/* Vague organique — signature visuelle hero → manifeste */}
