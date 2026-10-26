@@ -41,7 +41,7 @@ async function screenshot(name, viewport, theme = "light") {
   assert.equal(await media.getAttribute("muted"), "", "Hero silencieux conservé");
   assert.equal(await media.getAttribute("loop"), "", "Hero en boucle conservé");
   assert.equal(await media.getAttribute("playsinline"), "", "Hero compatible avec iOS");
-  assert.match(await media.locator("source").getAttribute("src") ?? "", /\/hero-video\.mp4$/);
+  assert.match(await media.locator("source").getAttribute("src") ?? "", /\/hotel-riad-taroudant-hero\.mp4$/);
   assert.match(await media.getAttribute("poster") ?? "", /\/hotel-riad-taroudant-poster\.webp$/);
   assert.equal(await page.locator("#hero a").count(), 2, "Les deux CTA du Hero doivent être visibles");
   assert.equal((await page.locator('#hero a[href="/contact"]').textContent())?.trim(), "Échanger sur votre projet");
