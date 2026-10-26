@@ -1,9 +1,12 @@
 # Contact delivery and production configuration
 
-The contact endpoint returns `ok: true` only after the configured destination
-accepts the submission. It sends a JSON `POST` to `CONTACT_WEBHOOK_URL` with an
+The contact endpoint returns `ok: true` only after the configured transport
+accepts the submission. When configured for the webhook transport, it sends a
+JSON `POST` to `CONTACT_WEBHOOK_URL` with an
 `Authorization: Bearer <CONTACT_WEBHOOK_SECRET>` header. The body contains the
 `contact.submission` event name, an ISO timestamp, and the validated form data.
+Alternatively, server-only Resend configuration sends the message directly
+through `POST https://api.resend.com/emails` (see below).
 The destination must respond with a successful HTTP status; redirects are
 rejected. Requests time out after five seconds. Personal data is not written to
 application logs.
@@ -15,22 +18,23 @@ verify the receiver's storage behavior; a successful response only confirms
 that the webhook accepted the request. The repository does not configure a
 mail provider or shared inbox delivery yet.
 
-Before enabling the public contact form, configure both `CONTACT_WEBHOOK_URL`
-and `CONTACT_WEBHOOK_SECRET` in the production environment. Use an HTTPS endpoint
-and a random secret of at least 32 characters. Until both values are configured,
-submissions return HTTP 503 and the form reports that delivery is unavailable.
-No mail or CRM provider is configured by this repository.
+For the webhook transport, configure both `CONTACT_WEBHOOK_URL` and
+`CONTACT_WEBHOOK_SECRET` in the production environment (HTTPS and a random
+secret of at least 32 characters). For Resend, configure the three server-only
+variables described below. Until one transport is fully configured, submissions
+return HTTP 503. Neither transport has live credentials in the repository.
 
-The same contact form is available on `/contact` and alongside the ROI
-simulator. The ROI gate also submits an email-only lead through this endpoint.
-Run `pnpm test:contact` for the handler integration tests. These use mocked
-Redis and webhook services and do not prove live inbox delivery or durable
-storage.
+The `/contact` route displays a single “Nous écrire” button. Clicking it opens
+an accessible dialog containing email, optional name, message and consent. The
+original ROI form remains in source for future use but is not mounted on the
+homepage. Run `pnpm test:contact` for mock provider tests; these do not prove
+live inbox delivery or durable storage.
 
 Production contact rate limiting uses Upstash Redis REST through
 `@upstash/ratelimit`. Configure both `UPSTASH_REDIS_REST_URL` and
 `UPSTASH_REDIS_REST_TOKEN`; requests are limited to five per IP per hour. The IP
-is HMAC-SHA-256 hashed with the contact secret before it becomes a Redis identifier. Missing credentials,
+is HMAC-SHA-256 hashed with the configured server-side delivery secret before it
+becomes a Redis identifier. Missing credentials,
 Redis errors, timeouts, or a missing production client IP fail closed with HTTP
 503. Local development may use the in-memory limiter.
 
@@ -42,7 +46,7 @@ moving to a nonce-based policy requires a separate rendering and caching review.
 
 ## Direct transactional email using Resend (optional, not yet live)
 
-The simplified /contact page may use a minimal modal (email, message and consent)
+The simplified /contact page uses a minimal modal (email, message and consent)
 behind the single visible “Nous écrire” button. Its messages are submitted to
 the existing `POST /api/contact` route, protected by CSRF, schema validation,
 a 32 KiB maximum payload, a hidden bot field and fail-closed production rate
@@ -67,3 +71,11 @@ Do not place API keys in code, chat, Git or public client configuration.
 If provider configuration is missing or delivery fails, the client must
 show a failure state and offer an explicit `mailto:` fallback. A generic
 server-to-Resend test is mocked and cannot prove real delivery.
+
+**Do not activate this integration merely by merging**: before an authorized
+Preview or production release, verify the Resend sender domain (SPF/DKIM),
+confirm the team actually receives mail at the chosen recipient address,
+set the credentials only in a private server environment, and test a real
+submission end to end. GitHub repository visibility is temporarily PUBLIC;
+never commit secrets. Vercel production and `main` remain frozen until explicitly
+authorized.
