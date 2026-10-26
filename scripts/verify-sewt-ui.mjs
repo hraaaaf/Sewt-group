@@ -30,6 +30,12 @@ async function screenshot(name, viewport, theme = "light") {
   await page.getByRole("link", { name: "Échanger sur votre projet" }).waitFor({ state: "visible" });
   await page.getByRole("link", { name: "Découvrir nos solutions" }).waitFor({ state: "visible" });
   assert.equal(await page.locator("#offre article").count(), 3);
+  for (const chapter of ["#offre", "#histoire"]) {
+    const color = await page.locator(chapter).evaluate((node) =>
+      getComputedStyle(node).backgroundColor,
+    );
+    assert.equal(color, "rgb(27, 47, 92)", `${chapter} : chapitre navy nécessaire en modes clair/sombre`);
+  }
   assert.equal(await page.locator("#le-groupe article").count(), 3);
   assert.equal(await page.locator("#flagship #preuve").count(), 1);
   assert.equal(await page.locator("#roi").count(), 0);
