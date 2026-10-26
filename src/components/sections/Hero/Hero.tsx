@@ -80,16 +80,6 @@ export function Hero() {
 
       {/* Contenu — ancré en bas, au-dessus de la vague */}
       <div className="absolute inset-x-0 bottom-[88px] z-10 px-5 text-center md:bottom-[104px] md:px-12 lg:bottom-[112px] lg:px-16">
-        <motion.p
-          initial={{ opacity: 0, y: 12 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-          className="mb-5 inline-flex items-center justify-center gap-2 font-mono text-[0.6rem] uppercase tracking-[0.24em] text-white/65 md:mb-7"
-        >
-          <span className="text-accent" aria-hidden>○</span>
-          Groupe énergétique marocain · Depuis 1992
-        </motion.p>
-
         <motion.h1
           id="hero-heading"
           initial={{ opacity: 0, y: 36 }}
