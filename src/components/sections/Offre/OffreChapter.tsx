@@ -4,9 +4,9 @@ import Image from "next/image";
 import { motion } from "framer-motion";
 
 const expertises = [
-  { index: "01", label: "Photovoltaïque", body: "Étude et installation de systèmes solaires pour produire de l’électricité au plus près des besoins de votre activité.", tagline: "Production électrique", image: "/projects/industrie-onduleurs.jpg" },
-  { index: "02", label: "Solaire thermique / Industriel", body: "Des solutions solaires ou non dédiées à la production d’eau chaude pour les usages de votre activité.", tagline: "Eau chaude / Vapeur", image: "/projects/carriere-installation.jpg" },
-  { index: "03", label: "Exploitation & maintenance", body: "Un accompagnement dans la durée pour l’exploitation et la maintenance de vos équipements énergétiques.", tagline: "Suivi des installations", image: "/projects/agricole-onduleurs.jpg" },
+  { index: "01", label: "Photovoltaïque", body: "Étude et installation de systèmes solaires pour produire de l’électricité au plus près des besoins de votre activité.", tagline: "Production électrique", image: "/projects/word2-photovoltaique.jpg" },
+  { index: "02", label: "Solaire thermique / Industriel", body: "Des solutions solaires ou non dédiées à la production d’eau chaude pour les usages de votre activité.", tagline: "Eau chaude / Vapeur", image: "/projects/word2-solaire-thermique.jpg" },
+  { index: "03", label: "Exploitation & maintenance", body: "Un accompagnement dans la durée pour l’exploitation et la maintenance de vos équipements énergétiques.", tagline: "Suivi des installations", image: "/projects/word2-exploitation-maintenance.jpg" },
 ] as const;
 
 function fadeUp(delay = 0) {
