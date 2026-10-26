@@ -223,7 +223,26 @@ async function screenshot(name, viewport, theme = "light") {
     }).map((a) => a.getAttribute("href")),
   );
   assert.deepEqual(orphanAnchors, [], "Aucune ancre morte sur la page Contact");
-  assert.match((await page.locator("main").textContent()) ?? "", /Témara, Maroc/);
+  // Word SEWT 2 p.6: Contact unchanged and fully conformant.
+  const contactText = (await page.locator("main").textContent()) ?? "";
+  assert.match(contactText, /Témara, Maroc/);
+  assert.doesNotMatch(contactText, /Résidence Islah/i);
+  assert.ok(contactText.includes("Chaque site a ses contraintes et ses habitudes. Nous abordons le projet à partir de vos besoins énergétiques, puis vous accompagnons de l’étude au suivi des équipements."),
+    "Exact approved Contact introduction");
+  const steps = [
+    ["01", "Comprendre vos usages", "Nous partons des besoins énergétiques de votre entreprise, de votre exploitation ou de votre site industriel."],
+    ["02", "Étudier la solution", "L’étude permet de définir un système solaire adapté à vos usages et aux caractéristiques de votre site."],
+    ["03", "Installer et accompagner", "Après l’installation, l’exploitation et la maintenance contribuent au suivi de vos équipements."],
+  ];
+  const cards = page.locator('section[aria-labelledby="processus-heading"] article');
+  assert.equal(await cards.count(), 3, "Three approved Contact cards");
+  for (let index = 0; index < steps.length; index++) {
+    const [number, title, body] = steps[index];
+    const card = cards.nth(index);
+    assert.equal((await card.locator("p").first().textContent())?.trim(), number);
+    assert.equal((await card.locator("h3").textContent())?.trim(), title);
+    assert.equal((await card.locator("p").last().textContent())?.trim(), body);
+  }
   await page.getByText("Comprendre vos usages").waitFor({ state: "visible" });
 
   await page.screenshot({
