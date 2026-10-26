@@ -37,12 +37,12 @@ export function OffreChapter() {
           className="mt-5 font-display font-bold text-white text-balance leading-[1.05]"
           style={{ fontSize: "clamp(2rem, 4.5vw, 3.8rem)" }}
         >
-          Une réponse innovante{" "}
-          <span className="text-accent">à vos besoins énergétiques.</span>
+          Une réponse innovante à vos besoins{" "}
+          <span className="text-accent">énergétiques.</span>
         </h2>
         <p className="mt-5 max-w-2xl font-sans text-base text-white/60 leading-relaxed text-pretty">
-          Pour produire de l’électricité, de l’eau chaude ou pour superviser vos équipements :
-          nos services complémentaires pour les besoins de votre site.
+          Pour produire de l’électricité, de l’eau chaude ou pour superviser vos équipements, nos services se
+          complémentent pour répondre aux besoins de votre site.
         </p>
       </motion.div>
 
