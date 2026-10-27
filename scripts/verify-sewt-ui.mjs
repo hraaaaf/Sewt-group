@@ -121,6 +121,16 @@ async function screenshot(name, viewport, theme = "light") {
     assert.ok(card.titleFits && card.bodyFits, `${name}: no clipped title/body ${JSON.stringify(card)}`);
   }
   if (viewport.width >= 1280) {
+    // Framer Motion translates the introduction by 24px until it enters view.
+    // Assert visual alignment only after all five animations have settled.
+    await page.locator("#impact [data-impact-intro]").scrollIntoViewIfNeeded();
+    await page.waitForFunction(() => {
+      const nodes = document.querySelectorAll("#impact [data-impact-intro], #impact [data-impact-card]");
+      return nodes.length === 5 && [...nodes].every((el) =>
+        Number(getComputedStyle(el).opacity) > 0.99 &&
+        getComputedStyle(el).transform === "none"
+      );
+    }, null, { timeout: 12000 });
     const balance = await page.locator("#impact").evaluate((section) => {
       const left = section.querySelector("[data-impact-intro]").getBoundingClientRect();
       const right = section.querySelector("[data-impact-benefits]").getBoundingClientRect();
