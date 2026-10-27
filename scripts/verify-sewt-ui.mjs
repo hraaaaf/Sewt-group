@@ -86,6 +86,49 @@ async function screenshot(name, viewport, theme = "light") {
   console.info(`${name}: V3 hero text metrics ${JSON.stringify(heroTextMetrics)}`);
   assert.equal(await page.locator("header a").filter({ hasText: "Impact" }).count(), 0, "Impact removed from nav");
   assert.equal(await page.locator('#impact [aria-label="Chiffres clés SEWT Group"]').count(), 0, "Word V2 removes KPI counters");
+  // SEWT V3 page 2: four fully matching cards, without changing original copy.
+  const benefitGrid = page.locator("#impact [data-impact-benefits]");
+  const benefitCards = benefitGrid.locator("[data-impact-card]");
+  assert.equal(await benefitCards.count(), 4, "Exactly four benefit cards");
+  const benefitTitles = await benefitCards.locator("h3").allTextContents();
+  assert.deepEqual(benefitTitles.map((t) => t.trim()), [
+    "Réduction des coûts énergétiques",
+    "Indépendance énergétique",
+    "Baisse des émissions CO₂",
+    "Performance industrielle durable",
+  ]);
+  const cardGeometry = await benefitCards.evaluateAll((els) => els.map((el) => {
+    const rect = el.getBoundingClientRect();
+    const title = el.querySelector("h3");
+    const body = el.querySelector("p");
+    return {
+      width: rect.width,
+      height: rect.height,
+      padding: getComputedStyle(el).padding,
+      radius: getComputedStyle(el).borderRadius,
+      titleFits: Boolean(title && title.scrollHeight <= title.clientHeight + 2),
+      bodyFits: Boolean(body && body.scrollHeight <= body.clientHeight + 2),
+    };
+  }));
+  for (const card of cardGeometry) {
+    assert.ok(Math.abs(card.width - cardGeometry[0].width) <= 2,
+      `${name}: equal-width benefit cards ${JSON.stringify(cardGeometry)}`);
+    assert.ok(Math.abs(card.height - cardGeometry[0].height) <= 2,
+      `${name}: equal-height benefit cards ${JSON.stringify(cardGeometry)}`);
+    assert.equal(card.padding, cardGeometry[0].padding, "Consistent inner spacing");
+    assert.equal(card.radius, cardGeometry[0].radius, "Consistent card corners");
+    assert.ok(card.titleFits && card.bodyFits, `${name}: no clipped title/body ${JSON.stringify(card)}`);
+  }
+  if (viewport.width >= 1280) {
+    const balance = await page.locator("#impact").evaluate((section) => {
+      const left = section.querySelector("[data-impact-intro]").getBoundingClientRect();
+      const right = section.querySelector("[data-impact-benefits]").getBoundingClientRect();
+      return { top: Math.abs(left.top - right.top), bottom: Math.abs(left.bottom - right.bottom) };
+    });
+    assert.ok(balance.top <= 3 && balance.bottom <= 3,
+      `${name}: the four-card grid balances the full height of left introduction ${JSON.stringify(balance)}`);
+  }
+  console.info(`${name}: V3 p.2 card metrics ${JSON.stringify(cardGeometry)}`);
   assert.equal(await page.locator("#histoire ol > li").count(), 5, "Les cinq étapes de la frise sont conservées");
   assert.equal(await page.locator("#histoire ol > li").last().getByRole("heading", { level: 3 }).textContent(), "Restructuration opérationnelle", "Word V2 p.2 : nouveau titre pour 2023");
   assert.doesNotMatch((await page.locator("#hero").textContent()) ?? "", /Groupe énergétique marocain/i,
@@ -164,6 +207,12 @@ async function screenshot(name, viewport, theme = "light") {
       }, { selector, index });
     }
   }
+
+  // Focused artifact for checking the V3 page 2 visual balance on each breakpoint.
+  await page.locator("#impact").screenshot({
+    path: `test-artifacts/${name}-impact.png`,
+    animations: "disabled",
+  });
 
   // These are the three exact user-supplied images extracted from Word 2 pages 4–5.
   const expertiseFiles = [
