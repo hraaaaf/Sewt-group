@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import Image from "next/image";
-import Link from "next/link";
 import { AnimatePresence, motion } from "framer-motion";
 import { MapPin } from "lucide-react";
 import { projects } from "@/data/projects";
@@ -226,27 +225,22 @@ export function FlagshipSlider() {
         )}
       </AnimatePresence>
 
-      {/* CTA */}
+      {/* Un seul accès progressif aux projets supplémentaires. */}
       <motion.div
         initial={{ opacity: 0 }}
         whileInView={{ opacity: 1 }}
         viewport={{ once: true }}
         transition={{ delay: 0.3, duration: 0.6 }}
-        className="mt-8 flex flex-col items-center gap-4 sm:flex-row sm:justify-between"
+        className="mt-8 flex justify-start"
       >
         <button
           type="button"
+          aria-expanded={showAll}
           onClick={() => setShowAll((v) => !v)}
           className="inline-flex items-center gap-2 rounded-full border border-border px-6 py-3 font-sans text-sm font-medium text-fg-muted transition-all duration-300 hover:border-accent/50 hover:text-fg"
         >
-          {showAll ? "Réduire ↑" : "Voir toutes nos réalisations →"}
+          {showAll ? "Voir moins de projets ↑" : "Voir plus de projets →"}
         </button>
-        <Link
-          href="/notre-histoire"
-          className="font-mono text-[11px] uppercase tracking-[0.16em] text-fg-subtle hover:text-accent transition-colors"
-        >
-          Portefeuille complet
-        </Link>
       </motion.div>
 
       {/* Références et partenaires à l’intérieur des projets réalisés */}
