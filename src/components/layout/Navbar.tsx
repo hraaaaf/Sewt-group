@@ -63,8 +63,8 @@ export function Navbar() {
             />
           </Link>
 
-          {/* Desktop links (hidden < lg) */}
-          <nav className="hidden lg:flex items-center gap-8">
+          {/* Desktop links: aligned beside the burger, hidden on smartphones/tablets. */}
+          <nav aria-label="Navigation principale" className="ml-auto mr-5 hidden items-center gap-6 whitespace-nowrap lg:flex xl:mr-7 xl:gap-8">
             {links.map((l) => (
               <Link
                 key={l.href}

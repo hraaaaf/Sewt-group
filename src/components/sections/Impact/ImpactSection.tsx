@@ -42,8 +42,8 @@ export function ImpactSection() {
       className="bg-bg px-5 py-20 md:px-12 md:py-28 lg:px-16 lg:py-32"
     >
       <div className="mx-auto max-w-7xl">
-        <div className="grid grid-cols-1 items-start gap-10 lg:grid-cols-12 lg:items-center lg:gap-12">
-          <motion.div {...fadeUp(0.05)} className="lg:col-span-6">
+        <div className="grid grid-cols-1 items-start gap-10 lg:grid-cols-12 lg:items-stretch lg:gap-12">
+          <motion.div {...fadeUp(0.05)} data-impact-intro className="lg:col-span-6">
             <p className="section-label">Notre raison d’être</p>
             <h2
               id="impact-heading"
@@ -68,18 +68,19 @@ export function ImpactSection() {
             </div>
           </motion.div>
 
-          <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:col-span-6 lg:self-center">
+          <div data-impact-benefits className="grid grid-cols-1 auto-rows-fr items-stretch gap-4 sm:grid-cols-2 lg:col-span-6 lg:self-stretch">
             {benefits.map((benefit, index) => (
               <motion.article
                 key={benefit.title}
                 {...fadeUp(0.1 + index * 0.07)}
-                className="rounded-xl border border-border bg-bg-elevated/50 p-5"
+                data-impact-card
+                className="flex h-full min-w-0 flex-col rounded-2xl border border-border bg-bg-elevated/50 p-6"
               >
-                <div className="mb-3 h-0.5 w-7 rounded-full bg-accent" aria-hidden />
-                <h3 className="font-display text-base font-bold leading-snug text-fg">
+                <div className="mb-4 h-0.5 w-7 shrink-0 rounded-full bg-accent" aria-hidden />
+                <h3 className="min-h-[3rem] font-display text-base font-bold leading-[1.4] text-fg">
                   {benefit.title}
                 </h3>
-                <p className="mt-2 font-sans text-sm leading-relaxed text-fg-muted">
+                <p className="mt-2 font-sans text-[0.94rem] leading-[1.65] text-fg-muted text-pretty">
                   {benefit.body}
                 </p>
               </motion.article>

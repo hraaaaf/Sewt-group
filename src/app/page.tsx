@@ -2,6 +2,7 @@ import { Navbar } from "@/components/layout/Navbar";
 import { Hero } from "@/components/sections/Hero/Hero";
 import { OffreChapter } from "@/components/sections/Offre/OffreChapter";
 import { FlagshipSlider } from "@/components/sections/Flagship/FlagshipSlider";
+import { ContactInvitation } from "@/components/sections/ContactInvitation";
 import { ImpactSection } from "@/components/sections/Impact/ImpactSection";
 import { HistoireTimeline } from "@/components/sections/Histoire/HistoireTimeline";
 import { LeGroupe } from "@/components/sections/LeGroupe/LeGroupe";
@@ -30,6 +31,9 @@ export default function HomePage() {
 
         {/* 06 — Réalisations et partenaires */}
         <FlagshipSlider />
+
+        {/* 07 — Nous en parler : parcours et prise de contact */}
+        <ContactInvitation />
 
       </main>
 
