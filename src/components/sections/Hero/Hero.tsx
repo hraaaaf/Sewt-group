@@ -105,7 +105,7 @@ export function Hero() {
             Des solutions solaires conçues pour répondre à vos besoins.
           </span>
           <span className="block" data-hero-intro-second>
-            <span className="whitespace-nowrap">SEWT Group</span> accompagne particuliers, agriculteurs et
+            <span className="whitespace-nowrap">Sun Energy</span> accompagne particuliers, agriculteurs et
             professionnels de l’étude de faisabilité à la mise en service de leurs solutions énergétiques.
           </span>
         </motion.p>
