@@ -51,36 +51,6 @@ export default function ContactPage() {
             <ContactMessageDialog />
           </div>
 
-          <section aria-labelledby="processus-heading" className="mb-20">
-            <h2 id="processus-heading" className="font-display text-3xl font-bold text-fg sm:text-4xl">
-              De vos besoins à la mise en service.
-            </h2>
-            <div className="mt-8 grid grid-cols-1 gap-5 md:grid-cols-3">
-              {[
-                {
-                  number: "01",
-                  title: "Comprendre vos usages",
-                  body: "Nous partons des besoins énergétiques de votre entreprise, de votre exploitation ou de votre site industriel.",
-                },
-                {
-                  number: "02",
-                  title: "Étudier la solution",
-                  body: "L’étude permet de définir un système solaire adapté à vos usages et aux caractéristiques de votre site.",
-                },
-                {
-                  number: "03",
-                  title: "Installer et accompagner",
-                  body: "Après l’installation, l’exploitation et la maintenance contribuent au suivi de vos équipements.",
-                },
-              ].map((step) => (
-                <article key={step.number} className="rounded-2xl border border-border bg-bg-elevated/50 p-7">
-                  <p className="font-mono text-sm font-semibold text-accent">{step.number}</p>
-                  <h3 className="mt-4 font-display text-xl font-bold text-fg">{step.title}</h3>
-                  <p className="mt-3 text-sm leading-relaxed text-fg-muted">{step.body}</p>
-                </article>
-              ))}
-            </div>
-          </section>
 
           {/* Premium Map Area */}
           <div className="relative w-full aspect-[4/3] md:aspect-[21/9] min-h-[400px] rounded-3xl overflow-hidden border border-border-strong group isolate">
