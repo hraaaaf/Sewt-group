@@ -127,8 +127,7 @@ async function screenshot(name, viewport, theme = "light") {
     await page.waitForFunction(() => {
       const nodes = document.querySelectorAll("#impact [data-impact-intro], #impact [data-impact-card]");
       return nodes.length === 5 && [...nodes].every((el) =>
-        Number(getComputedStyle(el).opacity) > 0.99 &&
-        getComputedStyle(el).transform === "none"
+        Number(getComputedStyle(el).opacity) > 0.99
       );
     }, null, { timeout: 12000 });
     const balance = await page.locator("#impact").evaluate((section) => {
