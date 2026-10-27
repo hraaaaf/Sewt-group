@@ -59,13 +59,13 @@ async function screenshot(name, viewport, theme = "light") {
     assert.ok(burgerBox.x - (navBox.x + navBox.width) >= 10 && burgerBox.x - (navBox.x + navBox.width) <= 45,
       "Rubriques proches du burger, sans collision");
   }
-  // SEWT V3 p.1: Sun Energy débute la deuxième ligne et reste insécable.
+  // SEWT V3 p.1: SEWT Group débute la deuxième ligne et reste insécable.
   const heroIntro = page.locator("#hero [data-hero-intro]");
   const firstLine = heroIntro.locator("[data-hero-intro-first]");
   const secondLine = heroIntro.locator("[data-hero-intro-second]");
   assert.equal((await firstLine.textContent())?.trim(), "Des solutions solaires conçues pour répondre à vos besoins.");
-  assert.match((await secondLine.textContent())?.trim() ?? "", /^Sun Energy accompagne/);
-  assert.equal(await secondLine.locator(".whitespace-nowrap").textContent(), "Sun Energy");
+  assert.match((await secondLine.textContent())?.trim() ?? "", /^SEWT Group accompagne/);
+  assert.equal(await secondLine.locator(".whitespace-nowrap").textContent(), "SEWT Group");
   const heroTextMetrics = await heroIntro.evaluate((node) => {
     const first = node.querySelector("[data-hero-intro-first]");
     const second = node.querySelector("[data-hero-intro-second]");
@@ -78,7 +78,7 @@ async function screenshot(name, viewport, theme = "light") {
       totalLines: Math.round((firstRect.height + secondRect.height) / lineHeight),
     };
   });
-  assert.ok(heroTextMetrics.separate, "Sun Energy commence au début de la ligne 2");
+  assert.ok(heroTextMetrics.separate, "SEWT Group commence au début de la ligne 2");
   if (viewport.width >= 1280) {
     assert.equal(heroTextMetrics.firstLines, 1, "La phrase introductive occupe la première ligne");
     assert.equal(heroTextMetrics.totalLines, 4, "Paragraphe réparti sur quatre lignes au format desktop");
