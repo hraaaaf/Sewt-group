@@ -98,7 +98,7 @@ export function Hero() {
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.28, duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
-          className="mt-5 max-w-[620px] font-sans text-[0.875rem] leading-relaxed text-white/85 md:mt-6 md:text-lg"
+          className="mt-5 max-w-[560px] font-sans text-[0.875rem] leading-relaxed text-white/85 md:mt-6 md:text-lg"
           data-hero-intro
         >
           <span className="block" data-hero-intro-first>
