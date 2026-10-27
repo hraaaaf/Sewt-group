@@ -218,11 +218,20 @@ async function screenshot(name, viewport, theme = "light") {
     }
   }
 
-  // Focused artifact for checking the V3 page 2 visual balance on each breakpoint.
+  // Capture just the section: temporarily hide the fixed header so it does not
+  // appear across the middle of element screenshots on mobile/tablet.
+  const headerVisibility = await page.locator("header").evaluate((el) => {
+    const previous = el.style.visibility;
+    el.style.visibility = "hidden";
+    return previous;
+  });
   await page.locator("#impact").screenshot({
     path: `test-artifacts/${name}-impact.png`,
     animations: "disabled",
   });
+  await page.locator("header").evaluate((el, previous) => {
+    el.style.visibility = previous;
+  }, headerVisibility);
 
   // These are the three exact user-supplied images extracted from Word 2 pages 4–5.
   const expertiseFiles = [
