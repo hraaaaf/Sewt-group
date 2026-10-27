@@ -48,6 +48,42 @@ async function screenshot(name, viewport, theme = "light") {
   assert.equal((await page.locator('#hero a[href="/#offre"]').textContent())?.trim(), "Découvrir nos solutions");
   assert.deepEqual((await page.locator("#hero-heading > span").allTextContents()).map((s) => s.trim()), ["Sun.", "Power.", "People."]);
   assert.equal(await page.locator("#hero-heading").evaluate((e) => getComputedStyle(e).textAlign), "left", "Hero title aligned left");
+  // SEWT V3 p.1: les rubriques rejoignent le burger sur desktop.
+  if (viewport.width >= 1024) {
+    const nav = page.locator("header nav").first();
+    const burger = page.getByRole("button", { name: "Ouvrir le menu" });
+    const navBox = await nav.boundingBox();
+    const burgerBox = await burger.boundingBox();
+    assert.ok(navBox && burgerBox, "Navigation et burger visibles");
+    assert.ok(navBox.x > viewport.width / 2, "Rubriques décalées à droite");
+    assert.ok(burgerBox.x - (navBox.x + navBox.width) >= 10 && burgerBox.x - (navBox.x + navBox.width) <= 45,
+      "Rubriques proches du burger, sans collision");
+  }
+  // SEWT V3 p.1: SEWT Group débute le second segment et reste insécable.
+  const heroIntro = page.locator("#hero [data-hero-intro]");
+  const firstLine = heroIntro.locator("[data-hero-intro-first]");
+  const secondLine = heroIntro.locator("[data-hero-intro-second]");
+  assert.equal((await firstLine.textContent())?.trim(), "Des solutions solaires conçues pour répondre à vos besoins.");
+  assert.match((await secondLine.textContent())?.trim() ?? "", /^SEWT Group accompagne/);
+  assert.equal(await secondLine.locator(".whitespace-nowrap").textContent(), "SEWT Group");
+  const heroTextMetrics = await heroIntro.evaluate((node) => {
+    const first = node.querySelector("[data-hero-intro-first]");
+    const second = node.querySelector("[data-hero-intro-second]");
+    const lineHeight = parseFloat(getComputedStyle(node).lineHeight);
+    const firstRect = first.getBoundingClientRect();
+    const secondRect = second.getBoundingClientRect();
+    return {
+      separate: secondRect.top >= firstRect.bottom - 1,
+      firstLines: Math.round(firstRect.height / lineHeight),
+      totalLines: Math.round((firstRect.height + secondRect.height) / lineHeight),
+    };
+  });
+  assert.ok(heroTextMetrics.separate, "SEWT Group commence un nouveau rang visuel");
+  if (viewport.width >= 1280) {
+    assert.equal(heroTextMetrics.firstLines, 1, "La phrase introductive occupe la première ligne");
+    assert.equal(heroTextMetrics.totalLines, 4, "Paragraphe réparti sur quatre lignes au format desktop");
+  }
+  console.info(`${name}: V3 hero text metrics ${JSON.stringify(heroTextMetrics)}`);
   assert.equal(await page.locator("header a").filter({ hasText: "Impact" }).count(), 0, "Impact removed from nav");
   assert.equal(await page.locator('#impact [aria-label="Chiffres clés SEWT Group"]').count(), 0, "Word V2 removes KPI counters");
   assert.equal(await page.locator("#histoire ol > li").count(), 5, "Les cinq étapes de la frise sont conservées");
