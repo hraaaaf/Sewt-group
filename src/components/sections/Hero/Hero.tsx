@@ -39,7 +39,7 @@ export function Hero() {
         {/* Fallback image — visible avant que la vidéo charge */}
         <Image
           src="/projects/hotel-riad-taroudant.jpg"
-          alt="Installation photovoltaïque Sun Energy — Hôtel Riad Taroudant, 90 kWc"
+          alt="Installation photovoltaïque SEWT Group — Hôtel Riad Taroudant, 90 kWc"
           fill
           priority
           quality={85}
