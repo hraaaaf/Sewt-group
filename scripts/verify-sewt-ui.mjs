@@ -49,9 +49,15 @@ async function screenshot(name, viewport, theme = "light") {
   assert.equal((await page.locator('#hero a[href="/#offre"]').textContent())?.trim(), "Découvrir nos solutions");
   assert.deepEqual((await page.locator("#hero-heading > span").allTextContents()).map((s) => s.trim()), ["Sun.", "Power.", "People."]);
   assert.equal(await page.locator("#hero-heading").evaluate((e) => getComputedStyle(e).textAlign), "left", "Hero title aligned left");
-  // SEWT V3 p.1: les rubriques rejoignent le burger sur desktop.
-  if (viewport.width >= 1024) {
-    const nav = page.locator("header nav").first();
+  // SEWT V3 p.1: les quatre rubriques restent visibles près du burger sur desktop,
+  // mais elles sont cachées sur smartphone/tablette (accès via le menu burger).
+  const nav = page.locator('header nav[aria-label="Navigation principale"]');
+  assert.deepEqual((await nav.locator("a").allTextContents()).map((label) => label.trim()),
+    ["Groupe", "Expertises", "Réalisations", "Contact"]);
+  if (viewport.width < 1024) {
+    assert.equal(await nav.isVisible(), false, `${name}: pas de rubriques dans l'en-tête mobile/tablette`);
+  } else {
+    assert.equal(await nav.isVisible(), true, `${name}: quatre rubriques visibles sur desktop`);
     const burger = page.getByRole("button", { name: "Ouvrir le menu" });
     const navBox = await nav.boundingBox();
     const burgerBox = await burger.boundingBox();
