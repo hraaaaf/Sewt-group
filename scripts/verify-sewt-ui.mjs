@@ -12,6 +12,7 @@ async function verifySkipNavigation(page, label) {
   const focused = await page.evaluate(() => document.activeElement?.getAttribute("href"));
   assert.equal(focused, "#main", `${label}: lien d'évitement du contenu accessible au clavier`);
   await page.keyboard.press("Enter");
+  await page.waitForFunction(() => window.location.hash === "#main", null, { timeout: 5000 });
   assert.equal(new URL(page.url()).hash, "#main", `${label}: cible du lien d'évitement`);
   assert.equal(await page.locator("main#main").count(), 1, `${label}: main#main unique`);
 }
