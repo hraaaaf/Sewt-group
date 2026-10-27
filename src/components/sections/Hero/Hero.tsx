@@ -98,11 +98,16 @@ export function Hero() {
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.28, duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
-          className="mt-5 max-w-2xl font-sans text-[0.875rem] leading-relaxed text-white/85 md:mt-6 md:text-lg"
+          className="mt-5 max-w-[620px] font-sans text-[0.875rem] leading-relaxed text-white/85 md:mt-6 md:text-lg"
+          data-hero-intro
         >
-          Des solutions solaires conçues pour répondre à vos besoins. Sun Energy accompagne
-          particuliers, agriculteurs et professionnels de l’étude de faisabilité à la mise
-          en service de leurs solutions énergétiques.
+          <span className="block" data-hero-intro-first>
+            Des solutions solaires conçues pour répondre à vos besoins.
+          </span>
+          <span className="block" data-hero-intro-second>
+            <span className="whitespace-nowrap">SEWT Group</span> accompagne particuliers, agriculteurs et
+            professionnels de l’étude de faisabilité à la mise en service de leurs solutions énergétiques.
+          </span>
         </motion.p>
 
         {/* CTA Word p.1 : alignés, centrés, avec empilement sur écrans étroits. */}
