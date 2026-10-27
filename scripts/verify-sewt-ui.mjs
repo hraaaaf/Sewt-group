@@ -194,7 +194,18 @@ async function screenshot(name, viewport, theme = "light") {
   assert.match(flagshipTexts[2] ?? "", /Secteur tertiaire/);
   assert.match(flagshipTexts[2] ?? "", /200 kWc/);
   assert.match(flagshipTexts[2] ?? "", /Casablanca/);
-  assert.equal(await page.locator("#flagship #preuve").count(), 1);
+  // V3 Projets réalisés: une seule action claire, sans lien redondant à droite.
+  assert.equal(await page.getByText("Portefeuille complet", { exact: true }).count(), 0);
+  const moreProjects = page.locator("#flagship").getByRole("button", { name: "Voir plus de projets" });
+  assert.equal(await moreProjects.count(), 1, "Un seul bouton pour découvrir davantage de projets");
+  assert.equal(await moreProjects.getAttribute("aria-expanded"), "false");
+  await moreProjects.click();
+  const fewerProjects = page.locator("#flagship").getByRole("button", { name: "Voir moins de projets" });
+  assert.equal(await fewerProjects.getAttribute("aria-expanded"), "true");
+  assert.equal(await page.locator("#flagship article").count(), 6);
+  await fewerProjects.click();
+  assert.equal(await moreProjects.getAttribute("aria-expanded"), "false");
+    assert.equal(await page.locator("#flagship #preuve").count(), 1);
   assert.equal(await page.locator("#preuve h3").count(), 0, "Word V2 p.6 : pas de titre Références & partenaires");
   assert.doesNotMatch((await page.locator("#preuve").textContent()) ?? "", /Références\s*(?:&|et)\s*partenaires/i);
   assert.ok(await page.locator("#preuve [data-marquee-root] img").count() >= 12, "Les logos partenaires sont préservés");
