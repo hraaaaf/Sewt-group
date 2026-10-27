@@ -85,7 +85,7 @@ async function screenshot(name, viewport, theme = "light") {
   }
   console.info(`${name}: V3 hero text metrics ${JSON.stringify(heroTextMetrics)}`);
   assert.equal(await page.locator("header a").filter({ hasText: "Impact" }).count(), 0, "Impact removed from nav");
-  assert.equal(await page.locator('#impact [aria-label="Chiffres clés Sun Energy"]').count(), 0, "Word V2 removes KPI counters");
+  assert.equal(await page.locator('#impact [aria-label="Chiffres clés SEWT Group"]').count(), 0, "Word V2 removes KPI counters");
   assert.equal(await page.locator("#histoire ol > li").count(), 5, "Les cinq étapes de la frise sont conservées");
   assert.equal(await page.locator("#histoire ol > li").last().getByRole("heading", { level: 3 }).textContent(), "Restructuration opérationnelle", "Word V2 p.2 : nouveau titre pour 2023");
   assert.doesNotMatch((await page.locator("#hero").textContent()) ?? "", /Groupe énergétique marocain/i,
@@ -140,7 +140,7 @@ async function screenshot(name, viewport, theme = "light") {
   assert.doesNotMatch((await page.locator("#preuve").textContent()) ?? "", /Références\s*(?:&|et)\s*partenaires/i);
   assert.ok(await page.locator("#preuve [data-marquee-root] img").count() >= 12, "Les logos partenaires sont préservés");
   assert.equal(await page.locator("#roi").count(), 0);
-  await page.locator('header img[alt="Sun Energy"]').waitFor({ state: "visible" });
+  await page.locator('header img[alt="SEWT Group"]').waitFor({ state: "visible" });
 
   for (const section of ["#impact", "#offre", "#flagship", "#preuve", "#histoire", "#le-groupe"]) {
     await page.locator(section).scrollIntoViewIfNeeded();
@@ -242,7 +242,7 @@ async function screenshot(name, viewport, theme = "light") {
   await verifySkipNavigation(page, `${name} contact`);
   assert.equal(await page.locator("header").getByRole("link", { name: "Parler de mon projet" }).count(), 0);
   assert.equal(await page.locator("header").getByRole("button", { name: /thème|theme/i }).count(), 0);
-  const logoFilter = await page.locator('header img[alt="Sun Energy"]').evaluate((el) =>
+  const logoFilter = await page.locator('header img[alt="SEWT Group"]').evaluate((el) =>
     getComputedStyle(el).filter
   );
   if (theme === "light") {
