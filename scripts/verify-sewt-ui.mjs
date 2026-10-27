@@ -59,13 +59,13 @@ async function screenshot(name, viewport, theme = "light") {
     assert.ok(burgerBox.x - (navBox.x + navBox.width) >= 10 && burgerBox.x - (navBox.x + navBox.width) <= 45,
       "Rubriques proches du burger, sans collision");
   }
-  // SEWT V3 p.1: SEWT Group débute la deuxième ligne et reste insécable.
+  // SEWT V3 p.1: Sun Energy débute la deuxième ligne et reste insécable.
   const heroIntro = page.locator("#hero [data-hero-intro]");
   const firstLine = heroIntro.locator("[data-hero-intro-first]");
   const secondLine = heroIntro.locator("[data-hero-intro-second]");
   assert.equal((await firstLine.textContent())?.trim(), "Des solutions solaires conçues pour répondre à vos besoins.");
-  assert.match((await secondLine.textContent())?.trim() ?? "", /^SEWT Group accompagne/);
-  assert.equal(await secondLine.locator(".whitespace-nowrap").textContent(), "SEWT Group");
+  assert.match((await secondLine.textContent())?.trim() ?? "", /^Sun Energy accompagne/);
+  assert.equal(await secondLine.locator(".whitespace-nowrap").textContent(), "Sun Energy");
   const heroTextMetrics = await heroIntro.evaluate((node) => {
     const first = node.querySelector("[data-hero-intro-first]");
     const second = node.querySelector("[data-hero-intro-second]");
@@ -78,14 +78,14 @@ async function screenshot(name, viewport, theme = "light") {
       totalLines: Math.round((firstRect.height + secondRect.height) / lineHeight),
     };
   });
-  assert.ok(heroTextMetrics.separate, "SEWT Group commence au début de la ligne 2");
+  assert.ok(heroTextMetrics.separate, "Sun Energy commence au début de la ligne 2");
   if (viewport.width >= 1280) {
     assert.equal(heroTextMetrics.firstLines, 1, "La phrase introductive occupe la première ligne");
     assert.equal(heroTextMetrics.totalLines, 4, "Paragraphe réparti sur quatre lignes au format desktop");
   }
   console.info(`${name}: V3 hero text metrics ${JSON.stringify(heroTextMetrics)}`);
   assert.equal(await page.locator("header a").filter({ hasText: "Impact" }).count(), 0, "Impact removed from nav");
-  assert.equal(await page.locator('#impact [aria-label="Chiffres clés SEWT Group"]').count(), 0, "Word V2 removes KPI counters");
+  assert.equal(await page.locator('#impact [aria-label="Chiffres clés Sun Energy"]').count(), 0, "Word V2 removes KPI counters");
   assert.equal(await page.locator("#histoire ol > li").count(), 5, "Les cinq étapes de la frise sont conservées");
   assert.equal(await page.locator("#histoire ol > li").last().getByRole("heading", { level: 3 }).textContent(), "Restructuration opérationnelle", "Word V2 p.2 : nouveau titre pour 2023");
   assert.doesNotMatch((await page.locator("#hero").textContent()) ?? "", /Groupe énergétique marocain/i,
@@ -140,7 +140,7 @@ async function screenshot(name, viewport, theme = "light") {
   assert.doesNotMatch((await page.locator("#preuve").textContent()) ?? "", /Références\s*(?:&|et)\s*partenaires/i);
   assert.ok(await page.locator("#preuve [data-marquee-root] img").count() >= 12, "Les logos partenaires sont préservés");
   assert.equal(await page.locator("#roi").count(), 0);
-  await page.locator('header img[alt="SEWT Group"]').waitFor({ state: "visible" });
+  await page.locator('header img[alt="Sun Energy"]').waitFor({ state: "visible" });
 
   for (const section of ["#impact", "#offre", "#flagship", "#preuve", "#histoire", "#le-groupe"]) {
     await page.locator(section).scrollIntoViewIfNeeded();
@@ -242,7 +242,7 @@ async function screenshot(name, viewport, theme = "light") {
   await verifySkipNavigation(page, `${name} contact`);
   assert.equal(await page.locator("header").getByRole("link", { name: "Parler de mon projet" }).count(), 0);
   assert.equal(await page.locator("header").getByRole("button", { name: /thème|theme/i }).count(), 0);
-  const logoFilter = await page.locator('header img[alt="SEWT Group"]').evaluate((el) =>
+  const logoFilter = await page.locator('header img[alt="Sun Energy"]').evaluate((el) =>
     getComputedStyle(el).filter
   );
   if (theme === "light") {
