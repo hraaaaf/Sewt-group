@@ -395,6 +395,23 @@ async function screenshot(name, viewport, theme = "light") {
     "Exact approved Contact introduction");
   assert.equal(await page.locator("#processus-heading, main section[aria-labelledby='processus-heading']").count(), 0,
     "Les trois bulles ont été déplacées hors de la page Contact");
+  // V3 Contact: carte réelle classique, sans décor ni pin HQ non vérifié.
+  const locationSection = page.locator('section[aria-labelledby="contact-location-heading"]');
+  assert.equal(await locationSection.count(), 1, "Section de localisation présente");
+  assert.equal((await locationSection.locator("h2").textContent())?.trim(), "Nous situer");
+  const mapFrame = locationSection.locator('iframe[title="Carte de Témara, Maroc"]');
+  assert.equal(await mapFrame.count(), 1, "Une seule carte intégrée");
+  assert.match(await mapFrame.getAttribute("src") ?? "", /^https:\/\/maps\.google\.com\/maps\?q=T%C3%A9mara%2C%20Maroc&z=12&output=embed$/);
+  assert.equal(await mapFrame.getAttribute("loading"), "lazy");
+  const mapSize = await mapFrame.boundingBox();
+  assert.ok(mapSize && mapSize.width >= 250 && mapSize.height >= 300,
+    `${name}: carte responsive de taille lisible`);
+  assert.equal(await locationSection.locator("img, .animate-ping").count(), 0,
+    "Aucune ancienne image décorative ni animation de faux siège");
+  assert.doesNotMatch((await locationSection.textContent()) ?? "", /SEWT Group HQ|Bureau d'études central/i);
+  const externalMapLink = locationSection.getByRole("link", { name: "Ouvrir dans Google Maps" });
+  assert.equal(await externalMapLink.getAttribute("href"), "https://maps.google.com/?q=Temara,+Maroc");
+
 
   await page.screenshot({
     path: `test-artifacts/${name}-contact.png`,
