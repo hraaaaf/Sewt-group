@@ -210,6 +210,42 @@ async function screenshot(name, viewport, theme = "light") {
   assert.doesNotMatch((await page.locator("#preuve").textContent()) ?? "", /Références\s*(?:&|et)\s*partenaires/i);
   assert.ok(await page.locator("#preuve [data-marquee-root] img").count() >= 12, "Les logos partenaires sont préservés");
   assert.equal(await page.locator("#roi").count(), 0);
+  // V3: invitation réintroduite après Projets réalisés, sans autre CTA.
+  const sections = await page.locator("main > section[id]").evaluateAll((nodes) => nodes.map((node) => node.id));
+  assert.ok(sections.indexOf("nous-en-parler") > sections.indexOf("flagship"),
+    "Nous en parler doit suivre les projets réalisés");
+  const invitation = page.locator("#nous-en-parler");
+  assert.equal(await invitation.count(), 1, "La section Nous en parler doit être présente");
+  assert.match((await invitation.locator("h2").textContent()) ?? "", /Parlons de votre projet énergétique/);
+  const steps = [
+    ["01", "Comprendre vos usages", "Nous partons des besoins énergétiques de votre entreprise, de votre exploitation ou de votre site industriel."],
+    ["02", "Étudier la solution", "L’étude permet de définir un système solaire adapté à vos usages et aux caractéristiques de votre site."],
+    ["03", "Installer et accompagner", "Après l’installation, l’exploitation et la maintenance contribuent au suivi de vos équipements."],
+  ];
+  const cards = page.locator("#nous-en-parler article");
+  assert.equal(await cards.count(), 3, "The three contact steps moved to Nous en parler");
+  for (let index = 0; index < steps.length; index++) {
+    const [number, title, body] = steps[index];
+    const card = cards.nth(index);
+    assert.equal((await card.locator("p").first().textContent())?.trim(), number);
+    assert.equal((await card.locator("h3").textContent())?.trim(), title);
+    assert.equal((await card.locator("p").last().textContent())?.trim(), body);
+  }
+  const invitationLinks = invitation.locator("a, button");
+  assert.equal(await invitationLinks.count(), 1, "Nous écrire est la seule action de la section");
+  assert.equal((await invitationLinks.first().textContent())?.trim(), "Nous écrire");
+  assert.match(await invitationLinks.first().getAttribute("href") ?? "", /^mailto:contact@sewt-group[.]ma/);
+
+  // Footer V3 réduit au logo légèrement plus grand et aux liens légaux.
+  const footer = page.locator("footer#footer");
+  assert.equal(await footer.locator("img").count(), 1);
+  assert.equal(await footer.locator("img").first().evaluate((img) => img.getBoundingClientRect().height >= 48), true);
+  assert.deepEqual((await footer.locator("nav a").allTextContents()).map((text) => text.trim()), [
+    "Confidentialité", "Mentions légales",
+  ]);
+  assert.equal(await footer.locator("a").count(), 3, "Seulement logo et liens légaux dans le footer");
+  assert.equal(await footer.locator("p").count(), 0, "Aucun texte descriptif ni copyright dans le footer");
+
   await page.locator('header img[alt="SEWT Group"]').waitFor({ state: "visible" });
 
   for (const section of ["#impact", "#offre", "#flagship", "#preuve", "#histoire", "#le-groupe"]) {
@@ -357,21 +393,8 @@ async function screenshot(name, viewport, theme = "light") {
   assert.doesNotMatch(contactText, /Résidence Islah/i);
   assert.ok(contactText.includes("Chaque site a ses contraintes et ses habitudes. Nous abordons le projet à partir de vos besoins énergétiques, puis vous accompagnons de l’étude au suivi des équipements."),
     "Exact approved Contact introduction");
-  const steps = [
-    ["01", "Comprendre vos usages", "Nous partons des besoins énergétiques de votre entreprise, de votre exploitation ou de votre site industriel."],
-    ["02", "Étudier la solution", "L’étude permet de définir un système solaire adapté à vos usages et aux caractéristiques de votre site."],
-    ["03", "Installer et accompagner", "Après l’installation, l’exploitation et la maintenance contribuent au suivi de vos équipements."],
-  ];
-  const cards = page.locator('section[aria-labelledby="processus-heading"] article');
-  assert.equal(await cards.count(), 3, "Three approved Contact cards");
-  for (let index = 0; index < steps.length; index++) {
-    const [number, title, body] = steps[index];
-    const card = cards.nth(index);
-    assert.equal((await card.locator("p").first().textContent())?.trim(), number);
-    assert.equal((await card.locator("h3").textContent())?.trim(), title);
-    assert.equal((await card.locator("p").last().textContent())?.trim(), body);
-  }
-  await page.getByText("Comprendre vos usages").waitFor({ state: "visible" });
+  assert.equal(await page.locator("#processus-heading, main section[aria-labelledby='processus-heading']").count(), 0,
+    "Les trois bulles ont été déplacées hors de la page Contact");
 
   await page.screenshot({
     path: `test-artifacts/${name}-contact.png`,
