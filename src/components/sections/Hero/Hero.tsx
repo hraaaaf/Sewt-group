@@ -39,7 +39,7 @@ export function Hero() {
         {/* Fallback image — visible avant que la vidéo charge */}
         <Image
           src="/projects/hotel-riad-taroudant.jpg"
-          alt="Installation photovoltaïque SEWT Group — Hôtel Riad Taroudant, 90 kWc"
+          alt="Installation photovoltaïque Sun Energy — Hôtel Riad Taroudant, 90 kWc"
           fill
           priority
           quality={85}
@@ -105,7 +105,7 @@ export function Hero() {
             Des solutions solaires conçues pour répondre à vos besoins.
           </span>
           <span className="block" data-hero-intro-second>
-            <span className="whitespace-nowrap">SEWT Group</span> accompagne particuliers, agriculteurs et
+            <span className="whitespace-nowrap">Sun Energy</span> accompagne particuliers, agriculteurs et
             professionnels de l’étude de faisabilité à la mise en service de leurs solutions énergétiques.
           </span>
         </motion.p>
